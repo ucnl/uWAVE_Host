@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.IO;
 using System.IO.Ports;
 using System.Reflection;
@@ -83,7 +84,7 @@ namespace uWAVE_Host
 
         public MainForm()
         {
-            InitializeComponent();            
+            InitializeComponent();           
 
             #region settingsProvider
 
@@ -105,24 +106,28 @@ namespace uWAVE_Host
             #region NMEA
 
             //#define IC_D2H_ACK              '0'        // $PUWV0,cmdID,errCode
-            //#define IC_H2D_SETTINGS_WRITE   '1'        // $PUWV1,rxChID,txChID
+            //#define IC_H2D_SETTINGS_WRITE   '1'        // $PUWV1,rxChID,txChID,styPSU
             //#define IC_H2D_RC_REQUEST       '2'        // $PUWV2,txChID,rcCmdID
-            //#define IC_D2H_RC_RESPONSE      '3'        // $PUWV3,rcCmdID,propTime_seс,snr,[azimuth]
+            //#define IC_D2H_RC_RESPONSE      '3'        // $PUWV3,rcCmdID,propTime_seс,snr,[value],[azimuth]
             //#define IC_D2H_RC_TIMEOUT       '4'        // $PUWV4,rcCmdID
             //#define IC_D2H_RC_ASYNC_IN      '5'        // $PUWV5,rcCmdID,snr,[azimuth]
 
             //#define IC_H2D_DINFO_GET        '?'        // $PUWV?,reserved
-            //#define IC_D2H_DINFO            '!'        // $PUWV!,sys_moniker,sys_version,core_moniker [release],core_version,acBaudrate,rxChID,txChID,maxChannels
+            //#define IC_D2H_DINFO            '!'        // $PUWV!,sys_moniker,sys_version,core_moniker [release],core_version,acBaudrate,rxChID,txChID,maxChannels,sty_psu,isPTS
 
             NMEAParser.AddManufacturerToProprietarySentencesBase(ManufacturerCodes.UWV);
             NMEAParser.AddProprietarySentenceDescription(ManufacturerCodes.UWV, "0", "x,x");
-            NMEAParser.AddProprietarySentenceDescription(ManufacturerCodes.UWV, "1", "x,x");
+            NMEAParser.AddProprietarySentenceDescription(ManufacturerCodes.UWV, "1", "x,x,x.x");
             NMEAParser.AddProprietarySentenceDescription(ManufacturerCodes.UWV, "2", "x,x");
-            NMEAParser.AddProprietarySentenceDescription(ManufacturerCodes.UWV, "3", "x,x.x,x.x,x.x");
+            NMEAParser.AddProprietarySentenceDescription(ManufacturerCodes.UWV, "3", "x,x.x,x.x,x.x,x.x");
             NMEAParser.AddProprietarySentenceDescription(ManufacturerCodes.UWV, "4", "x");
             NMEAParser.AddProprietarySentenceDescription(ManufacturerCodes.UWV, "5", "x,x.x,x.x");
+
+            NMEAParser.AddProprietarySentenceDescription(ManufacturerCodes.UWV, "6", "x,x,x,x,x,x");
+            NMEAParser.AddProprietarySentenceDescription(ManufacturerCodes.UWV, "7", "x.x,x.x,x.x,x.x");
+
             NMEAParser.AddProprietarySentenceDescription(ManufacturerCodes.UWV, "?", "x");
-            NMEAParser.AddProprietarySentenceDescription(ManufacturerCodes.UWV, "!", "c--c,x,c--c,x,x.x,x,x,x");
+            NMEAParser.AddProprietarySentenceDescription(ManufacturerCodes.UWV, "!", "c--c,x,c--c,x,x.x,x,x,x,x.x,x");
 
             #endregion
 
@@ -232,7 +237,25 @@ namespace uWAVE_Host
                 SetCbxItem(cbx, item);
 
         }
-        
+
+
+        private void SetNumEditValue(NumericUpDown nedit, double value)
+        {
+            decimal temp = Convert.ToDecimal(value);
+            if (temp > nedit.Maximum) temp = nedit.Maximum;
+            if (temp < nedit.Minimum) temp = nedit.Minimum;
+
+            nedit.Value = temp;
+        }
+
+        private void SetNumericEdit(NumericUpDown nedit, double value)
+        {
+            if (nedit.InvokeRequired)
+                nedit.Invoke((MethodInvoker)delegate { SetNumEditValue(nedit, value); });
+            else
+                SetNumEditValue(nedit, value);
+        }
+
 
         private void Query_DINFO_GET()
         {
@@ -256,11 +279,11 @@ namespace uWAVE_Host
             }
         }
 
-        private void Query_SETTINGS_WRITE(int txID, int rxID)
+        private void Query_SETTINGS_WRITE(int txID, int rxID, double styPSU)
         {
             if ((!IsQuerying) && (!timer.IsRunning))
             {
-                if (TrySend(NMEAParser.BuildProprietarySentence(ManufacturerCodes.UWV, "1", new object[] { txID, rxID })))
+                if (TrySend(NMEAParser.BuildProprietarySentence(ManufacturerCodes.UWV, "1", new object[] { txID, rxID, styPSU })))
                 {
                     IsQuerying = true;
                     timeoutTicks = 5;
@@ -299,6 +322,35 @@ namespace uWAVE_Host
             }
         }
 
+        private void Query_AMB_DTA_CFG(bool isInFlash, int periodMs, bool isPrs, bool isTmp, bool isDpt, bool isBatV)
+        {
+            if ((!IsQuerying) && (!timer.IsRunning))
+            {
+                
+                if (TrySend(NMEAParser.BuildProprietarySentence(ManufacturerCodes.UWV, "6", new object[] 
+                {  
+                    Convert.ToInt32(isInFlash),
+                    periodMs,
+                    Convert.ToInt32(isPrs),
+                    Convert.ToInt32(isTmp),
+                    Convert.ToInt32(isDpt),
+                    Convert.ToInt32(isBatV)
+                })))
+                {
+                    IsQuerying = true;
+                    timeoutTicks = 2;
+                    timer.Start();
+                    queryDescription = "? AMB_DTA_CFG...";
+                    queryResult = string.Empty;
+
+                    SetActionStateText(queryDescription);
+                }
+            }
+            else
+            {
+                throw new NotImplementedException();
+            }
+        }
 
         #region Custom parsers
 
@@ -323,17 +375,19 @@ namespace uWAVE_Host
                 IsQuerying = false;                
                 queryResult = errCode.ToString();
                 SetActionStateText(string.Format("{0} ...{1}", queryDescription, queryResult));
+                WriteHistoryLine(string.Format(">> HINT: {0} ACK with code {1}", actID, errCode));
             }
         }
 
         private void Parse_RC_RESPONSE(object[] parameters)
-        {
-            //$PUWV3,rcCmdID,propTime_seс,snr,[azimuth]
+        {            
+            // $PUWV3,rcCmdID,propTime_sec,snr,[value],[azimuth]
 
             RC_REQUEST_ID reqID = RC_REQUEST_ID.RC_INVALID;
             double propTime = double.NaN;
             double snr = double.NaN;
             double azimuth = double.NaN;
+            double value = double.NaN;
 
             try
             {
@@ -342,7 +396,10 @@ namespace uWAVE_Host
                 snr = (double)parameters[2];
 
                 if (parameters[3] != null)
-                    azimuth = (double)parameters[3];
+                    value = (double)parameters[3];
+
+                if (parameters[4] != null)
+                    azimuth = (double)parameters[4];
 
                 timer.Stop();
                 IsQuerying = false;
@@ -350,9 +407,13 @@ namespace uWAVE_Host
                 SetActionStateText(string.Format("{0} ...{1}", queryDescription, queryResult));
 
                 StringBuilder sb = new StringBuilder();
-                sb.AppendFormat(">> RC_RESPONSE from SUB #{0} Cmd={1}, PropTime={2:F05} s, SNR={3:F01} dB", targetTxID, reqID, propTime, snr);
+                sb.AppendFormat(CultureInfo.InvariantCulture, ">> HINT: RC_RESPONSE from SUB #{0} Cmd={1}, PropTime={2:F05} s, SNR={3:F01} dB", targetTxID, reqID, propTime, snr);
+
+                if (!double.IsNaN(value))
+                    sb.AppendFormat(CultureInfo.InvariantCulture, ", Value={0:F01}", value);
+
                 if (!double.IsNaN(azimuth))
-                    sb.AppendFormat(", Azimuth={0:F01}°", azimuth);
+                    sb.AppendFormat(CultureInfo.InvariantCulture, ", Azimuth={0:F01}°", azimuth);
                 sb.Append("\r\n");
 
                 WriteHistoryLine(sb.ToString());
@@ -377,7 +438,7 @@ namespace uWAVE_Host
                 queryResult = "REMOTE TIMEOUT";
                 SetActionStateText(string.Format("{0} ...{1}", queryDescription, queryResult));
 
-                WriteHistoryLine(string.Format(">> RC_TIMEOUT from SUB #{0} Cmd={1}\r\n", targetTxID, reqID));
+                WriteHistoryLine(string.Format(">> HINT: RC_TIMEOUT from SUB #{0} Cmd={1}\r\n", targetTxID, reqID));
             }
             catch (Exception ex)
             {
@@ -407,22 +468,53 @@ namespace uWAVE_Host
                 SetActionStateText(string.Format("{0} ...{1}", queryDescription, queryResult));
 
                 StringBuilder sb = new StringBuilder();
-                sb.AppendFormat(">> RC_ASYNC_IN Cmd={0}, SNR={1:F01} dB", reqID, snr);
+                sb.AppendFormat(CultureInfo.InvariantCulture, ">> HINT: RC_ASYNC_IN Cmd={0}, SNR={1:F01} dB", reqID, snr);
                 if (!double.IsNaN(azimuth))
-                    sb.AppendFormat(", Azimuth={0:F01}°", azimuth);
+                    sb.AppendFormat(CultureInfo.InvariantCulture, ", Azimuth={0:F01}°", azimuth);
                 sb.Append("\r\n");
 
                 WriteHistoryLine(sb.ToString());
             }
             catch (Exception ex)
             {
-                WriteHistoryLine(string.Format("{0} in RC_RESPONSE sentence", ex.Message));
+                WriteHistoryLine(string.Format("{0} in RC_ASYNC_IN sentence", ex.Message));
+            }
+        }
+
+        private void Parse_AMB_DTA(object[] parameters)
+        {
+            // $PUWV7,prs_mBar,temp_C,dpt_m,batVoltage_V
+            try
+            {                             
+                StringBuilder sb = new StringBuilder();
+
+                sb.Append(">> HINT: AMB_DTA ");
+
+                if (parameters[0] != null)
+                    sb.AppendFormat(CultureInfo.InvariantCulture, "PRS={0:F01} mBar, ", (double)parameters[0]);
+
+                if (parameters[1] != null)
+                    sb.AppendFormat(CultureInfo.InvariantCulture, "TMP={0:F01} °C, ", (double)parameters[1]);
+
+                if (parameters[2] != null)
+                    sb.AppendFormat(CultureInfo.InvariantCulture, "DPT={0:F03} m, ", (double)parameters[2]);
+
+                if (parameters[3] != null)
+                    sb.AppendFormat(CultureInfo.InvariantCulture, "VCC={0:F01} V, ", (double)parameters[3]);
+
+                sb.Append("\r\n");
+
+                WriteHistoryLine(sb.ToString());
+            }
+            catch (Exception ex)
+            {
+                WriteHistoryLine(string.Format("{0} in AMB_DTA sentence", ex.Message));
             }
         }
 
         private void Parse_DINFO(object[] parameters)
         {
-            // $PUWV!,sys_moniker,sys_version,core_moniker [release],core_version,acBaudrate,rxChID,txChID,maxChannels
+            // $PUWV!,sys_moniker,sys_version,core_moniker [release],core_version,acBaudrate,rxChID,txChID,maxChannels,styPSU,isPTS
 
             string sys_moniker = string.Empty;
             string sys_version = string.Empty;
@@ -433,6 +525,8 @@ namespace uWAVE_Host
             int rxChID = -1;
             int txChID = -1;
             int maxChannels = -1;
+            double styPSU = double.NaN;
+            bool isPTS = false;
 
             try
             {
@@ -444,19 +538,39 @@ namespace uWAVE_Host
                 rxChID = (int)parameters[5];
                 txChID = (int)parameters[6];
                 maxChannels = (int)parameters[7];
+                
+                styPSU = (double)parameters[8];
+
+                int isPTSFlag = (int)parameters[9];
+                if (isPTSFlag == 0)
+                    isPTS = false;
+                else
+                    isPTS = true;
+
 
                 timer.Stop();
                 IsQuerying = false;
                 queryResult = "OK";
                 SetActionStateText(string.Format("{0} ...{1}", queryDescription, queryResult));
+                
+                SetCtrlText(systemLbl, string.Format(CultureInfo.InvariantCulture, "{0} v{1}", sys_moniker, sys_version));
 
-                SetCtrlText(systemLbl, string.Format("{0} v{1}", sys_moniker, sys_version));
+                if (isPTS)
+                    SetCtrlText(isIPTSLbl, "present");
+                else
+                    SetCtrlText(isIPTSLbl, "absent");
+
+                
                 SetCtrlText(coreLbl, string.Format("{0} v{1}", core_moniker, core_version));
                 SetCtrlText(totalChannelsLbl, maxChannels.ToString());
-                SetCtrlText(acBaudrateLbl, string.Format("{0:F02} bit/s", acBaudrate));
+                SetCtrlText(acBaudrateLbl, string.Format(CultureInfo.InvariantCulture, "{0:F02} bit/s", acBaudrate));
 
                 SetCbxSelectedItem(settingsRxIDCbx, rxChID.ToString());
-                SetCbxSelectedItem(settingsTxIDCbx, txChID.ToString());                
+                SetCbxSelectedItem(settingsTxIDCbx, txChID.ToString());
+
+                SetNumericEdit(salinityEdit, styPSU);
+
+                // TODO: set PTS flag
             }
             catch (Exception ex)
             {
@@ -628,6 +742,10 @@ namespace uWAVE_Host
                     {
                         Parse_RC_ASYNC_IN(pSentence.parameters);
                     }
+                    else if (pSentence.SentenceIDString == "7") // AMB_DTA
+                    {
+                        Parse_AMB_DTA(pSentence.parameters);
+                    }
                     else if (pSentence.SentenceIDString == "!") // DINFO
                     {
                         Parse_DINFO(pSentence.parameters);
@@ -710,7 +828,7 @@ namespace uWAVE_Host
                 }
 
                 PortState = PortStateEnum.CLOSED;
-                connectBtn.Text = "Connect";
+                connectBtn.Text = "CONNECT";
                 connectBtn.Checked = false;
                 settingsBtn.Enabled = true;
                 mainSplitContainer.Panel1.Enabled = false;          
@@ -721,7 +839,7 @@ namespace uWAVE_Host
                 {
                     port.Open();
                     PortState = PortStateEnum.OPEN;
-                    connectBtn.Text = "Disconnect";
+                    connectBtn.Text = "DISCONNECT";
                     connectBtn.Checked = true;
                     settingsBtn.Enabled = false;
                     mainSplitContainer.Panel1.Enabled = true;
@@ -795,7 +913,10 @@ namespace uWAVE_Host
         {
             int txID = int.Parse(settingsTxIDCbx.SelectedItem.ToString());
             int rxID = int.Parse(settingsRxIDCbx.SelectedItem.ToString());
-            Query_SETTINGS_WRITE(txID, rxID);
+            double salinityPSU = Convert.ToDouble(salinityEdit.Value);
+
+            // TODO: salinity edit
+            Query_SETTINGS_WRITE(txID, rxID, salinityPSU);
         }
 
         private void remoteQueryLbl_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -803,6 +924,20 @@ namespace uWAVE_Host
             int txID = int.Parse(targetRxIDCbx.SelectedItem.ToString());
             RC_REQUEST_ID requestID = (RC_REQUEST_ID)Enum.Parse(typeof(RC_REQUEST_ID), queryIDCbx.SelectedItem.ToString());
             Query_RC_REQUEST(txID, requestID);
+        }
+
+        private void miscSettingsBtn_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            using (MiscSettingsDialog mDialog = new MiscSettingsDialog())
+            {
+                mDialog.Text = "Misc. settings";
+
+                if (mDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    Query_AMB_DTA_CFG(mDialog.IsSaveInFlash, mDialog.PeriodMs,
+                        mDialog.IsPressure, mDialog.IsTemperature, mDialog.IsDepth, mDialog.IsBatV);                   
+                }
+            }
         }
 
         #endregion
@@ -869,6 +1004,11 @@ namespace uWAVE_Host
             rawDataInputTxb.Text = GetRandomString(32);
         }
 
+        private void randomString64BytesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            rawDataInputTxb.Text = GetRandomString(64);
+        }
+
         #endregion
 
         #region mainForm
@@ -904,7 +1044,7 @@ namespace uWAVE_Host
             timer.Dispose();
         }
 
-        #endregion                                                        
+        #endregion                                                                        
         
         #endregion                        
 

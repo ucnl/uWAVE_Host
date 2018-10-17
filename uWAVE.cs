@@ -18,23 +18,23 @@ namespace uWAVE_Host
     }
 
     public enum RC_REQUEST_ID
-    {
-        RC_PING = 0,
-        RC_PONG = 1,
-        RC_USR_CMD_000 = 2,
-        RC_USR_CMD_001 = 3,
-        RC_USR_CMD_002 = 4,
-        RC_USR_CMD_003 = 5,
-        RC_USR_CMD_004 = 6,
-        RC_USR_CMD_005 = 7,
-        RC_USR_CMD_006 = 8,
-        RC_USR_CMD_007 = 9,
-        RC_USR_CMD_008 = 10,
-        RC_USR_CMD_009 = 11,
-        RC_USR_CMD_010 = 12,
-        RC_USR_CMD_011 = 13,
-        RC_USR_CMD_012 = 14,
-        RC_USR_CMD_ACK = 15,        
+    {        
+        RC_PING        = 0,
+        RC_PONG        = 1,
+        RC_DPT_GET     = 2,
+        RC_TMP_GET     = 3,
+        RC_BAT_V_GET   = 4,
+        RC_ERR_NSUP    = 5,
+        RC_ACK         = 6,
+        RC_USR_CMD_000 = 7,
+        RC_USR_CMD_001 = 8,
+        RC_USR_CMD_002 = 9,
+        RC_USR_CMD_003 = 10,
+        RC_USR_CMD_004 = 11,
+        RC_USR_CMD_005 = 12,
+        RC_USR_CMD_006 = 13,
+        RC_USR_CMD_007 = 14,
+        RC_USR_CMD_008 = 15,
         RC_INVALID
     }
 
