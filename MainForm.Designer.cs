@@ -87,6 +87,9 @@
             this.salinityEdit = new System.Windows.Forms.NumericUpDown();
             this.label13 = new System.Windows.Forms.Label();
             this.isIPTSLbl = new System.Windows.Forms.Label();
+            this.miscSettingsBtn = new System.Windows.Forms.LinkLabel();
+            this.label14 = new System.Windows.Forms.Label();
+            this.cmdModeCbx = new System.Windows.Forms.ComboBox();
             this.commandToolStrip = new System.Windows.Forms.ToolStrip();
             this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
@@ -98,7 +101,8 @@
             this.historyExportBtn = new System.Windows.Forms.ToolStripDropDownButton();
             this.historyExportToPlainTextToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.historyCopyToClipboardBtn = new System.Windows.Forms.ToolStripButton();
-            this.miscSettingsBtn = new System.Windows.Forms.LinkLabel();
+            this.label15 = new System.Windows.Forms.Label();
+            this.targetTxIDCbx = new System.Windows.Forms.ComboBox();
             this.mainToolStrip.SuspendLayout();
             this.mainStatusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.mainSplitContainer)).BeginInit();
@@ -237,7 +241,7 @@
             this.mainSplitContainer.Panel2.Controls.Add(this.historyTxb);
             this.mainSplitContainer.Panel2.Controls.Add(this.historyToolStrip);
             this.mainSplitContainer.Size = new System.Drawing.Size(905, 543);
-            this.mainSplitContainer.SplitterDistance = 360;
+            this.mainSplitContainer.SplitterDistance = 413;
             this.mainSplitContainer.TabIndex = 2;
             // 
             // rawModePanel
@@ -252,14 +256,14 @@
             this.rawModePanel.Location = new System.Drawing.Point(363, 2);
             this.rawModePanel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.rawModePanel.Name = "rawModePanel";
-            this.rawModePanel.Size = new System.Drawing.Size(539, 355);
+            this.rawModePanel.Size = new System.Drawing.Size(539, 408);
             this.rawModePanel.TabIndex = 1;
             // 
             // rawDataSendBtn
             // 
             this.rawDataSendBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.rawDataSendBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.rawDataSendBtn.Location = new System.Drawing.Point(461, 328);
+            this.rawDataSendBtn.Location = new System.Drawing.Point(461, 381);
             this.rawDataSendBtn.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.rawDataSendBtn.Name = "rawDataSendBtn";
             this.rawDataSendBtn.Size = new System.Drawing.Size(75, 25);
@@ -273,7 +277,7 @@
             this.rawDataInputTxb.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.rawDataInputTxb.ContextMenuStrip = this.rawDataInputContextMnu;
-            this.rawDataInputTxb.Location = new System.Drawing.Point(3, 328);
+            this.rawDataInputTxb.Location = new System.Drawing.Point(3, 381);
             this.rawDataInputTxb.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.rawDataInputTxb.MaxLength = 128;
             this.rawDataInputTxb.Name = "rawDataInputTxb";
@@ -334,7 +338,7 @@
             this.rawModeHistoryTxb.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.rawModeHistoryTxb.Name = "rawModeHistoryTxb";
             this.rawModeHistoryTxb.ReadOnly = true;
-            this.rawModeHistoryTxb.Size = new System.Drawing.Size(533, 295);
+            this.rawModeHistoryTxb.Size = new System.Drawing.Size(533, 348);
             this.rawModeHistoryTxb.TabIndex = 1;
             this.rawModeHistoryTxb.Text = "";
             this.rawModeHistoryTxb.TextChanged += new System.EventHandler(this.rawModeHistoryTxb_TextChanged);
@@ -417,7 +421,7 @@
             this.commandPanel.Location = new System.Drawing.Point(3, 2);
             this.commandPanel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.commandPanel.Name = "commandPanel";
-            this.commandPanel.Size = new System.Drawing.Size(355, 355);
+            this.commandPanel.Size = new System.Drawing.Size(355, 408);
             this.commandPanel.TabIndex = 0;
             // 
             // commandTableLayout
@@ -445,21 +449,27 @@
             this.commandTableLayout.Controls.Add(this.acBaudrateLbl, 1, 3);
             this.commandTableLayout.Controls.Add(this.label4, 0, 5);
             this.commandTableLayout.Controls.Add(this.totalChannelsLbl, 1, 5);
-            this.commandTableLayout.Controls.Add(this.label11, 0, 12);
-            this.commandTableLayout.Controls.Add(this.label10, 0, 11);
-            this.commandTableLayout.Controls.Add(this.queryIDCbx, 1, 12);
-            this.commandTableLayout.Controls.Add(this.remoteQueryLbl, 2, 10);
+            this.commandTableLayout.Controls.Add(this.label11, 0, 13);
+            this.commandTableLayout.Controls.Add(this.label10, 0, 12);
+            this.commandTableLayout.Controls.Add(this.remoteQueryLbl, 2, 11);
             this.commandTableLayout.Controls.Add(this.label12, 0, 9);
-            this.commandTableLayout.Controls.Add(this.targetRxIDCbx, 1, 11);
-            this.commandTableLayout.Controls.Add(this.label8, 1, 10);
+            this.commandTableLayout.Controls.Add(this.targetRxIDCbx, 1, 12);
+            this.commandTableLayout.Controls.Add(this.label8, 1, 11);
             this.commandTableLayout.Controls.Add(this.salinityEdit, 1, 9);
             this.commandTableLayout.Controls.Add(this.label13, 0, 4);
             this.commandTableLayout.Controls.Add(this.isIPTSLbl, 1, 4);
-            this.commandTableLayout.Controls.Add(this.miscSettingsBtn, 2, 13);
+            this.commandTableLayout.Controls.Add(this.label14, 0, 10);
+            this.commandTableLayout.Controls.Add(this.cmdModeCbx, 1, 10);
+            this.commandTableLayout.Controls.Add(this.label15, 0, 14);
+            this.commandTableLayout.Controls.Add(this.miscSettingsBtn, 2, 15);
+            this.commandTableLayout.Controls.Add(this.queryIDCbx, 1, 14);
+            this.commandTableLayout.Controls.Add(this.targetTxIDCbx, 1, 13);
             this.commandTableLayout.Location = new System.Drawing.Point(3, 28);
             this.commandTableLayout.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.commandTableLayout.Name = "commandTableLayout";
-            this.commandTableLayout.RowCount = 14;
+            this.commandTableLayout.RowCount = 16;
+            this.commandTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.commandTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.commandTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.commandTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.commandTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
@@ -474,7 +484,7 @@
             this.commandTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.commandTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.commandTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.commandTableLayout.Size = new System.Drawing.Size(348, 323);
+            this.commandTableLayout.Size = new System.Drawing.Size(348, 376);
             this.commandTableLayout.TabIndex = 1;
             // 
             // label2
@@ -658,18 +668,18 @@
             // 
             this.label11.AutoSize = true;
             this.label11.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label11.Location = new System.Drawing.Point(3, 248);
+            this.label11.Location = new System.Drawing.Point(3, 278);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(122, 28);
+            this.label11.Size = new System.Drawing.Size(122, 30);
             this.label11.TabIndex = 16;
-            this.label11.Text = "Query";
+            this.label11.Text = "Target Tx ID";
             this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label10
             // 
             this.label10.AutoSize = true;
             this.label10.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label10.Location = new System.Drawing.Point(3, 220);
+            this.label10.Location = new System.Drawing.Point(3, 250);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(122, 28);
             this.label10.TabIndex = 15;
@@ -678,10 +688,9 @@
             // 
             // queryIDCbx
             // 
-            this.queryIDCbx.Dock = System.Windows.Forms.DockStyle.Fill;
             this.queryIDCbx.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.queryIDCbx.FormattingEnabled = true;
-            this.queryIDCbx.Location = new System.Drawing.Point(131, 250);
+            this.queryIDCbx.Location = new System.Drawing.Point(131, 310);
             this.queryIDCbx.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.queryIDCbx.Name = "queryIDCbx";
             this.queryIDCbx.Size = new System.Drawing.Size(146, 24);
@@ -692,7 +701,7 @@
             this.remoteQueryLbl.AutoSize = true;
             this.remoteQueryLbl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.remoteQueryLbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.remoteQueryLbl.Location = new System.Drawing.Point(283, 203);
+            this.remoteQueryLbl.Location = new System.Drawing.Point(283, 233);
             this.remoteQueryLbl.Name = "remoteQueryLbl";
             this.remoteQueryLbl.Size = new System.Drawing.Size(103, 17);
             this.remoteQueryLbl.TabIndex = 14;
@@ -716,7 +725,7 @@
             this.targetRxIDCbx.Dock = System.Windows.Forms.DockStyle.Fill;
             this.targetRxIDCbx.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.targetRxIDCbx.FormattingEnabled = true;
-            this.targetRxIDCbx.Location = new System.Drawing.Point(131, 222);
+            this.targetRxIDCbx.Location = new System.Drawing.Point(131, 252);
             this.targetRxIDCbx.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.targetRxIDCbx.Name = "targetRxIDCbx";
             this.targetRxIDCbx.Size = new System.Drawing.Size(146, 24);
@@ -727,7 +736,7 @@
             this.label8.AutoSize = true;
             this.label8.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label8.Location = new System.Drawing.Point(131, 203);
+            this.label8.Location = new System.Drawing.Point(131, 233);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(146, 17);
             this.label8.TabIndex = 12;
@@ -769,6 +778,42 @@
             this.isIPTSLbl.Text = "no data";
             this.isIPTSLbl.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // miscSettingsBtn
+            // 
+            this.miscSettingsBtn.AutoSize = true;
+            this.miscSettingsBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.miscSettingsBtn.Location = new System.Drawing.Point(283, 336);
+            this.miscSettingsBtn.Name = "miscSettingsBtn";
+            this.miscSettingsBtn.Size = new System.Drawing.Size(49, 17);
+            this.miscSettingsBtn.TabIndex = 28;
+            this.miscSettingsBtn.TabStop = true;
+            this.miscSettingsBtn.Text = "MISC.";
+            this.miscSettingsBtn.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.miscSettingsBtn_LinkClicked);
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label14.Location = new System.Drawing.Point(3, 203);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(122, 30);
+            this.label14.TabIndex = 29;
+            this.label14.Text = "Command mode";
+            this.label14.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // cmdModeCbx
+            // 
+            this.cmdModeCbx.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cmdModeCbx.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmdModeCbx.FormattingEnabled = true;
+            this.cmdModeCbx.Items.AddRange(new object[] {
+            "By pin",
+            "By default"});
+            this.cmdModeCbx.Location = new System.Drawing.Point(131, 206);
+            this.cmdModeCbx.Name = "cmdModeCbx";
+            this.cmdModeCbx.Size = new System.Drawing.Size(146, 24);
+            this.cmdModeCbx.TabIndex = 30;
+            // 
             // commandToolStrip
             // 
             this.commandToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -801,7 +846,7 @@
             this.historyTxb.MaxLength = 65536;
             this.historyTxb.Name = "historyTxb";
             this.historyTxb.ReadOnly = true;
-            this.historyTxb.Size = new System.Drawing.Size(899, 154);
+            this.historyTxb.Size = new System.Drawing.Size(899, 101);
             this.historyTxb.TabIndex = 1;
             this.historyTxb.Text = "";
             this.historyTxb.TextChanged += new System.EventHandler(this.historyTxb_TextChanged);
@@ -875,17 +920,26 @@
             this.historyCopyToClipboardBtn.Text = "COPY";
             this.historyCopyToClipboardBtn.Click += new System.EventHandler(this.historyCopyToClipboardBtn_Click);
             // 
-            // miscSettingsBtn
+            // label15
             // 
-            this.miscSettingsBtn.AutoSize = true;
-            this.miscSettingsBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.miscSettingsBtn.Location = new System.Drawing.Point(283, 276);
-            this.miscSettingsBtn.Name = "miscSettingsBtn";
-            this.miscSettingsBtn.Size = new System.Drawing.Size(49, 17);
-            this.miscSettingsBtn.TabIndex = 28;
-            this.miscSettingsBtn.TabStop = true;
-            this.miscSettingsBtn.Text = "MISC.";
-            this.miscSettingsBtn.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.miscSettingsBtn_LinkClicked);
+            this.label15.AutoSize = true;
+            this.label15.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label15.Location = new System.Drawing.Point(3, 308);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(122, 28);
+            this.label15.TabIndex = 31;
+            this.label15.Text = "Query ID";
+            this.label15.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // targetTxIDCbx
+            // 
+            this.targetTxIDCbx.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.targetTxIDCbx.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.targetTxIDCbx.FormattingEnabled = true;
+            this.targetTxIDCbx.Location = new System.Drawing.Point(131, 281);
+            this.targetTxIDCbx.Name = "targetTxIDCbx";
+            this.targetTxIDCbx.Size = new System.Drawing.Size(146, 24);
+            this.targetTxIDCbx.TabIndex = 32;
             // 
             // MainForm
             // 
@@ -999,6 +1053,10 @@
         private System.Windows.Forms.ToolStripMenuItem randomString64BytesToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
         private System.Windows.Forms.LinkLabel miscSettingsBtn;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.ComboBox cmdModeCbx;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.ComboBox targetTxIDCbx;
     }
 }
 

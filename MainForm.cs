@@ -71,6 +71,7 @@ namespace uWAVE_Host
         string queryDescription = string.Empty;
         string queryResult = string.Empty;
         int targetTxID = -1;
+        int targetRxID = -1;
         int ticks = 0;
         int timeoutTicks = 3;
 
@@ -106,28 +107,28 @@ namespace uWAVE_Host
             #region NMEA
 
             //#define IC_D2H_ACK              '0'        // $PUWV0,cmdID,errCode
-            //#define IC_H2D_SETTINGS_WRITE   '1'        // $PUWV1,rxChID,txChID,styPSU
+            //#define IC_H2D_SETTINGS_WRITE   '1'        // $PUWV1,rxChID,txChID,styPSU,isCmdMode
             //#define IC_H2D_RC_REQUEST       '2'        // $PUWV2,txChID,rcCmdID
             //#define IC_D2H_RC_RESPONSE      '3'        // $PUWV3,rcCmdID,propTime_seс,snr,[value],[azimuth]
             //#define IC_D2H_RC_TIMEOUT       '4'        // $PUWV4,rcCmdID
             //#define IC_D2H_RC_ASYNC_IN      '5'        // $PUWV5,rcCmdID,snr,[azimuth]
 
             //#define IC_H2D_DINFO_GET        '?'        // $PUWV?,reserved
-            //#define IC_D2H_DINFO            '!'        // $PUWV!,sys_moniker,sys_version,core_moniker [release],core_version,acBaudrate,rxChID,txChID,maxChannels,sty_psu,isPTS
+            //#define IC_D2H_DINFO            '!'        // $PUWV!,sys_moniker,sys_version,core_moniker [release],core_version,acBaudrate,rxChID,txChID,maxChannels,sty_psu,isPTS,isCmdMode
 
             NMEAParser.AddManufacturerToProprietarySentencesBase(ManufacturerCodes.UWV);
-            NMEAParser.AddProprietarySentenceDescription(ManufacturerCodes.UWV, "0", "x,x");
-            NMEAParser.AddProprietarySentenceDescription(ManufacturerCodes.UWV, "1", "x,x,x.x");
+            NMEAParser.AddProprietarySentenceDescription(ManufacturerCodes.UWV, "0", "c--c,x");
+            NMEAParser.AddProprietarySentenceDescription(ManufacturerCodes.UWV, "1", "x,x,x.x,x");
             NMEAParser.AddProprietarySentenceDescription(ManufacturerCodes.UWV, "2", "x,x");
-            NMEAParser.AddProprietarySentenceDescription(ManufacturerCodes.UWV, "3", "x,x.x,x.x,x.x,x.x");
-            NMEAParser.AddProprietarySentenceDescription(ManufacturerCodes.UWV, "4", "x");
+            NMEAParser.AddProprietarySentenceDescription(ManufacturerCodes.UWV, "3", "x,x,x.x,x.x,x.x,x.x");
+            NMEAParser.AddProprietarySentenceDescription(ManufacturerCodes.UWV, "4", "x,x");
             NMEAParser.AddProprietarySentenceDescription(ManufacturerCodes.UWV, "5", "x,x.x,x.x");
 
             NMEAParser.AddProprietarySentenceDescription(ManufacturerCodes.UWV, "6", "x,x,x,x,x,x");
             NMEAParser.AddProprietarySentenceDescription(ManufacturerCodes.UWV, "7", "x.x,x.x,x.x,x.x");
 
             NMEAParser.AddProprietarySentenceDescription(ManufacturerCodes.UWV, "?", "x");
-            NMEAParser.AddProprietarySentenceDescription(ManufacturerCodes.UWV, "!", "c--c,x,c--c,x,x.x,x,x,x,x.x,x");
+            NMEAParser.AddProprietarySentenceDescription(ManufacturerCodes.UWV, "!", "c--c,x,c--c,x,x.x,x,x,x,x.x,x,x");
 
             #endregion
 
@@ -179,6 +180,10 @@ namespace uWAVE_Host
             settingsTxIDCbx.SelectedIndex = 0;
             targetRxIDCbx.Items.AddRange(chIDs);
             targetRxIDCbx.SelectedIndex = 0;
+            targetTxIDCbx.Items.AddRange(chIDs);
+            targetTxIDCbx.SelectedIndex = 0;
+
+            cmdModeCbx.SelectedIndex = 0;
 
             #endregion
         }
@@ -279,11 +284,11 @@ namespace uWAVE_Host
             }
         }
 
-        private void Query_SETTINGS_WRITE(int txID, int rxID, double styPSU)
+        private void Query_SETTINGS_WRITE(int txID, int rxID, double styPSU, bool isCmdMode)
         {
             if ((!IsQuerying) && (!timer.IsRunning))
             {
-                if (TrySend(NMEAParser.BuildProprietarySentence(ManufacturerCodes.UWV, "1", new object[] { txID, rxID, styPSU })))
+                if (TrySend(NMEAParser.BuildProprietarySentence(ManufacturerCodes.UWV, "1", new object[] { txID, rxID, styPSU, Convert.ToInt32(isCmdMode) })))
                 {
                     IsQuerying = true;
                     timeoutTicks = 5;
@@ -300,14 +305,15 @@ namespace uWAVE_Host
             }
         }
 
-        private void Query_RC_REQUEST(int txID, RC_REQUEST_ID requestID)
+        private void Query_RC_REQUEST(int txID, int rxID, RC_REQUEST_ID requestID)
         {
             if ((!IsQuerying) && (!timer.IsRunning))
             {
-                if (TrySend(NMEAParser.BuildProprietarySentence(ManufacturerCodes.UWV, "2", new object[] { txID, requestID })))
+                if (TrySend(NMEAParser.BuildProprietarySentence(ManufacturerCodes.UWV, "2", new object[] { txID, rxID, requestID })))
                 {
                     IsQuerying = true;
                     targetTxID = txID;
+                    targetRxID = rxID;
                     timeoutTicks = 2;
                     timer.Start();
                     queryDescription = string.Format("? SUB #{0}->{1}", txID, requestID);
@@ -357,11 +363,11 @@ namespace uWAVE_Host
         private void Parse_ACK(object[] parameters)
         {
             LocalErrorID errCode = LocalErrorID.LOC_ERR_UNKNOWN;
-            LOC_ACT_ID actID = LOC_ACT_ID.LAC_INVALID;
+            string msgID = string.Empty;
 
             try
             {
-                actID = (LOC_ACT_ID)Enum.ToObject(typeof(LOC_ACT_ID), (int)parameters[0]);
+                msgID = (string)parameters[0];
                 errCode = (LocalErrorID)Enum.ToObject(typeof(LocalErrorID), (int)parameters[1]);
             }
             catch
@@ -375,7 +381,7 @@ namespace uWAVE_Host
                 IsQuerying = false;                
                 queryResult = errCode.ToString();
                 SetActionStateText(string.Format("{0} ...{1}", queryDescription, queryResult));
-                WriteHistoryLine(string.Format(">> HINT: {0} ACK with code {1}", actID, errCode));
+                WriteHistoryLine(string.Format(">> HINT: {0} caused ACK with code {1}", msgID, errCode));
             }
         }
 
@@ -383,6 +389,7 @@ namespace uWAVE_Host
         {            
             // $PUWV3,rcCmdID,propTime_sec,snr,[value],[azimuth]
 
+            int txChID = -1;
             RC_REQUEST_ID reqID = RC_REQUEST_ID.RC_INVALID;
             double propTime = double.NaN;
             double snr = double.NaN;
@@ -391,15 +398,16 @@ namespace uWAVE_Host
 
             try
             {
-                reqID = (RC_REQUEST_ID)(int)parameters[0];
-                propTime = (double)parameters[1];
-                snr = (double)parameters[2];
-
-                if (parameters[3] != null)
-                    value = (double)parameters[3];
+                txChID = (int)parameters[0];
+                reqID = (RC_REQUEST_ID)(int)parameters[1];
+                propTime = (double)parameters[2];
+                snr = (double)parameters[3];
 
                 if (parameters[4] != null)
-                    azimuth = (double)parameters[4];
+                    value = (double)parameters[4];
+
+                if (parameters[5] != null)
+                    azimuth = (double)parameters[5];
 
                 timer.Stop();
                 IsQuerying = false;
@@ -431,7 +439,8 @@ namespace uWAVE_Host
             
             try
             {
-                reqID = (RC_REQUEST_ID)(int)parameters[0];
+                int txChID = (int)parameters[0];
+                reqID = (RC_REQUEST_ID)(int)parameters[1];
             
                 timer.Stop();
                 IsQuerying = false;
@@ -514,7 +523,7 @@ namespace uWAVE_Host
 
         private void Parse_DINFO(object[] parameters)
         {
-            // $PUWV!,sys_moniker,sys_version,core_moniker [release],core_version,acBaudrate,rxChID,txChID,maxChannels,styPSU,isPTS
+            // $PUWV!,sys_moniker,sys_version,core_moniker [release],core_version,acBaudrate,rxChID,txChID,maxChannels,styPSU,isPTS,isCmdMode
 
             string sys_moniker = string.Empty;
             string sys_version = string.Empty;
@@ -527,6 +536,7 @@ namespace uWAVE_Host
             int maxChannels = -1;
             double styPSU = double.NaN;
             bool isPTS = false;
+            bool isCmdMode = false;
 
             try
             {
@@ -546,6 +556,8 @@ namespace uWAVE_Host
                     isPTS = false;
                 else
                     isPTS = true;
+
+                isCmdMode = Convert.ToBoolean((int)parameters[10]);
 
 
                 timer.Stop();
@@ -569,6 +581,11 @@ namespace uWAVE_Host
                 SetCbxSelectedItem(settingsTxIDCbx, txChID.ToString());
 
                 SetNumericEdit(salinityEdit, styPSU);
+
+                if (isCmdMode)
+                    SetCbxSelectedItem(cmdModeCbx, "By default");
+                else
+                    SetCbxSelectedItem(cmdModeCbx, "By pin");
 
                 // TODO: set PTS flag
             }
@@ -916,14 +933,15 @@ namespace uWAVE_Host
             double salinityPSU = Convert.ToDouble(salinityEdit.Value);
 
             // TODO: salinity edit
-            Query_SETTINGS_WRITE(txID, rxID, salinityPSU);
+            Query_SETTINGS_WRITE(txID, rxID, salinityPSU, cmdModeCbx.SelectedIndex == 1);
         }
 
         private void remoteQueryLbl_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             int txID = int.Parse(targetRxIDCbx.SelectedItem.ToString());
+            int rxID = int.Parse(targetTxIDCbx.SelectedItem.ToString());
             RC_REQUEST_ID requestID = (RC_REQUEST_ID)Enum.Parse(typeof(RC_REQUEST_ID), queryIDCbx.SelectedItem.ToString());
-            Query_RC_REQUEST(txID, requestID);
+            Query_RC_REQUEST(txID, rxID, requestID);
         }
 
         private void miscSettingsBtn_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

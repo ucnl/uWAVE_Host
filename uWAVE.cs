@@ -36,17 +36,7 @@ namespace uWAVE_Host
         RC_USR_CMD_007 = 14,
         RC_USR_CMD_008 = 15,
         RC_INVALID
-    }
-
-    public enum LOC_ACT_ID
-    {
-        LAC_DC_INCOMING = 0,
-        LAC_DC_OUTCOMING = 1,
-        LAC_RC_REQUEST = 2,
-        LAC_SACTION = 3,
-        LAC_LC_REQUEST = 4,
-        LAC_INVALID
-    }
+    }    
            
     public static class uWAVE
     {
