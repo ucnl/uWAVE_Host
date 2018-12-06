@@ -105,21 +105,11 @@ namespace uWAVE_Host
             #endregion
 
             #region NMEA
-
-            //#define IC_D2H_ACK              '0'        // $PUWV0,cmdID,errCode
-            //#define IC_H2D_SETTINGS_WRITE   '1'        // $PUWV1,rxChID,txChID,styPSU,isCmdMode
-            //#define IC_H2D_RC_REQUEST       '2'        // $PUWV2,txChID,rcCmdID
-            //#define IC_D2H_RC_RESPONSE      '3'        // $PUWV3,rcCmdID,propTime_seс,snr,[value],[azimuth]
-            //#define IC_D2H_RC_TIMEOUT       '4'        // $PUWV4,rcCmdID
-            //#define IC_D2H_RC_ASYNC_IN      '5'        // $PUWV5,rcCmdID,snr,[azimuth]
-
-            //#define IC_H2D_DINFO_GET        '?'        // $PUWV?,reserved
-            //#define IC_D2H_DINFO            '!'        // $PUWV!,sys_moniker,sys_version,core_moniker [release],core_version,acBaudrate,rxChID,txChID,maxChannels,sty_psu,isPTS,isCmdMode
-
+            
             NMEAParser.AddManufacturerToProprietarySentencesBase(ManufacturerCodes.UWV);
             NMEAParser.AddProprietarySentenceDescription(ManufacturerCodes.UWV, "0", "c--c,x");
             NMEAParser.AddProprietarySentenceDescription(ManufacturerCodes.UWV, "1", "x,x,x.x,x");
-            NMEAParser.AddProprietarySentenceDescription(ManufacturerCodes.UWV, "2", "x,x");
+            NMEAParser.AddProprietarySentenceDescription(ManufacturerCodes.UWV, "2", "x,x,x");
             NMEAParser.AddProprietarySentenceDescription(ManufacturerCodes.UWV, "3", "x,x,x.x,x.x,x.x,x.x");
             NMEAParser.AddProprietarySentenceDescription(ManufacturerCodes.UWV, "4", "x,x");
             NMEAParser.AddProprietarySentenceDescription(ManufacturerCodes.UWV, "5", "x,x.x,x.x");
@@ -128,7 +118,7 @@ namespace uWAVE_Host
             NMEAParser.AddProprietarySentenceDescription(ManufacturerCodes.UWV, "7", "x.x,x.x,x.x,x.x");
 
             NMEAParser.AddProprietarySentenceDescription(ManufacturerCodes.UWV, "?", "x");
-            NMEAParser.AddProprietarySentenceDescription(ManufacturerCodes.UWV, "!", "c--c,x,c--c,x,x.x,x,x,x,x.x,x,x");
+            NMEAParser.AddProprietarySentenceDescription(ManufacturerCodes.UWV, "!", "c--c,c--c,x,c--c,x,x.x,x,x,x,x.x,x,x");
 
             #endregion
 
@@ -523,8 +513,9 @@ namespace uWAVE_Host
 
         private void Parse_DINFO(object[] parameters)
         {
-            // $PUWV!,sys_moniker,sys_version,core_moniker [release],core_version,acBaudrate,rxChID,txChID,maxChannels,styPSU,isPTS,isCmdMode
+            // $PUWV!,serial,sys_moniker,sys_version,core_moniker [release],core_version,acBaudrate,rxChID,txChID,maxChannels,styPSU,isPTS,isCmdMode
 
+            string serial = string.Empty;
             string sys_moniker = string.Empty;
             string sys_version = string.Empty;
             string core_moniker = string.Empty;
@@ -540,24 +531,25 @@ namespace uWAVE_Host
 
             try
             {
-                sys_moniker = parameters[0].ToString();
-                sys_version = uWAVE.BCDVersionToStr((int)parameters[1]);
-                core_moniker = parameters[2].ToString();
-                core_version = uWAVE.BCDVersionToStr((int)parameters[3]);
-                acBaudrate = (double)parameters[4];
-                rxChID = (int)parameters[5];
-                txChID = (int)parameters[6];
-                maxChannels = (int)parameters[7];
+                serial = parameters[0].ToString();
+                sys_moniker = parameters[1].ToString();
+                sys_version = uWAVE.BCDVersionToStr((int)parameters[2]);
+                core_moniker = parameters[3].ToString();
+                core_version = uWAVE.BCDVersionToStr((int)parameters[4]);
+                acBaudrate = (double)parameters[5];
+                rxChID = (int)parameters[6];
+                txChID = (int)parameters[7];
+                maxChannels = (int)parameters[8];
                 
-                styPSU = (double)parameters[8];
+                styPSU = (double)parameters[9];
 
-                int isPTSFlag = (int)parameters[9];
+                int isPTSFlag = (int)parameters[10];
                 if (isPTSFlag == 0)
                     isPTS = false;
                 else
                     isPTS = true;
 
-                isCmdMode = Convert.ToBoolean((int)parameters[10]);
+                isCmdMode = Convert.ToBoolean((int)parameters[11]);
 
 
                 timer.Stop();
