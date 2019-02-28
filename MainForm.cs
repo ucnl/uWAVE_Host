@@ -79,6 +79,11 @@ namespace uWAVE_Host
 
         Random rnd = new Random();
 
+        double soundSpeed = 1470;
+        double waterTemperature_C = 0.0;        
+        double pressure_mBar = 1013.25;
+        double salinityPSU = 0.0;
+
         #endregion
 
         #region Constructor
@@ -406,6 +411,7 @@ namespace uWAVE_Host
 
                 StringBuilder sb = new StringBuilder();
                 sb.AppendFormat(CultureInfo.InvariantCulture, ">> HINT: RC_RESPONSE from SUB #{0} Cmd={1}, PropTime={2:F05} s, SNR={3:F01} dB", targetTxID, reqID, propTime, snr);
+                sb.AppendFormat(CultureInfo.InvariantCulture, ">> HINT: Slant range is {0:F03} (Sound speed = {1:F02})\r\n", propTime * soundSpeed, soundSpeed);
 
                 if (!double.IsNaN(value))
                     sb.AppendFormat(CultureInfo.InvariantCulture, ", Value={0:F01}", value);
@@ -490,10 +496,18 @@ namespace uWAVE_Host
                 sb.Append(">> HINT: AMB_DTA ");
 
                 if (parameters[0] != null)
+                {
                     sb.AppendFormat(CultureInfo.InvariantCulture, "PRS={0:F01} mBar, ", (double)parameters[0]);
+                    pressure_mBar = (double)parameters[0];
+                    soundSpeed = UCNLPhysics.PHX.PHX_SpeedOfSound_Calc(waterTemperature_C, pressure_mBar, salinityPSU);
+                }
 
                 if (parameters[1] != null)
+                {
                     sb.AppendFormat(CultureInfo.InvariantCulture, "TMP={0:F01} °C, ", (double)parameters[1]);
+                    waterTemperature_C = (double)parameters[1];
+                    soundSpeed = UCNLPhysics.PHX.PHX_SpeedOfSound_Calc(waterTemperature_C, pressure_mBar, salinityPSU);
+                }
 
                 if (parameters[2] != null)
                     sb.AppendFormat(CultureInfo.InvariantCulture, "DPT={0:F03} m, ", (double)parameters[2]);
