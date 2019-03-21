@@ -1,88 +1,175 @@
 ﻿using System;
 using System.Globalization;
 using System.IO;
-using System.IO.Ports;
 using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
 using UCNLDrivers;
-using UCNLNMEA;
 using UCNLUI.Dialogs;
+using uWAVELib;
 
 namespace uWAVE_Host
 {
     public partial class MainForm : Form
-    {
-        #region Custom enums
-       
-        enum PortStateEnum
-        {
-            CLOSED,
-            OPEN,
-            ERROR,
-            INVALID
-        }
-
-        #endregion
-
+    {      
         #region Properties
 
-        NMEASerialPort port;
-        PrecisionTimer timer;
+        TSLogProvider logger;
+        string loggerFileName;
+
+        uWAVEPort port;
 
         SettingsProviderXML<SettingsContainer> settingsProvider;
         string settingsFileName;
 
-        PortStateEnum portState = PortStateEnum.INVALID;
-        PortStateEnum PortState
-        {
-            get
-            {
-                return portState;
-            }
-            set
-            {
-                portState = value;
-                SetConnectionStateText(value.ToString());
-            }
-        }
-
-        EventHandler timerTickHandler;
-        EventHandler timerStartedHandler;
-
-        EventHandler<NewNMEAMessageEventArgs> portNewNMEAMessageHandler;
-        EventHandler<SerialErrorReceivedEventArgs> portPortErrorHandler;
-        EventHandler<RawDataReceivedEventArgs> portRawDataHandler;
-
-        bool isQuerying = false;
-        bool IsQuerying
-        {
-            get
-            {
-                return isQuerying;
-            }
-            set
-            {
-                isQuerying = value;
-                SetEnabledState(commandTableLayout, !value);
-            }
-        }
-
-        string queryDescription = string.Empty;
-        string queryResult = string.Empty;
-        int targetTxID = -1;
-        int targetRxID = -1;
-        int ticks = 0;
-        int timeoutTicks = 3;
-
         bool isRestart = false;
-
         Random rnd = new Random();
 
-        double soundSpeed = 1470;
-        double waterTemperature_C = 0.0;        
-        double pressure_mBar = 1013.25;
-        double salinityPSU = 0.0;
+        double pressure_mBar = UCNLPhysics.PHX.PHX_ATM_PRESSURE_MBAR;
+        double temperature_C = 0;
+        double salinity = 0;
+
+        double soundSpeed = UCNLPhysics.PHX.PHX_FWTR_SOUND_SPEED_MPS;
+
+        #region UI items
+
+        string deviceInfoTxt
+        {
+            get { return deviceInfoTxb.Text; }
+            set { deviceInfoTxb.Text = value; }
+        }
+
+        int txChannelID
+        {
+            get { return txChIDCbx.SelectedIndex; }
+            set 
+            {
+                if (value <= txChIDCbx.Items.Count)
+                    txChIDCbx.SelectedIndex = value;
+            }
+        }
+
+        int rxChannelID
+        {
+            get { return rxChIDCbx.SelectedIndex; }
+            set
+            {
+                if (value <= rxChIDCbx.Items.Count)
+                    rxChIDCbx.SelectedIndex = value;
+            }
+
+        }
+
+        double salinityPSU
+        {
+            get { return Convert.ToDouble(salinityEdit.Value); }
+            set
+            {
+                decimal vl = Convert.ToDecimal(value);
+                if (vl > salinityEdit.Maximum) vl = salinityEdit.Maximum;
+                if (vl < salinityEdit.Minimum) vl = salinityEdit.Minimum;
+                salinityEdit.Value = vl;
+            }
+        }
+
+        bool isCommandModeByDefault
+        {
+            get { return isCommandModeByDefaultChb.Checked; }
+            set { isCommandModeByDefaultChb.Checked = value; }
+        }
+
+        bool isACKOnTXFinished
+        {
+            get { return isACKOnTXFinishedChb.Checked; }
+            set { isACKOnTXFinishedChb.Checked = value; }
+        }
+
+        bool isAMBSaveToFlash
+        {
+            get { return isAMBSaveSettingsToFlashChb.Checked; }
+            set { isAMBSaveSettingsToFlashChb.Checked = value; }
+
+        }
+
+        bool isAMBPressure
+        {
+            get { return isAMBPressureChb.Checked; }
+            set { isAMBPressureChb.Checked = value; }
+        }
+
+        bool isAMBTemperature
+        {
+            get { return isAMBTemperatureChb.Checked; }
+            set { isAMBTemperatureChb.Checked = value; }
+        }
+
+        bool isAMBDepth
+        {
+            get { return isAMBDepthChb.Checked; }
+            set { isAMBDepthChb.Checked = value; }
+        }
+
+        bool isAMBVoltage
+        {
+            get { return isAMBVoltageChb.Checked; }
+            set { isAMBVoltageChb.Checked = value; }
+        }
+
+        int AMBPeriod
+        {
+            get { return Convert.ToInt32(AMBUpdatePeriodEdit.Value); }
+            set
+            {
+                Decimal vl = value;
+                if (vl > AMBUpdatePeriodEdit.Maximum) vl = AMBUpdatePeriodEdit.Maximum;
+                if (vl < AMBUpdatePeriodEdit.Minimum) vl = AMBUpdatePeriodEdit.Minimum;
+            }
+        }
+
+
+        int rcTxChannelID
+        {
+            get
+            {
+                return rcTargetTxChIDCbx.SelectedIndex;
+            }
+            set
+            {
+                if (value <= rcTargetTxChIDCbx.Items.Count)
+                    rcTargetTxChIDCbx.SelectedIndex = value;
+            }
+        }
+
+        int rcRxChannelID
+        {
+            get
+            {
+                return rcTargetRxChIDCbx.SelectedIndex;
+            }
+            set
+            {
+                if (value <= rcTargetRxChIDCbx.Items.Count)
+                    rcTargetRxChIDCbx.SelectedIndex = value;
+            }
+
+        }
+
+        RC_CODES_Enum rcQueryID
+        {
+            get
+            {
+                return (RC_CODES_Enum)Enum.Parse(typeof(RC_CODES_Enum), rcQueryIdCbx.SelectedItem.ToString());
+            }
+            set
+            {
+                int idx = rcQueryIdCbx.Items.IndexOf(value.ToString());
+                if (idx >= 0)
+                    rcQueryIdCbx.SelectedIndex = idx;
+            }
+
+        }
+
+        #endregion
 
         #endregion
 
@@ -90,8 +177,23 @@ namespace uWAVE_Host
 
         public MainForm()
         {
-            InitializeComponent();           
+            InitializeComponent();
 
+            #region Misc.
+
+            this.Text = Assembly.GetExecutingAssembly().GetName().Name;           
+
+            #endregion
+
+            #region logger
+            
+            loggerFileName = StrUtils.GetTimeDirTreeFileName(DateTime.Now, Application.ExecutablePath, "LOG", "log", true);           
+            logger = new TSLogProvider(loggerFileName);
+            logger.TextAddedEvent += (o, e) => { InvokeAppendLine(historyTxb, e.Text); };
+            logger.WriteStart();
+                        
+            #endregion
+            
             #region settingsProvider
 
             settingsFileName = Path.ChangeExtension(Application.ExecutablePath, "settings");
@@ -99,589 +201,157 @@ namespace uWAVE_Host
             settingsProvider.isSwallowExceptions = false;
 
             try
-            {                
+            {
                 settingsProvider.Load(settingsFileName);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ProcessException(ex, true);
             }
 
-            #endregion
-
-            #region NMEA
-            
-            NMEAParser.AddManufacturerToProprietarySentencesBase(ManufacturerCodes.UWV);
-            NMEAParser.AddProprietarySentenceDescription(ManufacturerCodes.UWV, "0", "c--c,x");
-            NMEAParser.AddProprietarySentenceDescription(ManufacturerCodes.UWV, "1", "x,x,x.x,x");
-            NMEAParser.AddProprietarySentenceDescription(ManufacturerCodes.UWV, "2", "x,x,x");
-            NMEAParser.AddProprietarySentenceDescription(ManufacturerCodes.UWV, "3", "x,x,x.x,x.x,x.x,x.x");
-            NMEAParser.AddProprietarySentenceDescription(ManufacturerCodes.UWV, "4", "x,x");
-            NMEAParser.AddProprietarySentenceDescription(ManufacturerCodes.UWV, "5", "x,x.x,x.x");
-
-            NMEAParser.AddProprietarySentenceDescription(ManufacturerCodes.UWV, "6", "x,x,x,x,x,x");
-            NMEAParser.AddProprietarySentenceDescription(ManufacturerCodes.UWV, "7", "x.x,x.x,x.x,x.x");
-
-            NMEAParser.AddProprietarySentenceDescription(ManufacturerCodes.UWV, "?", "x");
-            NMEAParser.AddProprietarySentenceDescription(ManufacturerCodes.UWV, "!", "c--c,c--c,x,c--c,x,x.x,x,x,x,x.x,x,x");
+            logger.Write(settingsProvider.Data.ToString());
 
             #endregion
 
             #region port
 
-            portNewNMEAMessageHandler = new EventHandler<NewNMEAMessageEventArgs>(port_NewNMEAMessage);
-            portPortErrorHandler = new EventHandler<SerialErrorReceivedEventArgs>(port_PortError);
-            portRawDataHandler = new EventHandler<RawDataReceivedEventArgs>(port_RawData);
+            port = new uWAVEPort(settingsProvider.Data.PortName, settingsProvider.Data.PortBaudrate);
 
-            port = new NMEASerialPort(new SerialPortSettings(settingsProvider.Data.PortName, settingsProvider.Data.PortBaudrate,
-                System.IO.Ports.Parity.None, DataBits.dataBits8, System.IO.Ports.StopBits.One, System.IO.Ports.Handshake.None));
+            port.ACKReceived += new EventHandler<ACKReceivedEventArgs>(port_ACKReceived);
+            port.AMBDataReceived += new EventHandler(port_AMBDataReceived);
+            port.DeviceInfoReceived += new EventHandler(port_DeviceInfoReceived);
+            port.DeviceTimeout += new EventHandler<DeviceTimeoutEventArgs>(port_DeviceTimeout);            
+            port.RawDataReceived += new EventHandler<RawDataReceivedEventArgs>(port_RawDataReceived);
+            port.RCAsyncInReceived += new EventHandler<RCAsyncInReceivedEventArgs>(port_RCAsyncInReceived);
+            port.RCResponseReceived += new EventHandler<RCResponseReceivedEventArgs>(port_RCResponseReceived);
+            port.RCTimeoutReceived += new EventHandler<RCTimeoutReceivedEventArgs>(port_RCTimeoutReceived);
 
-            port.IsRawModeOnly = false;
-            port.NewNMEAMessage += portNewNMEAMessageHandler;
-            port.PortError += portPortErrorHandler;
-            port.RawDataReceived += portRawDataHandler;
-
-            #endregion
-
-            #region timer
-
-            timerTickHandler = new EventHandler(timer_Tick);
-            timerStartedHandler = new EventHandler(timer_Started);
-
-            timer = new PrecisionTimer();
-            timer.Period = 1000;
-            timer.Mode = Mode.Periodic;
-            timer.Tick += timerTickHandler;
-            timer.Started += timerStartedHandler;
+            port.InfoEvent += (o, e) => { logger.Write(e.Message); };
+            port.PortError += (o, e) => { logger.Write(string.Format("{0} in {1}", e.EventType.ToString(), settingsProvider.Data.PortName)); };
+            port.UnknownSentenceReceived += (o, e) => { logger.Write(string.Format(" >> Unknown sentence: {0}", e.Message)); };
 
             #endregion
 
-            #region Other
+            #region Misc.
+            
+            isCommandModeByDefault = false;
 
-            mainSplitContainer.Panel1.Enabled = false;
-            commandPanel.Enabled = true;
-            rawModePanel.Enabled = false;
+            for (int i = 0; i < uWAVE.CR_STRONG_MAX_CODE_CHANNELS; i++)
+            {
+                txChIDCbx.Items.Add(i);
+                rxChIDCbx.Items.Add(i);
+                rcTargetTxChIDCbx.Items.Add(i);
+                rcTargetRxChIDCbx.Items.Add(i);
+            }
 
-            queryIDCbx.Items.AddRange(Enum.GetNames(typeof(RC_REQUEST_ID)));
-            queryIDCbx.SelectedIndex = 0;
+            txChannelID = 0;
+            rxChannelID = 0;
+            rcTxChannelID = 0;
+            rcRxChannelID = 0;
 
-            string[] chIDs = new string[uWAVE.MaxChIDs];
-            for (int i = 0; i < uWAVE.MaxChIDs; i++)
-                chIDs[i] = i.ToString();
+            rcQueryIdCbx.Items.AddRange(Enum.GetNames(typeof(RC_CODES_Enum)));
+            rcQueryID = RC_CODES_Enum.RC_PING;
 
-            settingsRxIDCbx.Items.AddRange(chIDs);
-            settingsRxIDCbx.SelectedIndex = 0;
-            settingsTxIDCbx.Items.AddRange(chIDs);
-            settingsTxIDCbx.SelectedIndex = 0;
-            targetRxIDCbx.Items.AddRange(chIDs);
-            targetRxIDCbx.SelectedIndex = 0;
-            targetTxIDCbx.Items.AddRange(chIDs);
-            targetTxIDCbx.SelectedIndex = 0;
-
-            cmdModeCbx.SelectedIndex = 0;
+            commandRawSplit.Panel1.Enabled = false;
+            commandRawSplit.Enabled = false;
 
             #endregion
         }
 
         #endregion
 
-        #region Methods        
+        #region Methods
 
-        private void ExportToText(Control ctrl)
+        private void InvokeSetText(Control ctrl, string text)
+        {
+            if (ctrl.InvokeRequired)
+                ctrl.Invoke((MethodInvoker)delegate { ctrl.Text = text; });
+            else
+                ctrl.Text = text;
+        }
+        
+        private void SaveText(string text)
         {
             using (SaveFileDialog sDialog = new SaveFileDialog())
             {
-                sDialog.Title = "Select file...";
+                sDialog.Title = "Exporting to a text file...";
                 sDialog.Filter = "Plain text (*.txt)|*.txt";
                 sDialog.DefaultExt = "txt";
-
-                DateTime now = DateTime.Now;
-                sDialog.FileName = string.Format("{0:00}-{1:00}-{2:00}_{3:00}-{4:00}-{5:00}.txt",
-                    now.Day, now.Month, now.Year, now.Hour, now.Minute, now.Second);
 
                 if (sDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
                     try
                     {
-                        File.WriteAllText(sDialog.FileName, ctrl.Text);
+                        File.WriteAllText(sDialog.FileName, text);
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
+                        ProcessException(ex, true);
                     }
                 }
             }
 
         }
 
-        private void SetCtrlText(Control ctrl, string text)
+        private void InvokeAppendLine(RichTextBox txb, string line)
         {
-            if (ctrl.InvokeRequired)
-                ctrl.Invoke((MethodInvoker)delegate { ctrl.Text = text; });
-            ctrl.Text = text;
-        }
-
-        private void SetCbxItem(ComboBox cbx, string item)
-        {
-            int itemIdx = cbx.Items.IndexOf(item);
-            if (itemIdx >= 0)
-                cbx.SelectedIndex = itemIdx;
-        }
-
-        private void SetCbxSelectedItem(ComboBox cbx, string item)
-        {
-            if (cbx.InvokeRequired)
-                cbx.Invoke((MethodInvoker)delegate { SetCbxItem(cbx, item); });
+            if (txb.InvokeRequired)
+                txb.Invoke((MethodInvoker)delegate { AppendLine(txb, line); });
             else
-                SetCbxItem(cbx, item);
-
+                AppendLine(txb, line);
         }
 
-
-        private void SetNumEditValue(NumericUpDown nedit, double value)
+        private void AppendLine(RichTextBox txb, string line)
         {
-            decimal temp = Convert.ToDecimal(value);
-            if (temp > nedit.Maximum) temp = nedit.Maximum;
-            if (temp < nedit.Minimum) temp = nedit.Minimum;
-
-            nedit.Value = temp;
+            txb.AppendText(line);
+            if (!line.EndsWith("\r\n"))
+                txb.AppendText("\r\n");
         }
 
-        private void SetNumericEdit(NumericUpDown nedit, double value)
+        private void ProcessException(Exception ex, bool isMsgBox)
         {
-            if (nedit.InvokeRequired)
-                nedit.Invoke((MethodInvoker)delegate { SetNumEditValue(nedit, value); });
+            logger.Write(ex);
+
+            if (isMsgBox)
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
+        private void OnPortOpen()
+        {
+            settingsBtn.Enabled = false;            
+            commandModeSwitchBtn.Enabled = true;
+            connectBtn.Checked = true;
+            connectBtn.Text = "DISCONNECT";
+            logger.Write(string.Format("{0} opened", settingsProvider.Data.PortName));
+            commandRawSplit.Enabled = true;
+        }
+
+        private void OnPortClose()
+        {
+            settingsBtn.Enabled = true;
+            commandModeSwitchBtn.Enabled = false;
+            connectBtn.Checked = false;
+            connectBtn.Text = "CONNECT";
+            logger.Write(string.Format("{0} opened", settingsProvider.Data.PortName));
+            commandRawSplit.Enabled = false;
+        }
+
+        private void OnTransactionStart()
+        {
+            commandRawSplit.Enabled = false;
+        }
+
+        private void OnTransactionEnd()
+        {
+            commandRawSplit.Enabled = true;
+        }
+
+        private void InvokeOnTransactionEnd()
+        {
+            if (this.InvokeRequired)
+                this.Invoke((MethodInvoker)delegate { OnTransactionEnd(); });
             else
-                SetNumEditValue(nedit, value);
-        }
-
-
-        private void Query_DINFO_GET()
-        {
-            if ((!IsQuerying) && (!timer.IsRunning))
-            {
-
-                if (TrySend(NMEAParser.BuildProprietarySentence(ManufacturerCodes.UWV, "?", new object[] { 0 })))
-                {
-                    IsQuerying = true;
-                    timeoutTicks = 2;
-                    timer.Start();
-                    queryDescription = "? DINFO_GET...";
-                    queryResult = string.Empty;
-
-                    SetActionStateText(queryDescription);
-                }
-            }
-            else
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        private void Query_SETTINGS_WRITE(int txID, int rxID, double styPSU, bool isCmdMode)
-        {
-            if ((!IsQuerying) && (!timer.IsRunning))
-            {
-                if (TrySend(NMEAParser.BuildProprietarySentence(ManufacturerCodes.UWV, "1", new object[] { txID, rxID, styPSU, Convert.ToInt32(isCmdMode) })))
-                {
-                    IsQuerying = true;
-                    timeoutTicks = 5;
-                    timer.Start();
-                    queryDescription = "? SETTINGS_WRITE...";
-                    queryResult = string.Empty;
-
-                    SetActionStateText(queryDescription);
-                }
-            }
-            else
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        private void Query_RC_REQUEST(int txID, int rxID, RC_REQUEST_ID requestID)
-        {
-            if ((!IsQuerying) && (!timer.IsRunning))
-            {
-                if (TrySend(NMEAParser.BuildProprietarySentence(ManufacturerCodes.UWV, "2", new object[] { txID, rxID, requestID })))
-                {
-                    IsQuerying = true;
-                    targetTxID = txID;
-                    targetRxID = rxID;
-                    timeoutTicks = 2;
-                    timer.Start();
-                    queryDescription = string.Format("? SUB #{0}->{1}", txID, requestID);
-                    queryResult = string.Empty;
-
-                    SetActionStateText(queryDescription);
-                }
-            }
-            else
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        private void Query_AMB_DTA_CFG(bool isInFlash, int periodMs, bool isPrs, bool isTmp, bool isDpt, bool isBatV)
-        {
-            if ((!IsQuerying) && (!timer.IsRunning))
-            {
-                
-                if (TrySend(NMEAParser.BuildProprietarySentence(ManufacturerCodes.UWV, "6", new object[] 
-                {  
-                    Convert.ToInt32(isInFlash),
-                    periodMs,
-                    Convert.ToInt32(isPrs),
-                    Convert.ToInt32(isTmp),
-                    Convert.ToInt32(isDpt),
-                    Convert.ToInt32(isBatV)
-                })))
-                {
-                    IsQuerying = true;
-                    timeoutTicks = 2;
-                    timer.Start();
-                    queryDescription = "? AMB_DTA_CFG...";
-                    queryResult = string.Empty;
-
-                    SetActionStateText(queryDescription);
-                }
-            }
-            else
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        #region Custom parsers
-
-        private void Parse_ACK(object[] parameters)
-        {
-            LocalErrorID errCode = LocalErrorID.LOC_ERR_UNKNOWN;
-            string msgID = string.Empty;
-
-            try
-            {
-                msgID = (string)parameters[0];
-                errCode = (LocalErrorID)Enum.ToObject(typeof(LocalErrorID), (int)parameters[1]);
-            }
-            catch
-            {
-
-            }
-
-            if (errCode != LocalErrorID.LOC_ERR_UNKNOWN)
-            {
-                timer.Stop();
-                IsQuerying = false;                
-                queryResult = errCode.ToString();
-                SetActionStateText(string.Format("{0} ...{1}", queryDescription, queryResult));
-                WriteHistoryLine(string.Format(">> HINT: {0} caused ACK with code {1}", msgID, errCode));
-            }
-        }
-
-        private void Parse_RC_RESPONSE(object[] parameters)
-        {            
-            // $PUWV3,rcCmdID,propTime_sec,snr,[value],[azimuth]
-
-            int txChID = -1;
-            RC_REQUEST_ID reqID = RC_REQUEST_ID.RC_INVALID;
-            double propTime = double.NaN;
-            double snr = double.NaN;
-            double azimuth = double.NaN;
-            double value = double.NaN;
-
-            try
-            {
-                txChID = (int)parameters[0];
-                reqID = (RC_REQUEST_ID)(int)parameters[1];
-                propTime = (double)parameters[2];
-                snr = (double)parameters[3];
-
-                if (parameters[4] != null)
-                    value = (double)parameters[4];
-
-                if (parameters[5] != null)
-                    azimuth = (double)parameters[5];
-
-                timer.Stop();
-                IsQuerying = false;
-                queryResult = "OK";
-                SetActionStateText(string.Format("{0} ...{1}", queryDescription, queryResult));
-
-                StringBuilder sb = new StringBuilder();
-                sb.AppendFormat(CultureInfo.InvariantCulture, ">> HINT: RC_RESPONSE from SUB #{0} Cmd={1}, PropTime={2:F05} s, SNR={3:F01} dB", targetTxID, reqID, propTime, snr);
-                sb.AppendFormat(CultureInfo.InvariantCulture, ">> HINT: Slant range is {0:F03} (Sound speed = {1:F02})\r\n", propTime * soundSpeed, soundSpeed);
-
-                if (!double.IsNaN(value))
-                    sb.AppendFormat(CultureInfo.InvariantCulture, ", Value={0:F01}", value);
-
-                if (!double.IsNaN(azimuth))
-                    sb.AppendFormat(CultureInfo.InvariantCulture, ", Azimuth={0:F01}°", azimuth);
-                sb.Append("\r\n");
-
-                WriteHistoryLine(sb.ToString());
-            }
-            catch (Exception ex)
-            {
-                WriteHistoryLine(string.Format("{0} in RC_RESPONSE sentence", ex.Message));
-            }
-        }
-
-        private void Parse_RC_TIMEOUT(object[] parameters)
-        {
-            //$PUWV4,rcCmdID
-            RC_REQUEST_ID reqID = RC_REQUEST_ID.RC_INVALID;
-            
-            try
-            {
-                int txChID = (int)parameters[0];
-                reqID = (RC_REQUEST_ID)(int)parameters[1];
-            
-                timer.Stop();
-                IsQuerying = false;
-                queryResult = "REMOTE TIMEOUT";
-                SetActionStateText(string.Format("{0} ...{1}", queryDescription, queryResult));
-
-                WriteHistoryLine(string.Format(">> HINT: RC_TIMEOUT from SUB #{0} Cmd={1}\r\n", targetTxID, reqID));
-            }
-            catch (Exception ex)
-            {
-                WriteHistoryLine(string.Format("{0} in RC_TIMEOUT sentence", ex.Message));
-            }
-        }
-
-        private void Parse_RC_ASYNC_IN(object[] parameters)
-        {
-            // $PUWV5,rcCmdID,snr,[azimuth]
-
-            RC_REQUEST_ID reqID = RC_REQUEST_ID.RC_INVALID;            
-            double snr = double.NaN;
-            double azimuth = double.NaN;
-
-            try
-            {
-                reqID = (RC_REQUEST_ID)(int)parameters[0];                
-                snr = (double)parameters[1];
-
-                if (parameters[2] != null)
-                    azimuth = (double)parameters[2];
-
-                timer.Stop();
-                IsQuerying = false;
-                queryResult = "OK";
-                SetActionStateText(string.Format("{0} ...{1}", queryDescription, queryResult));
-
-                StringBuilder sb = new StringBuilder();
-                sb.AppendFormat(CultureInfo.InvariantCulture, ">> HINT: RC_ASYNC_IN Cmd={0}, SNR={1:F01} dB", reqID, snr);
-                if (!double.IsNaN(azimuth))
-                    sb.AppendFormat(CultureInfo.InvariantCulture, ", Azimuth={0:F01}°", azimuth);
-                sb.Append("\r\n");
-
-                WriteHistoryLine(sb.ToString());
-            }
-            catch (Exception ex)
-            {
-                WriteHistoryLine(string.Format("{0} in RC_ASYNC_IN sentence", ex.Message));
-            }
-        }
-
-        private void Parse_AMB_DTA(object[] parameters)
-        {
-            // $PUWV7,prs_mBar,temp_C,dpt_m,batVoltage_V
-            try
-            {                             
-                StringBuilder sb = new StringBuilder();
-
-                sb.Append(">> HINT: AMB_DTA ");
-
-                if (parameters[0] != null)
-                {
-                    sb.AppendFormat(CultureInfo.InvariantCulture, "PRS={0:F01} mBar, ", (double)parameters[0]);
-                    pressure_mBar = (double)parameters[0];
-                    soundSpeed = UCNLPhysics.PHX.PHX_SpeedOfSound_Calc(waterTemperature_C, pressure_mBar, salinityPSU);
-                }
-
-                if (parameters[1] != null)
-                {
-                    sb.AppendFormat(CultureInfo.InvariantCulture, "TMP={0:F01} °C, ", (double)parameters[1]);
-                    waterTemperature_C = (double)parameters[1];
-                    soundSpeed = UCNLPhysics.PHX.PHX_SpeedOfSound_Calc(waterTemperature_C, pressure_mBar, salinityPSU);
-                }
-
-                if (parameters[2] != null)
-                    sb.AppendFormat(CultureInfo.InvariantCulture, "DPT={0:F03} m, ", (double)parameters[2]);
-
-                if (parameters[3] != null)
-                    sb.AppendFormat(CultureInfo.InvariantCulture, "VCC={0:F01} V, ", (double)parameters[3]);
-
-                sb.Append("\r\n");
-
-                WriteHistoryLine(sb.ToString());
-            }
-            catch (Exception ex)
-            {
-                WriteHistoryLine(string.Format("{0} in AMB_DTA sentence", ex.Message));
-            }
-        }
-
-        private void Parse_DINFO(object[] parameters)
-        {
-            // $PUWV!,serial,sys_moniker,sys_version,core_moniker [release],core_version,acBaudrate,rxChID,txChID,maxChannels,styPSU,isPTS,isCmdMode
-
-            string serial = string.Empty;
-            string sys_moniker = string.Empty;
-            string sys_version = string.Empty;
-            string core_moniker = string.Empty;
-            string core_version = string.Empty;
-
-            double acBaudrate = -1;
-            int rxChID = -1;
-            int txChID = -1;
-            int maxChannels = -1;
-            double styPSU = double.NaN;
-            bool isPTS = false;
-            bool isCmdMode = false;
-
-            try
-            {
-                serial = parameters[0].ToString();
-                sys_moniker = parameters[1].ToString();
-                sys_version = uWAVE.BCDVersionToStr((int)parameters[2]);
-                core_moniker = parameters[3].ToString();
-                core_version = uWAVE.BCDVersionToStr((int)parameters[4]);
-                acBaudrate = (double)parameters[5];
-                rxChID = (int)parameters[6];
-                txChID = (int)parameters[7];
-                maxChannels = (int)parameters[8];
-                
-                styPSU = (double)parameters[9];
-
-                int isPTSFlag = (int)parameters[10];
-                if (isPTSFlag == 0)
-                    isPTS = false;
-                else
-                    isPTS = true;
-
-                isCmdMode = Convert.ToBoolean((int)parameters[11]);
-
-
-                timer.Stop();
-                IsQuerying = false;
-                queryResult = "OK";
-                SetActionStateText(string.Format("{0} ...{1}", queryDescription, queryResult));
-                
-                SetCtrlText(systemLbl, string.Format(CultureInfo.InvariantCulture, "{0} v{1}", sys_moniker, sys_version));
-
-                if (isPTS)
-                    SetCtrlText(isIPTSLbl, "present");
-                else
-                    SetCtrlText(isIPTSLbl, "absent");
-
-                
-                SetCtrlText(coreLbl, string.Format("{0} v{1}", core_moniker, core_version));
-                SetCtrlText(totalChannelsLbl, maxChannels.ToString());
-                SetCtrlText(acBaudrateLbl, string.Format(CultureInfo.InvariantCulture, "{0:F02} bit/s", acBaudrate));
-
-                SetCbxSelectedItem(settingsRxIDCbx, rxChID.ToString());
-                SetCbxSelectedItem(settingsTxIDCbx, txChID.ToString());
-
-                SetNumericEdit(salinityEdit, styPSU);
-
-                if (isCmdMode)
-                    SetCbxSelectedItem(cmdModeCbx, "By default");
-                else
-                    SetCbxSelectedItem(cmdModeCbx, "By pin");
-
-                // TODO: set PTS flag
-            }
-            catch (Exception ex)
-            {
-                WriteHistoryLine(string.Format("{0} in D_INFO sentence", ex.Message));
-            }
-        }
-
-        #endregion
-
-
-        private bool TrySend(string message)
-        {
-            bool result = false;
-            try
-            {
-                port.SendData(message);
-                WriteHistoryLine(string.Format("<< {0}", message));
-                result = true;
-            }
-            catch (Exception ex)
-            {
-                WriteHistoryLine(string.Format("ERROR: ", ex.Message));
-            }
-
-            return result;
-        }
-
-        private void WriteHistoryLine(string text)
-        {
-            DateTime dt = DateTime.Now;
-            StringBuilder sb = new StringBuilder();
-
-            sb.AppendFormat("{0:00}:{1:00}:{2:00}.{3:000}: {4}",
-                dt.Hour, dt.Minute, dt.Second, dt.Millisecond, text);
-
-            if (!text.EndsWith("\r\n"))
-                sb.AppendFormat("\r\n");
-
-            WriteHistory(sb.ToString());
-        }
-
-        private void WriteRawHistoryLine(string text)
-        {
-            DateTime dt = DateTime.Now;
-            StringBuilder sb = new StringBuilder();
-
-            sb.AppendFormat("{0:00}:{1:00}:{2:00}.{3:000}: {4}",
-                dt.Hour, dt.Minute, dt.Second, dt.Millisecond, text);
-
-            if (!text.EndsWith("\r\n"))
-                sb.AppendFormat("\r\n");
-
-            if (rawModeHistoryTxb.InvokeRequired)
-                rawModeHistoryTxb.Invoke((MethodInvoker)delegate { rawModeHistoryTxb.AppendText(sb.ToString()); });
-            else
-                rawModeHistoryTxb.AppendText(sb.ToString());
-        }
-
-        private void WriteHistory(string text)
-        {
-            if (historyTxb.InvokeRequired)
-                historyTxb.Invoke((MethodInvoker)delegate { historyTxb.AppendText(text); });
-            else
-                historyTxb.AppendText(text);
-        }
-
-        private void SetConnectionStateText(string text)
-        {
-            if (mainStatusStrip.InvokeRequired)
-                mainStatusStrip.Invoke((MethodInvoker)delegate { connectionStateLbl.Text = text; });
-            else
-                connectionStateLbl.Text = text;
-        }
-
-        private void SetActionStateText(string text)
-        {
-            if (mainStatusStrip.InvokeRequired)
-                mainStatusStrip.Invoke((MethodInvoker)delegate { actionLbl.Text = text; });
-            else
-                actionLbl.Text = text;
-        }
-
-        private void SetEnabledState(Control ctrl, bool state)
-        {
-            if (ctrl.InvokeRequired)
-                ctrl.Invoke((MethodInvoker)delegate { ctrl.Enabled = state; });
-            else
-                ctrl.Enabled = state;
+                OnTransactionEnd();
         }
 
         private string GetRandomString(int length)
@@ -696,144 +366,134 @@ namespace uWAVE_Host
             return sb.ToString();
         }
 
+
         #endregion
 
         #region Handlers
 
-        #region timer
-
-        private void timer_Started(object sender, EventArgs e)
-        {
-            ticks = 0;
-        }
-
-        private void timer_Tick(object sender, EventArgs e)
-        {
-            if (++ticks >= timeoutTicks)
-            {
-                IsQuerying = false;
-                queryResult = "timeout";
-                timer.Stop();
-
-                SetActionStateText(string.Format("{0} ...{1}", queryDescription, queryResult));
-            }
-        }
-
-        #endregion
-
         #region port
 
-        private void port_NewNMEAMessage(object sender, NewNMEAMessageEventArgs e)
+        private void port_ACKReceived(object sender, ACKReceivedEventArgs e)
         {
-            if (PortState != PortStateEnum.OPEN)
-                PortState = PortStateEnum.OPEN;
+            InvokeOnTransactionEnd();    
+            if (e.SentenceID != ICs.IC_D2H_ANY)
+                logger.Write(string.Format("HINT: ACK for sentence \"{0}\", result={1}", e.SentenceID, e.ErrorID));
+            else
+                logger.Write(string.Format("HINT: ACK result={1}", e.SentenceID, e.ErrorID));
+        }
 
-            WriteHistoryLine(string.Format(">> {0}", e.Message));
-
-            bool isParsed = true;
-            NMEASentence pResult = null;
-            try
+        private void port_AMBDataReceived(object sender, EventArgs e)
+        {
+            bool isReCalcSoundSpeed = false;
+            StringBuilder sb = new StringBuilder();
+            if (!double.IsNaN(port.Pressure_mBar))
             {
-                pResult = NMEAParser.Parse(e.Message);
-                isParsed = true;
+                sb.AppendFormat(CultureInfo.InvariantCulture, "PRESSURE: {0:F02} mBar\r\n", port.Pressure_mBar);
+                pressure_mBar = port.Pressure_mBar;
+                isReCalcSoundSpeed = true;
             }
-            catch (Exception ex)
+
+            if (!double.IsNaN(port.Temperature_C))
             {
-                WriteHistoryLine(string.Format("ERROR: {0}", ex.Message));
+                sb.AppendFormat(CultureInfo.InvariantCulture, "TEMPERATURE: {0:F01}°C\r\n", port.Temperature_C);
+                temperature_C = port.Temperature_C;
+                isReCalcSoundSpeed = true;
             }
-            
 
-            if ((isParsed) && (pResult is NMEAProprietarySentence))
+            if (!double.IsNaN(port.Depth_m))
+                sb.AppendFormat(CultureInfo.InvariantCulture, "DEPTH: {0:F03} m\r\n", port.Depth_m);
+
+            if (!double.IsNaN(port.SupplyVoltage_V))
+                sb.AppendFormat(CultureInfo.InvariantCulture, "SUPPLY VOLTAGE: {0:F01} V\r\n", port.SupplyVoltage_V);
+
+            if (isReCalcSoundSpeed)
+                soundSpeed = UCNLPhysics.PHX.PHX_SpeedOfSound_Calc(temperature_C, pressure_mBar, salinityPSU);
+
+            sb.AppendFormat(CultureInfo.InvariantCulture, "SOUND SPEED: {0:F01} m/s\r\n", soundSpeed);
+
+            InvokeSetText(ambTxb, sb.ToString());
+        }
+
+        private void port_DeviceInfoReceived(object sender, EventArgs e)
+        {
+            InvokeOnTransactionEnd();
+
+            if (port.IsDeviceInfo)
             {
-                NMEAProprietarySentence pSentence = (pResult as NMEAProprietarySentence);
-
-                if (pSentence.Manufacturer == ManufacturerCodes.UWV)
+                this.Invoke((MethodInvoker)delegate
                 {
-                    if (pSentence.SentenceIDString == "0") // ACK
-                    {
-                        Parse_ACK(pSentence.parameters);
-                    }
-                    else if (pSentence.SentenceIDString == "3") // RC_RESPONSE
-                    {
-                        Parse_RC_RESPONSE(pSentence.parameters);
-                    }
-                    else if (pSentence.SentenceIDString == "4") // RC_TIMEOUT
-                    {
-                        Parse_RC_TIMEOUT(pSentence.parameters);
-                    }
-                    else if (pSentence.SentenceIDString == "5") // RC_ASYNC_IN
-                    {
-                        Parse_RC_ASYNC_IN(pSentence.parameters);
-                    }
-                    else if (pSentence.SentenceIDString == "7") // AMB_DTA
-                    {
-                        Parse_AMB_DTA(pSentence.parameters);
-                    }
-                    else if (pSentence.SentenceIDString == "!") // DINFO
-                    {
-                        Parse_DINFO(pSentence.parameters);
-                    }
-                    else
-                    {
-                        // unsupported sentence
-                    }
-                }
-                else
-                {
-                    // unsupported manufacturer
-                }
+                    deviceInfoTxt = string.Format(CultureInfo.InvariantCulture, "SYSTEM: {0} v{1}\r\nCORE: {2} v{3}\r\nSERIAL: {4}\r\nACOUSTIC BAUDRATE: {5:F02} bps\r\nTOTAL POSSIBLE CODE CHANNELS: {6}\r\nPTS PRESENT: {7}\r\n",
+                    port.SystemMoniker, port.SystemVersion,
+                    port.CoreMoniker, port.CoreVersion,
+                    port.SerialNumber,
+                    port.AcousticBaudrate,
+                    port.TotalCodeChannels,
+                    port.IsPTS);
+
+                    rxChannelID = port.RxChID;
+                    txChannelID = port.TxChID;
+
+                    salinityPSU = port.SalinityPSU;
+
+                    isCommandModeByDefault = port.IsCommandModeByDefault;
+
+                    soundSpeed = UCNLPhysics.PHX.PHX_SpeedOfSound_Calc(temperature_C, pressure_mBar, salinityPSU);
+                });
             }
         }
 
-        private void port_PortError(object sender, EventArgs e)
+        private void port_DeviceTimeout(object sender, DeviceTimeoutEventArgs e)
         {
-            PortState = PortStateEnum.ERROR;
+            InvokeOnTransactionEnd();
+
+            if (e.SentenceID != ICs.IC_D2H_ANY)
+                logger.Write(string.Format("HINT: device timeout (after sentence \"{0}\")", e.SentenceID));
+            else
+                logger.Write("HINT: device timeout");
+        }        
+
+        private void port_RawDataReceived(object sender, RawDataReceivedEventArgs e)
+        {
+            var sToLog = string.Format("[RAW] >> {0}", Encoding.ASCII.GetString(e.Data));
+            logger.Write(sToLog);                       
         }
 
-        private void port_RawData(object sender, RawDataReceivedEventArgs e)
+        private void port_RCAsyncInReceived(object sender, RCAsyncInReceivedEventArgs e)
         {
-            if (port.IsRawModeOnly)
-            {
-                WriteRawHistoryLine(string.Format(">> {0}\r\n", Encoding.ASCII.GetString(e.Data)));
-            }
+            StringBuilder sb = new StringBuilder();
+
+            sb.AppendFormat(CultureInfo.InvariantCulture, "HINT: RC_ASYNC_IN Cmd={0}, SNR={1:F01} dB", e.RCCmdID, e.SNR_db);
+            if (e.IsAzimuthPresent)
+                sb.AppendFormat(CultureInfo.InvariantCulture, ", Azimuth={0:F00}°", e.Azimuth);
+            sb.Append("\r\n");
+
+            logger.Write(sb.ToString());
+
         }
+
+        private void port_RCResponseReceived(object sender, RCResponseReceivedEventArgs e)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendFormat(CultureInfo.InvariantCulture, "HINT: RC_RESPONSE from SUB #{0} Cmd={1}, PropTime={2:F05} s, SNR={3:F01} dB\r\n", e.TxChID, e.RCCmdID, e.PropTime_sec, e.SNR_db);
+            sb.AppendFormat(CultureInfo.InvariantCulture, "HINT: Slant range is {0:F03} (Sound speed = {1:F02})\r\n", e.PropTime_sec * soundSpeed, soundSpeed);
+
+            if (e.IsValuePresent)
+                sb.AppendFormat(CultureInfo.InvariantCulture, "HINT: Value={0:F01} ({1})\r\n", e.Value, e.RCCmdID);
+
+            if (e.IsAzimuthPresent)
+                sb.AppendFormat(CultureInfo.InvariantCulture, "HINT: Azimuth={0:F00}°\r\n", e.Azimuth);
+
+            logger.Write(sb.ToString());
+        }
+
+        private void port_RCTimeoutReceived(object sender, RCTimeoutReceivedEventArgs e)
+        {
+            logger.Write(string.Format(CultureInfo.InvariantCulture, "HINT: RC_TIMEOUT from SUB #{0}, Cmd={1}", e.TxChID, e.RCCmdID));
+        }      
 
         #endregion
 
-        #region Controls
-
-        #region historyTxb
-
-        private void historyTxb_TextChanged(object sender, EventArgs e)
-        {
-            if (historyTxb.Text.Length >= historyTxb.MaxLength - 1024)
-                historyTxb.Clear();
-
-            historyTxb.ScrollToCaret();            
-        }
-
-        #endregion
-
-        #region historyTxbToolStrip
-
-        private void historyCopyToClipboardBtn_Click(object sender, EventArgs e)
-        {
-            historyTxb.SelectAll();
-            historyTxb.Copy();
-            historyTxb.DeselectAll();
-        }
-
-        private void toPlainTextToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ExportToText(historyTxb);
-        }
-
-        private void historyClearBtn_Click(object sender, EventArgs e)
-        {
-            historyTxb.Clear();
-        }
-
-        #endregion
+        #region UI
 
         #region mainToolStrip
 
@@ -843,33 +503,25 @@ namespace uWAVE_Host
             {
                 try
                 {
-                    port.Close();                    
+                    port.Close();
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    ProcessException(ex, true);
                 }
 
-                PortState = PortStateEnum.CLOSED;
-                connectBtn.Text = "CONNECT";
-                connectBtn.Checked = false;
-                settingsBtn.Enabled = true;
-                mainSplitContainer.Panel1.Enabled = false;          
+                OnPortClose();
             }
             else
             {
                 try
                 {
                     port.Open();
-                    PortState = PortStateEnum.OPEN;
-                    connectBtn.Text = "DISCONNECT";
-                    connectBtn.Checked = true;
-                    settingsBtn.Enabled = false;
-                    mainSplitContainer.Panel1.Enabled = true;
+                    OnPortOpen();
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    ProcessException(ex, true);
                 }
             }
         }
@@ -884,7 +536,7 @@ namespace uWAVE_Host
 
                 if (sEditor.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
-                    settingsProvider.Data = sEditor.Value;                    
+                    settingsProvider.Data = sEditor.Value;
 
                     try
                     {
@@ -905,12 +557,14 @@ namespace uWAVE_Host
             }
         }
 
-        private void isRawModeOnlyBtn_Click(object sender, EventArgs e)
+
+        private void commandModeSwitchBtn_Click(object sender, EventArgs e)
         {
-            port.IsRawModeOnly = !port.IsRawModeOnly;
-            isRawModeOnlyBtn.Checked = port.IsRawModeOnly;
-            commandPanel.Enabled = !port.IsRawModeOnly;
-            rawModePanel.Enabled = port.IsRawModeOnly;
+            port.IsCommandMode = !port.IsCommandMode;
+            commandModeSwitchBtn.Checked = port.IsCommandMode;
+
+            commandRawSplit.Panel1.Enabled = port.IsCommandMode;
+            commandRawSplit.Panel2.Enabled = !port.IsCommandMode;            
         }
 
         private void infoBtn_Click(object sender, EventArgs e)
@@ -922,156 +576,155 @@ namespace uWAVE_Host
                 aDialog.ShowDialog();
             }
         }
+       
+        #endregion     
+        
+        #region rawModeToolStrip
+
+        private void rawClearBtn_Click(object sender, EventArgs e)
+        {
+            rawHistoryTxb.Clear();
+        }
+
+        private void rawExportBtn_Click(object sender, EventArgs e)
+        {
+            SaveText(rawHistoryTxb.Text);
+        }
+
+        private void rawCopyBtn_Click(object sender, EventArgs e)
+        {
+            rawHistoryTxb.Copy();
+            MessageBox.Show("History copied to clipboard");
+        }
+
+        #endregion              
+
+        #region histToolStrip
+
+        private void histClearBtn_Click(object sender, EventArgs e)
+        {
+            historyTxb.Clear();
+        }
+
+        private void histExportBtn_Click(object sender, EventArgs e)
+        {
+            SaveText(historyTxb.Text);
+        }
+
+        private void histCopyBtn_Click(object sender, EventArgs e)
+        {
+            historyTxb.Copy();
+        }
+
+        private void historyTxb_TextChanged(object sender, EventArgs e)
+        {
+            historyTxb.ScrollToCaret();
+        }
 
         #endregion
 
-        #region commandPanel
 
-        private void devInfoGetLbl_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        #region deviceInfo tab
+
+        private void devSettingsQueryBtn_Click(object sender, EventArgs e)
         {
-            Query_DINFO_GET();
+            if (port.DeviceInfoQuery())
+                OnTransactionStart();
         }
 
-        private void settingsApplyLbl_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void devSettingsApplyBtn_Click(object sender, EventArgs e)
         {
-            int txID = int.Parse(settingsTxIDCbx.SelectedItem.ToString());
-            int rxID = int.Parse(settingsRxIDCbx.SelectedItem.ToString());
-            double salinityPSU = Convert.ToDouble(salinityEdit.Value);
-
-            // TODO: salinity edit
-            Query_SETTINGS_WRITE(txID, rxID, salinityPSU, cmdModeCbx.SelectedIndex == 1);
-        }
-
-        private void remoteQueryLbl_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            int txID = int.Parse(targetRxIDCbx.SelectedItem.ToString());
-            int rxID = int.Parse(targetTxIDCbx.SelectedItem.ToString());
-            RC_REQUEST_ID requestID = (RC_REQUEST_ID)Enum.Parse(typeof(RC_REQUEST_ID), queryIDCbx.SelectedItem.ToString());
-            Query_RC_REQUEST(txID, rxID, requestID);
-        }
-
-        private void miscSettingsBtn_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            using (MiscSettingsDialog mDialog = new MiscSettingsDialog())
-            {
-                mDialog.Text = "Misc. settings";
-
-                if (mDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                {
-                    Query_AMB_DTA_CFG(mDialog.IsSaveInFlash, mDialog.PeriodMs,
-                        mDialog.IsPressure, mDialog.IsTemperature, mDialog.IsDepth, mDialog.IsBatV);                   
-                }
-            }
+            if (port.SettingsWriteQuery(txChannelID, rxChannelID, salinityPSU, isCommandModeByDefault, isACKOnTXFinished))
+                OnTransactionStart();
         }
 
         #endregion
 
-        #region rawDataPanel
+        #region Ambient settings tab
 
-        private void rawModeHistoryTxb_TextChanged(object sender, EventArgs e)
+        private void AMBSetBtn_Click(object sender, EventArgs e)
         {
-            rawModeHistoryTxb.ScrollToCaret();
+            if (port.AMBDTAConfigQuery(isAMBSaveToFlash, AMBPeriod, isAMBPressure, isAMBTemperature, isAMBDepth, isAMBVoltage))
+                OnTransactionStart();
         }
 
-        private void rawDataSendBtn_Click(object sender, EventArgs e)
-        {
-            var message = Encoding.ASCII.GetBytes(rawDataInputTxb.Text);
+        #endregion
 
+        #region remote query tab
+
+        private void rcQueryBtn_Click(object sender, EventArgs e)
+        {
+            if (port.RCRequestQuery(rcTxChannelID, rcRxChannelID, rcQueryID))
+                OnTransactionStart();
+        }
+
+        #endregion
+
+        #region rawModePanel
+
+        private void rawSendBtn_Click(object sender, EventArgs e)
+        {
             try
             {
-                port.SendRaw(message);
-                WriteRawHistoryLine(string.Format("<< {0}\r\n", rawDataInputTxb.Text));
-                rawDataInputTxb.Clear();
+                var textToSend = rawSendTxb.Text;
+                port.RawDataSend(Encoding.ASCII.GetBytes(textToSend));
+
+                var hString = string.Format("<< {0}\r\n", textToSend);
+                rawHistoryTxb.AppendText(hString);
+                logger.Write(hString);
+                
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ProcessException(ex, true);
             }
         }
 
-        private void rawDataInputTxb_TextChanged(object sender, EventArgs e)
+        private void rawSendTxb_TextChanged(object sender, EventArgs e)
         {
-            rawDataSendBtn.Enabled = !string.IsNullOrEmpty(rawDataInputTxb.Text);
+            rawSendBtn.Enabled = !string.IsNullOrEmpty(rawSendTxb.Text);
         }
 
-        private void rawHistoryCopyToClipboardBtn_Click(object sender, EventArgs e)
+        private void rawHistoryTxb_TextChanged(object sender, EventArgs e)
         {
-            rawModeHistoryTxb.SelectAll();
-            rawModeHistoryTxb.Copy();
-            rawModeHistoryTxb.DeselectAll();
-        }
-
-        private void rawHistoryExportToPlainTextToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ExportToText(rawModeHistoryTxb);
-        }
-
-        private void rawHistoryClearBtn_Click(object sender, EventArgs e)
-        {
-            rawModeHistoryTxb.Clear();
+            rawHistoryTxb.ScrollToCaret();
         }
 
         private void generateDatetimeStringToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            DateTime dt = DateTime.Now;
-            rawDataInputTxb.Text = string.Format("*uWAVE TEST {0:00}-{1:00}-{2:0000}, {3:00}:{4:00}:{5:00}.{6:000}*",
-                dt.Day, dt.Month, dt.Year, dt.Hour, dt.Minute, dt.Second, dt.Millisecond);
+            rawSendTxb.Text = string.Format("[uWAVE Modem test {0}, {1}]", DateTime.Now.ToShortDateString(), DateTime.Now.ToLongTimeString());
         }
 
-        private void randomString16BytesToolStripMenuItem_Click(object sender, EventArgs e)
+        private void random8byteStringToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            rawDataInputTxb.Text = GetRandomString(16);       
+            rawSendTxb.Text = GetRandomString(8);
         }
 
-        private void randomString32BytesToolStripMenuItem_Click(object sender, EventArgs e)
+        private void random16byteStringToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            rawDataInputTxb.Text = GetRandomString(32);
+            rawSendTxb.Text = GetRandomString(16);
         }
 
-        private void randomString64BytesToolStripMenuItem_Click(object sender, EventArgs e)
+        private void random32byteStringToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            rawDataInputTxb.Text = GetRandomString(64);
+            rawSendTxb.Text = GetRandomString(32);
         }
+
+        private void random64byteStringToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            rawSendTxb.Text = GetRandomString(64);
+        }
+
+        private void random128byteStringToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            rawSendTxb.Text = GetRandomString(128);
+        }
+
+        #endregion        
+        
 
         #endregion
-
-        #region mainForm
-
-        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            ///
-        }
-
-        private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            port.NewNMEAMessage -= portNewNMEAMessageHandler;
-            port.PortError -= portPortErrorHandler;
-            port.RawDataReceived -= portRawDataHandler;
-            if (port.IsOpen)
-            {
-                try
-                {
-                    port.Close();
-                }
-                catch
-                {
-                }
-            }
-
-            port.Dispose();
-
-            timer.Tick -= timerTickHandler;
-            timer.Started -= timerStartedHandler;
-            if (timer.IsRunning) 
-                timer.Stop();
-
-            timer.Dispose();
-        }
-
-        #endregion                                                                        
         
-        #endregion                        
-
-        #endregion                
+        #endregion        
     }
 }
