@@ -18,8 +18,8 @@ namespace uWAVE_Host
         string loggerFileName;
 
         uWAVEPort port;
-
-        SettingsProviderXML<SettingsContainer> settingsProvider;
+        
+        SimpeSettingsProviderXML<SettingsContainer> settingsProvider;
         string settingsFileName;
 
         bool isRestart = false;
@@ -123,6 +123,7 @@ namespace uWAVE_Host
                 Decimal vl = value;
                 if (vl > AMBUpdatePeriodEdit.Maximum) vl = AMBUpdatePeriodEdit.Maximum;
                 if (vl < AMBUpdatePeriodEdit.Minimum) vl = AMBUpdatePeriodEdit.Minimum;
+                AMBUpdatePeriodEdit.Value = vl;
             }
         }
 
@@ -151,7 +152,6 @@ namespace uWAVE_Host
                 if (value <= rcTargetRxChIDCbx.Items.Count)
                     rcTargetRxChIDCbx.SelectedIndex = value;
             }
-
         }
 
         RC_CODES_Enum rcQueryID
@@ -166,7 +166,6 @@ namespace uWAVE_Host
                 if (idx >= 0)
                     rcQueryIdCbx.SelectedIndex = idx;
             }
-
         }
 
         #endregion
@@ -197,7 +196,7 @@ namespace uWAVE_Host
             #region settingsProvider
 
             settingsFileName = Path.ChangeExtension(Application.ExecutablePath, "settings");
-            settingsProvider = new SettingsProviderXML<SettingsContainer>();
+            settingsProvider = new SimpeSettingsProviderXML<SettingsContainer>();
             settingsProvider.isSwallowExceptions = false;
 
             try
@@ -225,8 +224,8 @@ namespace uWAVE_Host
             port.RCAsyncInReceived += new EventHandler<RCAsyncInReceivedEventArgs>(port_RCAsyncInReceived);
             port.RCResponseReceived += new EventHandler<RCResponseReceivedEventArgs>(port_RCResponseReceived);
             port.RCTimeoutReceived += new EventHandler<RCTimeoutReceivedEventArgs>(port_RCTimeoutReceived);
-
-            port.InfoEvent += (o, e) => { logger.Write(e.Message); };
+            
+            port.InfoEvent += (o, e) => { logger.Write(string.Format("{0}: {1}", e.EventType, e.LogString)); };
             port.PortError += (o, e) => { logger.Write(string.Format("{0} in {1}", e.EventType.ToString(), settingsProvider.Data.PortName)); };
             port.UnknownSentenceReceived += (o, e) => { logger.Write(string.Format(" >> Unknown sentence: {0}", e.Message)); };
 
@@ -379,7 +378,7 @@ namespace uWAVE_Host
             if (e.SentenceID != ICs.IC_D2H_ANY)
                 logger.Write(string.Format("HINT: ACK for sentence \"{0}\", result={1}", e.SentenceID, e.ErrorID));
             else
-                logger.Write(string.Format("HINT: ACK result={1}", e.SentenceID, e.ErrorID));
+                logger.Write(string.Format("HINT: ACK result={0}", e.ErrorID));
         }
 
         private void port_AMBDataReceived(object sender, EventArgs e)
