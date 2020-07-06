@@ -1,6 +1,6 @@
 # uWAVE_Host
 
-The latest release can be downloaded in [releases](https://github.com/ucnl/uWAVE_Host/releases) section or via [Direct link](https://github.com/ucnl/uWAVE_Host/releases/download/1.0/uWAVE_Host.zip)
+The latest release can be downloaded in [releases](https://github.com/ucnl/uWAVE_Host/releases) section or via [Direct link](https://api.github.com/repos/ucnl/uWAVE_Host/zipball)
 
 To build this project you need following libraries:  
 * [UCNLPhysics](https://github.com/ucnl/UCNLPhysics)
