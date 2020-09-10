@@ -6,7 +6,15 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("uWAVE_Host")]
-[assembly: AssemblyDescription("uWAVE underwater acoustic modem utility")]
+[assembly: AssemblyDescription("uWAVE Underwater acoustic modem demo application.\n\n" +
+                               "More information about uWAVE\n" +
+                               "English: https://github.com/ucnl/Docs/tree/master/EN/Modems/uWAVE/\n" +
+                               "Russian: https://github.com/ucnl/Docs/tree/master/RU/Modems/uWAVE/\n\n" +
+                               "Support: mailto:support@unavlab.com\n\n" +
+                               "Source code:\n" +
+                               "https://github.com/ucnl/uWAVE_Host/\n" +
+                               "https://github.com/ucnl/uWAVELib/")]
+
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Underwater communication & navigation laboratory, LLC")]
 [assembly: AssemblyProduct("uWAVE_Host")]
