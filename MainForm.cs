@@ -72,6 +72,18 @@ namespace uWAVE_Host
             }
         }
 
+        double gravityAcc
+        {
+            get { return Convert.ToDouble(gravityAccEdit.Value); }
+            set
+            {
+                decimal vl = Convert.ToDecimal(value);
+                if (vl > gravityAccEdit.Maximum) vl = gravityAccEdit.Maximum;
+                if (vl < gravityAccEdit.Minimum) vl = gravityAccEdit.Minimum;
+                gravityAccEdit.Value = vl;
+            }
+        }
+
         bool isCommandModeByDefault
         {
             get { return isCommandModeByDefaultChb.Checked; }
@@ -227,7 +239,7 @@ namespace uWAVE_Host
             
             port.InfoEvent += (o, e) => { logger.Write(string.Format("{0}: {1}", e.EventType, e.LogString)); };
             port.PortError += (o, e) => { logger.Write(string.Format("{0} in {1}", e.EventType.ToString(), settingsProvider.Data.PortName)); };
-            port.UnknownSentenceReceived += (o, e) => { logger.Write(string.Format(" >> Unknown sentence: {0}", e.Message)); };
+            port.UnknownSentenceReceived += (o, e) => { logger.Write(string.Format(" >> Unknown sentence: {0}", e.Sentence)); };
 
             #endregion
 
@@ -454,6 +466,7 @@ namespace uWAVE_Host
         private void port_RawDataReceived(object sender, RawDataReceivedEventArgs e)
         {
             var sToLog = string.Format("[RAW] >> {0}", Encoding.ASCII.GetString(e.Data));
+            InvokeAppendLine(rawHistoryTxb, string.Format(" >> {0}", Encoding.ASCII.GetString(e.Data)));
             logger.Write(sToLog);                       
         }
 
@@ -633,7 +646,7 @@ namespace uWAVE_Host
 
         private void devSettingsApplyBtn_Click(object sender, EventArgs e)
         {
-            if (port.SettingsWriteQuery(txChannelID, rxChannelID, salinityPSU, isCommandModeByDefault, isACKOnTXFinished))
+            if (port.SettingsWriteQuery(txChannelID, rxChannelID, salinityPSU, isCommandModeByDefault, isACKOnTXFinished, gravityAcc))
                 OnTransactionStart();
         }
 

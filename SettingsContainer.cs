@@ -5,7 +5,7 @@ using UCNLDrivers;
 namespace uWAVE_Host
 {
     [Serializable]
-    public class SettingsContainer
+    public class SettingsContainer : SimpleSettingsContainer
     {
         #region Properties
 
@@ -25,7 +25,7 @@ namespace uWAVE_Host
 
         #region Methods
 
-        public void SetDefaults()
+        public override void SetDefaults()
         {
             PortName = "COM1";
             PortBaudrate = BaudRate.baudRate9600;

@@ -41,14 +41,18 @@
     <Reference Include="UCNLDrivers">
       <HintPath>..\..\..\UCNLLibs\UCNLDrivers\UCNLDrivers\bin\Release\UCNLDrivers.dll</HintPath>
     </Reference>
+    <Reference Include="UCNLNMEA">
+      <HintPath>..\..\..\UCNLLibs\UCNLNMEA\UCNLNMEA\bin\Release\UCNLNMEA.dll</HintPath>
+    </Reference>
     <Reference Include="UCNLPhysics">
       <HintPath>..\..\..\UCNLLibs\UCNLPhysics\UCNLPhysics\bin\Release\UCNLPhysics.dll</HintPath>
     </Reference>
     <Reference Include="UCNLUI">
       <HintPath>..\..\..\UCNLLibs\UCNLUI\UCNLUI\bin\Release\UCNLUI.dll</HintPath>
     </Reference>
-    <Reference Include="uWAVELib">
-      <HintPath>..\uWAVELib\bin\Release\uWAVELib.dll</HintPath>
+    <Reference Include="uWAVELib, Version=1.0.7156.25090, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\uWAVELib\uWAVELib\bin\Release\uWAVELib.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
