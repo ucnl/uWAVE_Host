@@ -19,16 +19,13 @@ namespace uWAVE_Host
 
         uWAVEPort port;
         
-        SimpeSettingsProviderXML<SettingsContainer> settingsProvider;
+        SimpleSettingsProviderXML<SettingsContainer> settingsProvider;
         string settingsFileName;
 
-        bool isRestart = false;
         Random rnd = new Random();
 
         double pressure_mBar = UCNLPhysics.PHX.PHX_ATM_PRESSURE_MBAR;
         double temperature_C = 0;
-        double salinity = 0;
-
         double soundSpeed = UCNLPhysics.PHX.PHX_FWTR_SOUND_SPEED_MPS;
 
         #region UI items
@@ -208,7 +205,7 @@ namespace uWAVE_Host
             #region settingsProvider
 
             settingsFileName = Path.ChangeExtension(Application.ExecutablePath, "settings");
-            settingsProvider = new SimpeSettingsProviderXML<SettingsContainer>();
+            settingsProvider = new SimpleSettingsProviderXML<SettingsContainer>();
             settingsProvider.isSwallowExceptions = false;
 
             try
@@ -263,8 +260,8 @@ namespace uWAVE_Host
             rcQueryIdCbx.Items.AddRange(Enum.GetNames(typeof(RC_CODES_Enum)));
             rcQueryID = RC_CODES_Enum.RC_PING;
 
-            commandRawSplit.Panel1.Enabled = false;
-            commandRawSplit.Enabled = false;
+            cmdModePnl.Enabled = false;
+            rawModePnl.Enabled = false;
 
             #endregion
         }
@@ -334,7 +331,8 @@ namespace uWAVE_Host
             connectBtn.Checked = true;
             connectBtn.Text = "DISCONNECT";
             logger.Write(string.Format("{0} opened", settingsProvider.Data.PortName));
-            commandRawSplit.Enabled = true;
+            cmdModePnl.Enabled = port.IsCommandMode;
+            rawModePnl.Enabled = !port.IsCommandMode;
         }
 
         private void OnPortClose()
@@ -344,17 +342,20 @@ namespace uWAVE_Host
             connectBtn.Checked = false;
             connectBtn.Text = "CONNECT";
             logger.Write(string.Format("{0} opened", settingsProvider.Data.PortName));
-            commandRawSplit.Enabled = false;
+            cmdModePnl.Enabled = false;
+            rawModePnl.Enabled = false;
         }
 
         private void OnTransactionStart()
         {
-            commandRawSplit.Enabled = false;
+            cmdModePnl.Enabled = false;
+            rawModePnl.Enabled = false;
         }
 
         private void OnTransactionEnd()
         {
-            commandRawSplit.Enabled = true;
+            cmdModePnl.Enabled = port.IsCommandMode;
+            rawModePnl.Enabled = !port.IsCommandMode;
         }
 
         private void InvokeOnTransactionEnd()
@@ -418,7 +419,7 @@ namespace uWAVE_Host
                 sb.AppendFormat(CultureInfo.InvariantCulture, "SUPPLY VOLTAGE: {0:F01} V\r\n", port.SupplyVoltage_V);
 
             if (isReCalcSoundSpeed)
-                soundSpeed = UCNLPhysics.PHX.PHX_SpeedOfSound_Calc(temperature_C, pressure_mBar, salinityPSU);
+                soundSpeed = soundSpeed = UCNLPhysics.PHX.Speed_of_sound_UNESCO_calc(temperature_C, pressure_mBar, salinityPSU);
 
             sb.AppendFormat(CultureInfo.InvariantCulture, "SOUND SPEED: {0:F01} m/s\r\n", soundSpeed);
 
@@ -448,7 +449,7 @@ namespace uWAVE_Host
 
                     isCommandModeByDefault = port.IsCommandModeByDefault;
 
-                    soundSpeed = UCNLPhysics.PHX.PHX_SpeedOfSound_Calc(temperature_C, pressure_mBar, salinityPSU);
+                    soundSpeed = UCNLPhysics.PHX.Speed_of_sound_UNESCO_calc(temperature_C, pressure_mBar, salinityPSU);
                 });
             }
         }
@@ -564,7 +565,6 @@ namespace uWAVE_Host
 
             if ((isSaved) && (MessageBox.Show("Settings saved. Restart application to apply new settings?", "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes))
             {
-                isRestart = true;
                 Application.Restart();
             }
         }
@@ -575,8 +575,8 @@ namespace uWAVE_Host
             port.IsCommandMode = !port.IsCommandMode;
             commandModeSwitchBtn.Checked = port.IsCommandMode;
 
-            commandRawSplit.Panel1.Enabled = port.IsCommandMode;
-            commandRawSplit.Panel2.Enabled = !port.IsCommandMode;            
+            cmdModePnl.Enabled = port.IsCommandMode;
+            rawModePnl.Enabled = !port.IsCommandMode;
         }
 
         private void infoBtn_Click(object sender, EventArgs e)
@@ -617,7 +617,7 @@ namespace uWAVE_Host
         {
             historyTxb.Clear();
         }
-
+        
         private void histExportBtn_Click(object sender, EventArgs e)
         {
             SaveText(historyTxb.Text);
@@ -634,8 +634,7 @@ namespace uWAVE_Host
         }
 
         #endregion
-
-
+        
         #region deviceInfo tab
 
         private void devSettingsQueryBtn_Click(object sender, EventArgs e)
@@ -732,9 +731,13 @@ namespace uWAVE_Host
             rawSendTxb.Text = GetRandomString(128);
         }
 
-        #endregion        
-        
+        private void clearToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            rawSendTxb.Clear();
+        }
 
+        #endregion                        
+        
         #endregion
         
         #endregion        

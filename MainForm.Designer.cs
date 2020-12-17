@@ -37,10 +37,10 @@
             this.commandModeSwitchBtn = new System.Windows.Forms.ToolStripButton();
             this.infoBtn = new System.Windows.Forms.ToolStripButton();
             this.mainStatusStrip = new System.Windows.Forms.StatusStrip();
-            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.commandRawSplit = new System.Windows.Forms.SplitContainer();
             this.commandTab = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.gravityAccEdit = new System.Windows.Forms.NumericUpDown();
+            this.label3 = new System.Windows.Forms.Label();
             this.isACKOnTXFinishedChb = new System.Windows.Forms.CheckBox();
             this.isCommandModeByDefaultChb = new System.Windows.Forms.CheckBox();
             this.devSettingsApplyBtn = new System.Windows.Forms.Button();
@@ -74,9 +74,6 @@
             this.AMBSetBtn = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.ambTxb = new System.Windows.Forms.RichTextBox();
-            this.commandModeToolStrip = new System.Windows.Forms.ToolStrip();
-            this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.rawSendBtn = new System.Windows.Forms.Button();
             this.rawSendTxb = new System.Windows.Forms.TextBox();
             this.rawSendTxbContextMnu = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -87,44 +84,44 @@
             this.random32byteStringToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.random64byteStringToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.random128byteStringToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.clearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rawHistoryTxb = new System.Windows.Forms.RichTextBox();
-            this.rawModeToolStrip = new System.Windows.Forms.ToolStrip();
-            this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
-            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.rawCopyBtn = new System.Windows.Forms.ToolStripButton();
-            this.rawExportBtn = new System.Windows.Forms.ToolStripButton();
-            this.rawClearBtn = new System.Windows.Forms.ToolStripButton();
             this.historyTxb = new System.Windows.Forms.RichTextBox();
+            this.btnPanel = new System.Windows.Forms.Panel();
             this.historyToolStrip = new System.Windows.Forms.ToolStrip();
             this.toolStripLabel3 = new System.Windows.Forms.ToolStripLabel();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.histCopyBtn = new System.Windows.Forms.ToolStripButton();
             this.histExportBtn = new System.Windows.Forms.ToolStripButton();
             this.histClearBtn = new System.Windows.Forms.ToolStripButton();
-            this.gravityAccEdit = new System.Windows.Forms.NumericUpDown();
-            this.label3 = new System.Windows.Forms.Label();
+            this.cmdModePnl = new System.Windows.Forms.Panel();
+            this.commandModeToolStrip = new System.Windows.Forms.ToolStrip();
+            this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.rawModePnl = new System.Windows.Forms.Panel();
+            this.rawModeToolStrip = new System.Windows.Forms.ToolStrip();
+            this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.rawCopyBtn = new System.Windows.Forms.ToolStripButton();
+            this.rawExportBtn = new System.Windows.Forms.ToolStripButton();
+            this.rawClearBtn = new System.Windows.Forms.ToolStripButton();
             this.mainToolStrip.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
-            this.splitContainer1.Panel1.SuspendLayout();
-            this.splitContainer1.Panel2.SuspendLayout();
-            this.splitContainer1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.commandRawSplit)).BeginInit();
-            this.commandRawSplit.Panel1.SuspendLayout();
-            this.commandRawSplit.Panel2.SuspendLayout();
-            this.commandRawSplit.SuspendLayout();
             this.commandTab.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gravityAccEdit)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.salinityEdit)).BeginInit();
             this.tabPage4.SuspendLayout();
             this.tabPage3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.AMBUpdatePeriodEdit)).BeginInit();
             this.ambItemsGroup.SuspendLayout();
             this.tabPage2.SuspendLayout();
-            this.commandModeToolStrip.SuspendLayout();
             this.rawSendTxbContextMnu.SuspendLayout();
-            this.rawModeToolStrip.SuspendLayout();
+            this.btnPanel.SuspendLayout();
             this.historyToolStrip.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.gravityAccEdit)).BeginInit();
+            this.cmdModePnl.SuspendLayout();
+            this.commandModeToolStrip.SuspendLayout();
+            this.rawModePnl.SuspendLayout();
+            this.rawModeToolStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // mainToolStrip
@@ -137,7 +134,7 @@
             this.infoBtn});
             this.mainToolStrip.Location = new System.Drawing.Point(0, 0);
             this.mainToolStrip.Name = "mainToolStrip";
-            this.mainToolStrip.Size = new System.Drawing.Size(1113, 30);
+            this.mainToolStrip.Size = new System.Drawing.Size(1048, 30);
             this.mainToolStrip.TabIndex = 0;
             this.mainToolStrip.Text = "toolStrip1";
             // 
@@ -197,53 +194,9 @@
             this.mainStatusStrip.Location = new System.Drawing.Point(0, 602);
             this.mainStatusStrip.Name = "mainStatusStrip";
             this.mainStatusStrip.Padding = new System.Windows.Forms.Padding(1, 0, 19, 0);
-            this.mainStatusStrip.Size = new System.Drawing.Size(1113, 22);
+            this.mainStatusStrip.Size = new System.Drawing.Size(1048, 22);
             this.mainStatusStrip.TabIndex = 1;
             this.mainStatusStrip.Text = "statusStrip1";
-            // 
-            // splitContainer1
-            // 
-            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 30);
-            this.splitContainer1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.splitContainer1.Name = "splitContainer1";
-            this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            // 
-            // splitContainer1.Panel1
-            // 
-            this.splitContainer1.Panel1.Controls.Add(this.commandRawSplit);
-            // 
-            // splitContainer1.Panel2
-            // 
-            this.splitContainer1.Panel2.Controls.Add(this.historyTxb);
-            this.splitContainer1.Panel2.Controls.Add(this.historyToolStrip);
-            this.splitContainer1.Size = new System.Drawing.Size(1113, 572);
-            this.splitContainer1.SplitterDistance = 381;
-            this.splitContainer1.SplitterWidth = 5;
-            this.splitContainer1.TabIndex = 2;
-            // 
-            // commandRawSplit
-            // 
-            this.commandRawSplit.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.commandRawSplit.Location = new System.Drawing.Point(0, 0);
-            this.commandRawSplit.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.commandRawSplit.Name = "commandRawSplit";
-            // 
-            // commandRawSplit.Panel1
-            // 
-            this.commandRawSplit.Panel1.Controls.Add(this.commandTab);
-            this.commandRawSplit.Panel1.Controls.Add(this.commandModeToolStrip);
-            // 
-            // commandRawSplit.Panel2
-            // 
-            this.commandRawSplit.Panel2.Controls.Add(this.rawSendBtn);
-            this.commandRawSplit.Panel2.Controls.Add(this.rawSendTxb);
-            this.commandRawSplit.Panel2.Controls.Add(this.rawHistoryTxb);
-            this.commandRawSplit.Panel2.Controls.Add(this.rawModeToolStrip);
-            this.commandRawSplit.Size = new System.Drawing.Size(1113, 381);
-            this.commandRawSplit.SplitterDistance = 657;
-            this.commandRawSplit.SplitterWidth = 5;
-            this.commandRawSplit.TabIndex = 0;
             // 
             // commandTab
             // 
@@ -255,11 +208,11 @@
             this.commandTab.Controls.Add(this.tabPage3);
             this.commandTab.Controls.Add(this.tabPage2);
             this.commandTab.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.commandTab.Location = new System.Drawing.Point(4, 34);
-            this.commandTab.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.commandTab.Location = new System.Drawing.Point(4, 36);
+            this.commandTab.Margin = new System.Windows.Forms.Padding(4);
             this.commandTab.Name = "commandTab";
             this.commandTab.SelectedIndex = 0;
-            this.commandTab.Size = new System.Drawing.Size(649, 343);
+            this.commandTab.Size = new System.Drawing.Size(652, 335);
             this.commandTab.TabIndex = 1;
             // 
             // tabPage1
@@ -278,20 +231,56 @@
             this.tabPage1.Controls.Add(this.label1);
             this.tabPage1.Controls.Add(this.deviceInfoTxb);
             this.tabPage1.Location = new System.Drawing.Point(4, 27);
-            this.tabPage1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPage1.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.tabPage1.Size = new System.Drawing.Size(641, 312);
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(4);
+            this.tabPage1.Size = new System.Drawing.Size(644, 304);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "DEVICE INFO";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // gravityAccEdit
+            // 
+            this.gravityAccEdit.DecimalPlaces = 4;
+            this.gravityAccEdit.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.gravityAccEdit.Location = new System.Drawing.Point(346, 189);
+            this.gravityAccEdit.Margin = new System.Windows.Forms.Padding(4);
+            this.gravityAccEdit.Maximum = new decimal(new int[] {
+            984,
+            0,
+            0,
+            131072});
+            this.gravityAccEdit.Minimum = new decimal(new int[] {
+            977,
+            0,
+            0,
+            131072});
+            this.gravityAccEdit.Name = "gravityAccEdit";
+            this.gravityAccEdit.Size = new System.Drawing.Size(143, 26);
+            this.gravityAccEdit.TabIndex = 15;
+            this.gravityAccEdit.Value = new decimal(new int[] {
+            98067,
+            0,
+            0,
+            262144});
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label3.Location = new System.Drawing.Point(345, 165);
+            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(141, 20);
+            this.label3.TabIndex = 14;
+            this.label3.Text = "Gravity acc., m/s²";
             // 
             // isACKOnTXFinishedChb
             // 
             this.isACKOnTXFinishedChb.AutoSize = true;
             this.isACKOnTXFinishedChb.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.isACKOnTXFinishedChb.Location = new System.Drawing.Point(169, 273);
-            this.isACKOnTXFinishedChb.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.isACKOnTXFinishedChb.Margin = new System.Windows.Forms.Padding(4);
             this.isACKOnTXFinishedChb.Name = "isACKOnTXFinishedChb";
             this.isACKOnTXFinishedChb.Size = new System.Drawing.Size(177, 24);
             this.isACKOnTXFinishedChb.TabIndex = 13;
@@ -303,7 +292,7 @@
             this.isCommandModeByDefaultChb.AutoSize = true;
             this.isCommandModeByDefaultChb.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.isCommandModeByDefaultChb.Location = new System.Drawing.Point(169, 241);
-            this.isCommandModeByDefaultChb.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.isCommandModeByDefaultChb.Margin = new System.Windows.Forms.Padding(4);
             this.isCommandModeByDefaultChb.Name = "isCommandModeByDefaultChb";
             this.isCommandModeByDefaultChb.Size = new System.Drawing.Size(230, 24);
             this.isCommandModeByDefaultChb.TabIndex = 12;
@@ -312,9 +301,10 @@
             // 
             // devSettingsApplyBtn
             // 
+            this.devSettingsApplyBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.devSettingsApplyBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.devSettingsApplyBtn.Location = new System.Drawing.Point(531, 259);
-            this.devSettingsApplyBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.devSettingsApplyBtn.Margin = new System.Windows.Forms.Padding(4);
             this.devSettingsApplyBtn.Name = "devSettingsApplyBtn";
             this.devSettingsApplyBtn.Size = new System.Drawing.Size(100, 38);
             this.devSettingsApplyBtn.TabIndex = 11;
@@ -324,9 +314,10 @@
             // 
             // devSettingsQueryBtn
             // 
+            this.devSettingsQueryBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.devSettingsQueryBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.devSettingsQueryBtn.Location = new System.Drawing.Point(531, 210);
-            this.devSettingsQueryBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.devSettingsQueryBtn.Margin = new System.Windows.Forms.Padding(4);
             this.devSettingsQueryBtn.Name = "devSettingsQueryBtn";
             this.devSettingsQueryBtn.Size = new System.Drawing.Size(100, 38);
             this.devSettingsQueryBtn.TabIndex = 10;
@@ -339,7 +330,7 @@
             this.salinityEdit.DecimalPlaces = 1;
             this.salinityEdit.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.salinityEdit.Location = new System.Drawing.Point(169, 189);
-            this.salinityEdit.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.salinityEdit.Margin = new System.Windows.Forms.Padding(4);
             this.salinityEdit.Maximum = new decimal(new int[] {
             40,
             0,
@@ -366,7 +357,7 @@
             this.rxChIDCbx.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.rxChIDCbx.FormattingEnabled = true;
             this.rxChIDCbx.Location = new System.Drawing.Point(8, 252);
-            this.rxChIDCbx.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.rxChIDCbx.Margin = new System.Windows.Forms.Padding(4);
             this.rxChIDCbx.Name = "rxChIDCbx";
             this.rxChIDCbx.Size = new System.Drawing.Size(119, 28);
             this.rxChIDCbx.TabIndex = 4;
@@ -388,7 +379,7 @@
             this.txChIDCbx.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.txChIDCbx.FormattingEnabled = true;
             this.txChIDCbx.Location = new System.Drawing.Point(8, 189);
-            this.txChIDCbx.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txChIDCbx.Margin = new System.Windows.Forms.Padding(4);
             this.txChIDCbx.Name = "txChIDCbx";
             this.txChIDCbx.Size = new System.Drawing.Size(117, 28);
             this.txChIDCbx.TabIndex = 2;
@@ -410,10 +401,10 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.deviceInfoTxb.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.deviceInfoTxb.Location = new System.Drawing.Point(8, 7);
-            this.deviceInfoTxb.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.deviceInfoTxb.Margin = new System.Windows.Forms.Padding(4);
             this.deviceInfoTxb.Name = "deviceInfoTxb";
             this.deviceInfoTxb.ReadOnly = true;
-            this.deviceInfoTxb.Size = new System.Drawing.Size(621, 135);
+            this.deviceInfoTxb.Size = new System.Drawing.Size(623, 135);
             this.deviceInfoTxb.TabIndex = 0;
             this.deviceInfoTxb.Text = "";
             // 
@@ -427,10 +418,10 @@
             this.tabPage4.Controls.Add(this.rcTargetTxChIDCbx);
             this.tabPage4.Controls.Add(this.label5);
             this.tabPage4.Location = new System.Drawing.Point(4, 27);
-            this.tabPage4.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPage4.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.tabPage4.Size = new System.Drawing.Size(641, 309);
+            this.tabPage4.Padding = new System.Windows.Forms.Padding(4);
+            this.tabPage4.Size = new System.Drawing.Size(644, 304);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "REMOTE QUERY";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -439,8 +430,8 @@
             // 
             this.rcQueryBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.rcQueryBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.rcQueryBtn.Location = new System.Drawing.Point(531, 256);
-            this.rcQueryBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.rcQueryBtn.Location = new System.Drawing.Point(531, 259);
+            this.rcQueryBtn.Margin = new System.Windows.Forms.Padding(4);
             this.rcQueryBtn.Name = "rcQueryBtn";
             this.rcQueryBtn.Size = new System.Drawing.Size(100, 38);
             this.rcQueryBtn.TabIndex = 12;
@@ -455,10 +446,10 @@
             this.rcQueryIdCbx.DropDownWidth = 200;
             this.rcQueryIdCbx.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.rcQueryIdCbx.FormattingEnabled = true;
-            this.rcQueryIdCbx.Location = new System.Drawing.Point(12, 187);
-            this.rcQueryIdCbx.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.rcQueryIdCbx.Location = new System.Drawing.Point(12, 182);
+            this.rcQueryIdCbx.Margin = new System.Windows.Forms.Padding(4);
             this.rcQueryIdCbx.Name = "rcQueryIdCbx";
-            this.rcQueryIdCbx.Size = new System.Drawing.Size(117, 28);
+            this.rcQueryIdCbx.Size = new System.Drawing.Size(254, 28);
             this.rcQueryIdCbx.TabIndex = 8;
             // 
             // label7
@@ -466,7 +457,7 @@
             this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label7.Location = new System.Drawing.Point(12, 164);
+            this.label7.Location = new System.Drawing.Point(12, 159);
             this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(76, 20);
@@ -479,8 +470,8 @@
             this.rcTargetRxChIDCbx.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.rcTargetRxChIDCbx.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.rcTargetRxChIDCbx.FormattingEnabled = true;
-            this.rcTargetRxChIDCbx.Location = new System.Drawing.Point(12, 113);
-            this.rcTargetRxChIDCbx.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.rcTargetRxChIDCbx.Location = new System.Drawing.Point(12, 108);
+            this.rcTargetRxChIDCbx.Margin = new System.Windows.Forms.Padding(4);
             this.rcTargetRxChIDCbx.Name = "rcTargetRxChIDCbx";
             this.rcTargetRxChIDCbx.Size = new System.Drawing.Size(117, 28);
             this.rcTargetRxChIDCbx.TabIndex = 6;
@@ -490,7 +481,7 @@
             this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label6.Location = new System.Drawing.Point(12, 90);
+            this.label6.Location = new System.Drawing.Point(12, 85);
             this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(167, 20);
@@ -503,8 +494,8 @@
             this.rcTargetTxChIDCbx.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.rcTargetTxChIDCbx.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.rcTargetTxChIDCbx.FormattingEnabled = true;
-            this.rcTargetTxChIDCbx.Location = new System.Drawing.Point(12, 41);
-            this.rcTargetTxChIDCbx.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.rcTargetTxChIDCbx.Location = new System.Drawing.Point(12, 36);
+            this.rcTargetTxChIDCbx.Margin = new System.Windows.Forms.Padding(4);
             this.rcTargetTxChIDCbx.Name = "rcTargetTxChIDCbx";
             this.rcTargetTxChIDCbx.Size = new System.Drawing.Size(117, 28);
             this.rcTargetTxChIDCbx.TabIndex = 4;
@@ -514,7 +505,7 @@
             this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label5.Location = new System.Drawing.Point(12, 17);
+            this.label5.Location = new System.Drawing.Point(12, 12);
             this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(165, 20);
@@ -531,10 +522,10 @@
             this.tabPage3.Controls.Add(this.ambItemsGroup);
             this.tabPage3.Controls.Add(this.AMBSetBtn);
             this.tabPage3.Location = new System.Drawing.Point(4, 27);
-            this.tabPage3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPage3.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.tabPage3.Size = new System.Drawing.Size(641, 309);
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(4);
+            this.tabPage3.Size = new System.Drawing.Size(644, 304);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "AMBIENT DATA SETTINGS";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -570,7 +561,7 @@
             0,
             0});
             this.AMBUpdatePeriodEdit.Location = new System.Drawing.Point(301, 47);
-            this.AMBUpdatePeriodEdit.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.AMBUpdatePeriodEdit.Margin = new System.Windows.Forms.Padding(4);
             this.AMBUpdatePeriodEdit.Maximum = new decimal(new int[] {
             60000,
             0,
@@ -596,7 +587,7 @@
             this.isAMBSaveSettingsToFlashChb.AutoSize = true;
             this.isAMBSaveSettingsToFlashChb.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.isAMBSaveSettingsToFlashChb.Location = new System.Drawing.Point(16, 20);
-            this.isAMBSaveSettingsToFlashChb.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.isAMBSaveSettingsToFlashChb.Margin = new System.Windows.Forms.Padding(4);
             this.isAMBSaveSettingsToFlashChb.Name = "isAMBSaveSettingsToFlashChb";
             this.isAMBSaveSettingsToFlashChb.Size = new System.Drawing.Size(192, 24);
             this.isAMBSaveSettingsToFlashChb.TabIndex = 13;
@@ -611,9 +602,9 @@
             this.ambItemsGroup.Controls.Add(this.isAMBPressureChb);
             this.ambItemsGroup.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.ambItemsGroup.Location = new System.Drawing.Point(8, 63);
-            this.ambItemsGroup.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ambItemsGroup.Margin = new System.Windows.Forms.Padding(4);
             this.ambItemsGroup.Name = "ambItemsGroup";
-            this.ambItemsGroup.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ambItemsGroup.Padding = new System.Windows.Forms.Padding(4);
             this.ambItemsGroup.Size = new System.Drawing.Size(244, 177);
             this.ambItemsGroup.TabIndex = 12;
             this.ambItemsGroup.TabStop = false;
@@ -623,7 +614,7 @@
             // 
             this.isAMBVoltageChb.AutoSize = true;
             this.isAMBVoltageChb.Location = new System.Drawing.Point(8, 137);
-            this.isAMBVoltageChb.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.isAMBVoltageChb.Margin = new System.Windows.Forms.Padding(4);
             this.isAMBVoltageChb.Name = "isAMBVoltageChb";
             this.isAMBVoltageChb.Size = new System.Drawing.Size(139, 24);
             this.isAMBVoltageChb.TabIndex = 3;
@@ -634,7 +625,7 @@
             // 
             this.isAMBDepthChb.AutoSize = true;
             this.isAMBDepthChb.Location = new System.Drawing.Point(8, 105);
-            this.isAMBDepthChb.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.isAMBDepthChb.Margin = new System.Windows.Forms.Padding(4);
             this.isAMBDepthChb.Name = "isAMBDepthChb";
             this.isAMBDepthChb.Size = new System.Drawing.Size(76, 24);
             this.isAMBDepthChb.TabIndex = 2;
@@ -645,7 +636,7 @@
             // 
             this.isAMBTemperatureChb.AutoSize = true;
             this.isAMBTemperatureChb.Location = new System.Drawing.Point(8, 73);
-            this.isAMBTemperatureChb.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.isAMBTemperatureChb.Margin = new System.Windows.Forms.Padding(4);
             this.isAMBTemperatureChb.Name = "isAMBTemperatureChb";
             this.isAMBTemperatureChb.Size = new System.Drawing.Size(126, 24);
             this.isAMBTemperatureChb.TabIndex = 1;
@@ -656,7 +647,7 @@
             // 
             this.isAMBPressureChb.AutoSize = true;
             this.isAMBPressureChb.Location = new System.Drawing.Point(8, 41);
-            this.isAMBPressureChb.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.isAMBPressureChb.Margin = new System.Windows.Forms.Padding(4);
             this.isAMBPressureChb.Name = "isAMBPressureChb";
             this.isAMBPressureChb.Size = new System.Drawing.Size(99, 24);
             this.isAMBPressureChb.TabIndex = 0;
@@ -667,8 +658,8 @@
             // 
             this.AMBSetBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.AMBSetBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.AMBSetBtn.Location = new System.Drawing.Point(531, 256);
-            this.AMBSetBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.AMBSetBtn.Location = new System.Drawing.Point(531, 259);
+            this.AMBSetBtn.Margin = new System.Windows.Forms.Padding(4);
             this.AMBSetBtn.Name = "AMBSetBtn";
             this.AMBSetBtn.Size = new System.Drawing.Size(100, 38);
             this.AMBSetBtn.TabIndex = 11;
@@ -680,55 +671,35 @@
             // 
             this.tabPage2.Controls.Add(this.ambTxb);
             this.tabPage2.Location = new System.Drawing.Point(4, 27);
-            this.tabPage2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPage2.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.tabPage2.Size = new System.Drawing.Size(641, 309);
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(4);
+            this.tabPage2.Size = new System.Drawing.Size(644, 304);
             this.tabPage2.TabIndex = 4;
             this.tabPage2.Text = "AMBIENT DATA";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // ambTxb
             // 
+            this.ambTxb.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.ambTxb.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.ambTxb.Location = new System.Drawing.Point(8, 7);
-            this.ambTxb.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ambTxb.Margin = new System.Windows.Forms.Padding(4);
             this.ambTxb.Name = "ambTxb";
             this.ambTxb.ReadOnly = true;
-            this.ambTxb.Size = new System.Drawing.Size(621, 290);
+            this.ambTxb.Size = new System.Drawing.Size(628, 290);
             this.ambTxb.TabIndex = 0;
             this.ambTxb.Text = "";
-            // 
-            // commandModeToolStrip
-            // 
-            this.commandModeToolStrip.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.commandModeToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripLabel1,
-            this.toolStripSeparator2});
-            this.commandModeToolStrip.Location = new System.Drawing.Point(0, 0);
-            this.commandModeToolStrip.Name = "commandModeToolStrip";
-            this.commandModeToolStrip.Size = new System.Drawing.Size(657, 26);
-            this.commandModeToolStrip.TabIndex = 0;
-            this.commandModeToolStrip.Text = "toolStrip1";
-            // 
-            // toolStripLabel1
-            // 
-            this.toolStripLabel1.Name = "toolStripLabel1";
-            this.toolStripLabel1.Size = new System.Drawing.Size(154, 23);
-            this.toolStripLabel1.Text = "COMMAND MODE";
-            // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 26);
             // 
             // rawSendBtn
             // 
             this.rawSendBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.rawSendBtn.Enabled = false;
             this.rawSendBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.rawSendBtn.Location = new System.Drawing.Point(347, 345);
-            this.rawSendBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.rawSendBtn.Location = new System.Drawing.Point(271, 345);
+            this.rawSendBtn.Margin = new System.Windows.Forms.Padding(4);
             this.rawSendBtn.Name = "rawSendBtn";
             this.rawSendBtn.Size = new System.Drawing.Size(88, 28);
             this.rawSendBtn.TabIndex = 3;
@@ -741,10 +712,10 @@
             this.rawSendTxb.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.rawSendTxb.ContextMenuStrip = this.rawSendTxbContextMnu;
-            this.rawSendTxb.Location = new System.Drawing.Point(15, 348);
-            this.rawSendTxb.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.rawSendTxb.Location = new System.Drawing.Point(4, 348);
+            this.rawSendTxb.Margin = new System.Windows.Forms.Padding(4);
             this.rawSendTxb.Name = "rawSendTxb";
-            this.rawSendTxb.Size = new System.Drawing.Size(323, 22);
+            this.rawSendTxb.Size = new System.Drawing.Size(259, 22);
             this.rawSendTxb.TabIndex = 2;
             this.rawSendTxb.TextChanged += new System.EventHandler(this.rawSendTxb_TextChanged);
             // 
@@ -757,9 +728,10 @@
             this.random16byteStringToolStripMenuItem,
             this.random32byteStringToolStripMenuItem,
             this.random64byteStringToolStripMenuItem,
-            this.random128byteStringToolStripMenuItem});
+            this.random128byteStringToolStripMenuItem,
+            this.clearToolStripMenuItem});
             this.rawSendTxbContextMnu.Name = "rawSendTxbContextMnu";
-            this.rawSendTxbContextMnu.Size = new System.Drawing.Size(250, 154);
+            this.rawSendTxbContextMnu.Size = new System.Drawing.Size(250, 178);
             // 
             // toolStripSeparator5
             // 
@@ -808,95 +780,54 @@
             this.random128byteStringToolStripMenuItem.Text = "Random 128-byte string";
             this.random128byteStringToolStripMenuItem.Click += new System.EventHandler(this.random128byteStringToolStripMenuItem_Click);
             // 
+            // clearToolStripMenuItem
+            // 
+            this.clearToolStripMenuItem.Name = "clearToolStripMenuItem";
+            this.clearToolStripMenuItem.Size = new System.Drawing.Size(249, 24);
+            this.clearToolStripMenuItem.Text = "Clear";
+            this.clearToolStripMenuItem.Click += new System.EventHandler(this.clearToolStripMenuItem_Click);
+            // 
             // rawHistoryTxb
             // 
             this.rawHistoryTxb.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.rawHistoryTxb.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.rawHistoryTxb.Location = new System.Drawing.Point(15, 34);
-            this.rawHistoryTxb.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.rawHistoryTxb.Location = new System.Drawing.Point(4, 36);
+            this.rawHistoryTxb.Margin = new System.Windows.Forms.Padding(4);
             this.rawHistoryTxb.Name = "rawHistoryTxb";
             this.rawHistoryTxb.ReadOnly = true;
-            this.rawHistoryTxb.Size = new System.Drawing.Size(419, 302);
+            this.rawHistoryTxb.Size = new System.Drawing.Size(355, 298);
             this.rawHistoryTxb.TabIndex = 1;
             this.rawHistoryTxb.Text = "";
             this.rawHistoryTxb.TextChanged += new System.EventHandler(this.rawHistoryTxb_TextChanged);
             // 
-            // rawModeToolStrip
-            // 
-            this.rawModeToolStrip.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.rawModeToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripLabel2,
-            this.toolStripSeparator3,
-            this.rawCopyBtn,
-            this.rawExportBtn,
-            this.rawClearBtn});
-            this.rawModeToolStrip.Location = new System.Drawing.Point(0, 0);
-            this.rawModeToolStrip.Name = "rawModeToolStrip";
-            this.rawModeToolStrip.Size = new System.Drawing.Size(451, 30);
-            this.rawModeToolStrip.TabIndex = 0;
-            this.rawModeToolStrip.Text = "toolStrip2";
-            // 
-            // toolStripLabel2
-            // 
-            this.toolStripLabel2.Name = "toolStripLabel2";
-            this.toolStripLabel2.Size = new System.Drawing.Size(146, 27);
-            this.toolStripLabel2.Text = "RAW DATA MODE";
-            // 
-            // toolStripSeparator3
-            // 
-            this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 30);
-            // 
-            // rawCopyBtn
-            // 
-            this.rawCopyBtn.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.rawCopyBtn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.rawCopyBtn.Font = new System.Drawing.Font("Segoe UI", 9.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.rawCopyBtn.Image = ((System.Drawing.Image)(resources.GetObject("rawCopyBtn.Image")));
-            this.rawCopyBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.rawCopyBtn.Name = "rawCopyBtn";
-            this.rawCopyBtn.Size = new System.Drawing.Size(58, 27);
-            this.rawCopyBtn.Text = "COPY";
-            this.rawCopyBtn.Click += new System.EventHandler(this.rawCopyBtn_Click);
-            // 
-            // rawExportBtn
-            // 
-            this.rawExportBtn.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.rawExportBtn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.rawExportBtn.Font = new System.Drawing.Font("Segoe UI", 9.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.rawExportBtn.Image = ((System.Drawing.Image)(resources.GetObject("rawExportBtn.Image")));
-            this.rawExportBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.rawExportBtn.Name = "rawExportBtn";
-            this.rawExportBtn.Size = new System.Drawing.Size(78, 27);
-            this.rawExportBtn.Text = "EXPORT";
-            this.rawExportBtn.Click += new System.EventHandler(this.rawExportBtn_Click);
-            // 
-            // rawClearBtn
-            // 
-            this.rawClearBtn.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.rawClearBtn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.rawClearBtn.Font = new System.Drawing.Font("Segoe UI", 9.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.rawClearBtn.Image = ((System.Drawing.Image)(resources.GetObject("rawClearBtn.Image")));
-            this.rawClearBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.rawClearBtn.Name = "rawClearBtn";
-            this.rawClearBtn.Size = new System.Drawing.Size(66, 27);
-            this.rawClearBtn.Text = "CLEAR";
-            this.rawClearBtn.Click += new System.EventHandler(this.rawClearBtn_Click);
-            // 
             // historyTxb
             // 
-            this.historyTxb.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.historyTxb.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.historyTxb.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.historyTxb.Location = new System.Drawing.Point(0, 30);
-            this.historyTxb.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.historyTxb.Location = new System.Drawing.Point(4, 34);
+            this.historyTxb.Margin = new System.Windows.Forms.Padding(4);
             this.historyTxb.Name = "historyTxb";
             this.historyTxb.ReadOnly = true;
-            this.historyTxb.Size = new System.Drawing.Size(1113, 156);
+            this.historyTxb.Size = new System.Drawing.Size(1021, 145);
             this.historyTxb.TabIndex = 1;
             this.historyTxb.Text = "";
             this.historyTxb.TextChanged += new System.EventHandler(this.historyTxb_TextChanged);
+            // 
+            // btnPanel
+            // 
+            this.btnPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnPanel.Controls.Add(this.historyTxb);
+            this.btnPanel.Controls.Add(this.historyToolStrip);
+            this.btnPanel.Location = new System.Drawing.Point(12, 419);
+            this.btnPanel.Name = "btnPanel";
+            this.btnPanel.Size = new System.Drawing.Size(1029, 183);
+            this.btnPanel.TabIndex = 3;
             // 
             // historyToolStrip
             // 
@@ -909,8 +840,8 @@
             this.histClearBtn});
             this.historyToolStrip.Location = new System.Drawing.Point(0, 0);
             this.historyToolStrip.Name = "historyToolStrip";
-            this.historyToolStrip.Size = new System.Drawing.Size(1113, 30);
-            this.historyToolStrip.TabIndex = 0;
+            this.historyToolStrip.Size = new System.Drawing.Size(1029, 30);
+            this.historyToolStrip.TabIndex = 1;
             this.historyToolStrip.Text = "toolStrip3";
             // 
             // toolStripLabel3
@@ -960,69 +891,132 @@
             this.histClearBtn.Text = "CLEAR";
             this.histClearBtn.Click += new System.EventHandler(this.histClearBtn_Click);
             // 
-            // gravityAccEdit
+            // cmdModePnl
             // 
-            this.gravityAccEdit.DecimalPlaces = 4;
-            this.gravityAccEdit.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.gravityAccEdit.Location = new System.Drawing.Point(346, 189);
-            this.gravityAccEdit.Margin = new System.Windows.Forms.Padding(4);
-            this.gravityAccEdit.Maximum = new decimal(new int[] {
-            984,
-            0,
-            0,
-            131072});
-            this.gravityAccEdit.Minimum = new decimal(new int[] {
-            977,
-            0,
-            0,
-            131072});
-            this.gravityAccEdit.Name = "gravityAccEdit";
-            this.gravityAccEdit.Size = new System.Drawing.Size(143, 26);
-            this.gravityAccEdit.TabIndex = 15;
-            this.gravityAccEdit.Value = new decimal(new int[] {
-            98067,
-            0,
-            0,
-            262144});
+            this.cmdModePnl.Controls.Add(this.commandTab);
+            this.cmdModePnl.Controls.Add(this.commandModeToolStrip);
+            this.cmdModePnl.Location = new System.Drawing.Point(12, 33);
+            this.cmdModePnl.Name = "cmdModePnl";
+            this.cmdModePnl.Size = new System.Drawing.Size(660, 377);
+            this.cmdModePnl.TabIndex = 4;
             // 
-            // label3
+            // commandModeToolStrip
             // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label3.Location = new System.Drawing.Point(345, 165);
-            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(141, 20);
-            this.label3.TabIndex = 14;
-            this.label3.Text = "Gravity acc., m/s²";
+            this.commandModeToolStrip.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.commandModeToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripLabel1,
+            this.toolStripSeparator2});
+            this.commandModeToolStrip.Location = new System.Drawing.Point(0, 0);
+            this.commandModeToolStrip.Name = "commandModeToolStrip";
+            this.commandModeToolStrip.Size = new System.Drawing.Size(660, 26);
+            this.commandModeToolStrip.TabIndex = 1;
+            this.commandModeToolStrip.Text = "toolStrip1";
+            // 
+            // toolStripLabel1
+            // 
+            this.toolStripLabel1.Name = "toolStripLabel1";
+            this.toolStripLabel1.Size = new System.Drawing.Size(154, 23);
+            this.toolStripLabel1.Text = "COMMAND MODE";
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 26);
+            // 
+            // rawModePnl
+            // 
+            this.rawModePnl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.rawModePnl.Controls.Add(this.rawSendBtn);
+            this.rawModePnl.Controls.Add(this.rawModeToolStrip);
+            this.rawModePnl.Controls.Add(this.rawSendTxb);
+            this.rawModePnl.Controls.Add(this.rawHistoryTxb);
+            this.rawModePnl.Location = new System.Drawing.Point(678, 36);
+            this.rawModePnl.Name = "rawModePnl";
+            this.rawModePnl.Size = new System.Drawing.Size(363, 374);
+            this.rawModePnl.TabIndex = 5;
+            // 
+            // rawModeToolStrip
+            // 
+            this.rawModeToolStrip.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.rawModeToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripLabel2,
+            this.toolStripSeparator3,
+            this.rawCopyBtn,
+            this.rawExportBtn,
+            this.rawClearBtn});
+            this.rawModeToolStrip.Location = new System.Drawing.Point(0, 0);
+            this.rawModeToolStrip.Name = "rawModeToolStrip";
+            this.rawModeToolStrip.Size = new System.Drawing.Size(363, 30);
+            this.rawModeToolStrip.TabIndex = 1;
+            this.rawModeToolStrip.Text = "toolStrip2";
+            // 
+            // toolStripLabel2
+            // 
+            this.toolStripLabel2.Name = "toolStripLabel2";
+            this.toolStripLabel2.Size = new System.Drawing.Size(146, 27);
+            this.toolStripLabel2.Text = "RAW DATA MODE";
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 30);
+            // 
+            // rawCopyBtn
+            // 
+            this.rawCopyBtn.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.rawCopyBtn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.rawCopyBtn.Font = new System.Drawing.Font("Segoe UI", 9.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.rawCopyBtn.Image = ((System.Drawing.Image)(resources.GetObject("rawCopyBtn.Image")));
+            this.rawCopyBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.rawCopyBtn.Name = "rawCopyBtn";
+            this.rawCopyBtn.Size = new System.Drawing.Size(58, 27);
+            this.rawCopyBtn.Text = "COPY";
+            this.rawCopyBtn.Click += new System.EventHandler(this.rawCopyBtn_Click);
+            // 
+            // rawExportBtn
+            // 
+            this.rawExportBtn.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.rawExportBtn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.rawExportBtn.Font = new System.Drawing.Font("Segoe UI", 9.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.rawExportBtn.Image = ((System.Drawing.Image)(resources.GetObject("rawExportBtn.Image")));
+            this.rawExportBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.rawExportBtn.Name = "rawExportBtn";
+            this.rawExportBtn.Size = new System.Drawing.Size(78, 27);
+            this.rawExportBtn.Text = "EXPORT";
+            this.rawExportBtn.Click += new System.EventHandler(this.rawExportBtn_Click);
+            // 
+            // rawClearBtn
+            // 
+            this.rawClearBtn.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.rawClearBtn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.rawClearBtn.Font = new System.Drawing.Font("Segoe UI", 9.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.rawClearBtn.Image = ((System.Drawing.Image)(resources.GetObject("rawClearBtn.Image")));
+            this.rawClearBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.rawClearBtn.Name = "rawClearBtn";
+            this.rawClearBtn.Size = new System.Drawing.Size(66, 27);
+            this.rawClearBtn.Text = "CLEAR";
+            this.rawClearBtn.Click += new System.EventHandler(this.rawClearBtn_Click);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1113, 624);
-            this.Controls.Add(this.splitContainer1);
+            this.ClientSize = new System.Drawing.Size(1048, 624);
+            this.Controls.Add(this.rawModePnl);
+            this.Controls.Add(this.cmdModePnl);
+            this.Controls.Add(this.btnPanel);
             this.Controls.Add(this.mainStatusStrip);
             this.Controls.Add(this.mainToolStrip);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "MainForm";
             this.Text = "Form1";
             this.mainToolStrip.ResumeLayout(false);
             this.mainToolStrip.PerformLayout();
-            this.splitContainer1.Panel1.ResumeLayout(false);
-            this.splitContainer1.Panel2.ResumeLayout(false);
-            this.splitContainer1.Panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
-            this.splitContainer1.ResumeLayout(false);
-            this.commandRawSplit.Panel1.ResumeLayout(false);
-            this.commandRawSplit.Panel1.PerformLayout();
-            this.commandRawSplit.Panel2.ResumeLayout(false);
-            this.commandRawSplit.Panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.commandRawSplit)).EndInit();
-            this.commandRawSplit.ResumeLayout(false);
             this.commandTab.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gravityAccEdit)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.salinityEdit)).EndInit();
             this.tabPage4.ResumeLayout(false);
             this.tabPage4.PerformLayout();
@@ -1032,14 +1026,19 @@
             this.ambItemsGroup.ResumeLayout(false);
             this.ambItemsGroup.PerformLayout();
             this.tabPage2.ResumeLayout(false);
-            this.commandModeToolStrip.ResumeLayout(false);
-            this.commandModeToolStrip.PerformLayout();
             this.rawSendTxbContextMnu.ResumeLayout(false);
-            this.rawModeToolStrip.ResumeLayout(false);
-            this.rawModeToolStrip.PerformLayout();
+            this.btnPanel.ResumeLayout(false);
+            this.btnPanel.PerformLayout();
             this.historyToolStrip.ResumeLayout(false);
             this.historyToolStrip.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.gravityAccEdit)).EndInit();
+            this.cmdModePnl.ResumeLayout(false);
+            this.cmdModePnl.PerformLayout();
+            this.commandModeToolStrip.ResumeLayout(false);
+            this.commandModeToolStrip.PerformLayout();
+            this.rawModePnl.ResumeLayout(false);
+            this.rawModePnl.PerformLayout();
+            this.rawModeToolStrip.ResumeLayout(false);
+            this.rawModeToolStrip.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1054,23 +1053,6 @@
         private System.Windows.Forms.ToolStripButton commandModeSwitchBtn;
         private System.Windows.Forms.ToolStripButton infoBtn;
         private System.Windows.Forms.StatusStrip mainStatusStrip;
-        private System.Windows.Forms.SplitContainer splitContainer1;
-        private System.Windows.Forms.SplitContainer commandRawSplit;
-        private System.Windows.Forms.ToolStrip commandModeToolStrip;
-        private System.Windows.Forms.ToolStripLabel toolStripLabel1;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
-        private System.Windows.Forms.ToolStrip rawModeToolStrip;
-        private System.Windows.Forms.ToolStripLabel toolStripLabel2;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
-        private System.Windows.Forms.ToolStrip historyToolStrip;
-        private System.Windows.Forms.ToolStripLabel toolStripLabel3;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
-        private System.Windows.Forms.ToolStripButton histClearBtn;
-        private System.Windows.Forms.ToolStripButton histExportBtn;
-        private System.Windows.Forms.ToolStripButton histCopyBtn;
-        private System.Windows.Forms.ToolStripButton rawCopyBtn;
-        private System.Windows.Forms.ToolStripButton rawExportBtn;
-        private System.Windows.Forms.ToolStripButton rawClearBtn;
         private System.Windows.Forms.RichTextBox historyTxb;
         private System.Windows.Forms.TabControl commandTab;
         private System.Windows.Forms.TabPage tabPage1;
@@ -1120,6 +1102,25 @@
         private System.Windows.Forms.CheckBox isACKOnTXFinishedChb;
         private System.Windows.Forms.NumericUpDown gravityAccEdit;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Panel btnPanel;
+        private System.Windows.Forms.ToolStrip historyToolStrip;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel3;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+        private System.Windows.Forms.ToolStripButton histCopyBtn;
+        private System.Windows.Forms.ToolStripButton histExportBtn;
+        private System.Windows.Forms.ToolStripButton histClearBtn;
+        private System.Windows.Forms.Panel cmdModePnl;
+        private System.Windows.Forms.ToolStrip commandModeToolStrip;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel1;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.Panel rawModePnl;
+        private System.Windows.Forms.ToolStrip rawModeToolStrip;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel2;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripButton rawCopyBtn;
+        private System.Windows.Forms.ToolStripButton rawExportBtn;
+        private System.Windows.Forms.ToolStripButton rawClearBtn;
+        private System.Windows.Forms.ToolStripMenuItem clearToolStripMenuItem;
     }
 }
 
