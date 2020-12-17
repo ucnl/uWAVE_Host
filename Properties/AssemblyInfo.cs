@@ -8,8 +8,8 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("uWAVE_Host")]
 [assembly: AssemblyDescription("uWAVE Underwater acoustic modem demo application.\n\n" +
                                "More information about uWAVE\n" +
-                               "English: https://github.com/ucnl/Docs/tree/master/EN/Modems/uWAVE/\n" +
-                               "Russian: https://github.com/ucnl/Docs/tree/master/RU/Modems/uWAVE/\n\n" +
+                               "English: https://docs.unavlab.com/underwater_acoustic_modems_en.html#uwave\n" +
+                               "Russian: https://docs.unavlab.com/underwater_acoustic_modems_ru.html#uwave\n\n" +
                                "Support: mailto:support@unavlab.com\n\n" +
                                "Source code:\n" +
                                "https://github.com/ucnl/uWAVE_Host/\n" +
@@ -18,7 +18,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Underwater communication & navigation laboratory, LLC")]
 [assembly: AssemblyProduct("uWAVE_Host")]
-[assembly: AssemblyCopyright("Copyright © Aleksandr Dikarev, 2018-2019")]
+[assembly: AssemblyCopyright("Copyright © Aleksandr Dikarev, 2018-2020")]
 [assembly: AssemblyTrademark("UC&NL")]
 [assembly: AssemblyCulture("")]
 
