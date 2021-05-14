@@ -74,6 +74,21 @@
             this.AMBSetBtn = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.ambTxb = new System.Windows.Forms.RichTextBox();
+            this.packetModeTab = new System.Windows.Forms.TabPage();
+            this.ptTriesEdit = new System.Windows.Forms.NumericUpDown();
+            this.label14 = new System.Windows.Forms.Label();
+            this.isPtModeChb = new System.Windows.Forms.CheckBox();
+            this.ptQuerySettingsBtn = new System.Windows.Forms.Button();
+            this.ptApplySettingsBtn = new System.Windows.Forms.Button();
+            this.ptIsSaveToFlashChb = new System.Windows.Forms.CheckBox();
+            this.ptLocalAddressEdit = new System.Windows.Forms.NumericUpDown();
+            this.label13 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.ptTargetAddressEdit = new System.Windows.Forms.NumericUpDown();
+            this.label11 = new System.Windows.Forms.Label();
+            this.ptSendBtn = new System.Windows.Forms.Button();
+            this.ptToSendTxb = new System.Windows.Forms.TextBox();
+            this.ptHistoryTxb = new System.Windows.Forms.RichTextBox();
             this.rawSendBtn = new System.Windows.Forms.Button();
             this.rawSendTxb = new System.Windows.Forms.TextBox();
             this.rawSendTxbContextMnu = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -105,6 +120,8 @@
             this.rawCopyBtn = new System.Windows.Forms.ToolStripButton();
             this.rawExportBtn = new System.Windows.Forms.ToolStripButton();
             this.rawClearBtn = new System.Windows.Forms.ToolStripButton();
+            this.ptHistoryCtx = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.ptClearTxbBtn = new System.Windows.Forms.ToolStripMenuItem();
             this.mainToolStrip.SuspendLayout();
             this.commandTab.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -115,6 +132,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.AMBUpdatePeriodEdit)).BeginInit();
             this.ambItemsGroup.SuspendLayout();
             this.tabPage2.SuspendLayout();
+            this.packetModeTab.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ptTriesEdit)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ptLocalAddressEdit)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ptTargetAddressEdit)).BeginInit();
             this.rawSendTxbContextMnu.SuspendLayout();
             this.btnPanel.SuspendLayout();
             this.historyToolStrip.SuspendLayout();
@@ -122,6 +143,7 @@
             this.commandModeToolStrip.SuspendLayout();
             this.rawModePnl.SuspendLayout();
             this.rawModeToolStrip.SuspendLayout();
+            this.ptHistoryCtx.SuspendLayout();
             this.SuspendLayout();
             // 
             // mainToolStrip
@@ -134,7 +156,7 @@
             this.infoBtn});
             this.mainToolStrip.Location = new System.Drawing.Point(0, 0);
             this.mainToolStrip.Name = "mainToolStrip";
-            this.mainToolStrip.Size = new System.Drawing.Size(1048, 30);
+            this.mainToolStrip.Size = new System.Drawing.Size(1171, 30);
             this.mainToolStrip.TabIndex = 0;
             this.mainToolStrip.Text = "toolStrip1";
             // 
@@ -194,7 +216,7 @@
             this.mainStatusStrip.Location = new System.Drawing.Point(0, 602);
             this.mainStatusStrip.Name = "mainStatusStrip";
             this.mainStatusStrip.Padding = new System.Windows.Forms.Padding(1, 0, 19, 0);
-            this.mainStatusStrip.Size = new System.Drawing.Size(1048, 22);
+            this.mainStatusStrip.Size = new System.Drawing.Size(1171, 22);
             this.mainStatusStrip.TabIndex = 1;
             this.mainStatusStrip.Text = "statusStrip1";
             // 
@@ -207,12 +229,13 @@
             this.commandTab.Controls.Add(this.tabPage4);
             this.commandTab.Controls.Add(this.tabPage3);
             this.commandTab.Controls.Add(this.tabPage2);
+            this.commandTab.Controls.Add(this.packetModeTab);
             this.commandTab.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.commandTab.Location = new System.Drawing.Point(4, 36);
             this.commandTab.Margin = new System.Windows.Forms.Padding(4);
             this.commandTab.Name = "commandTab";
             this.commandTab.SelectedIndex = 0;
-            this.commandTab.Size = new System.Drawing.Size(652, 335);
+            this.commandTab.Size = new System.Drawing.Size(707, 335);
             this.commandTab.TabIndex = 1;
             // 
             // tabPage1
@@ -234,7 +257,7 @@
             this.tabPage1.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPage1.Size = new System.Drawing.Size(644, 304);
+            this.tabPage1.Size = new System.Drawing.Size(699, 304);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "DEVICE INFO";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -303,7 +326,7 @@
             // 
             this.devSettingsApplyBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.devSettingsApplyBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.devSettingsApplyBtn.Location = new System.Drawing.Point(531, 259);
+            this.devSettingsApplyBtn.Location = new System.Drawing.Point(591, 259);
             this.devSettingsApplyBtn.Margin = new System.Windows.Forms.Padding(4);
             this.devSettingsApplyBtn.Name = "devSettingsApplyBtn";
             this.devSettingsApplyBtn.Size = new System.Drawing.Size(100, 38);
@@ -316,7 +339,7 @@
             // 
             this.devSettingsQueryBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.devSettingsQueryBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.devSettingsQueryBtn.Location = new System.Drawing.Point(531, 210);
+            this.devSettingsQueryBtn.Location = new System.Drawing.Point(591, 210);
             this.devSettingsQueryBtn.Margin = new System.Windows.Forms.Padding(4);
             this.devSettingsQueryBtn.Name = "devSettingsQueryBtn";
             this.devSettingsQueryBtn.Size = new System.Drawing.Size(100, 38);
@@ -404,7 +427,7 @@
             this.deviceInfoTxb.Margin = new System.Windows.Forms.Padding(4);
             this.deviceInfoTxb.Name = "deviceInfoTxb";
             this.deviceInfoTxb.ReadOnly = true;
-            this.deviceInfoTxb.Size = new System.Drawing.Size(623, 135);
+            this.deviceInfoTxb.Size = new System.Drawing.Size(683, 135);
             this.deviceInfoTxb.TabIndex = 0;
             this.deviceInfoTxb.Text = "";
             // 
@@ -421,7 +444,7 @@
             this.tabPage4.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPage4.Size = new System.Drawing.Size(644, 304);
+            this.tabPage4.Size = new System.Drawing.Size(699, 304);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "REMOTE QUERY";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -430,7 +453,7 @@
             // 
             this.rcQueryBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.rcQueryBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.rcQueryBtn.Location = new System.Drawing.Point(531, 259);
+            this.rcQueryBtn.Location = new System.Drawing.Point(591, 258);
             this.rcQueryBtn.Margin = new System.Windows.Forms.Padding(4);
             this.rcQueryBtn.Name = "rcQueryBtn";
             this.rcQueryBtn.Size = new System.Drawing.Size(100, 38);
@@ -525,7 +548,7 @@
             this.tabPage3.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPage3.Size = new System.Drawing.Size(644, 304);
+            this.tabPage3.Size = new System.Drawing.Size(699, 304);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "AMBIENT DATA SETTINGS";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -658,7 +681,7 @@
             // 
             this.AMBSetBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.AMBSetBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.AMBSetBtn.Location = new System.Drawing.Point(531, 259);
+            this.AMBSetBtn.Location = new System.Drawing.Point(591, 258);
             this.AMBSetBtn.Margin = new System.Windows.Forms.Padding(4);
             this.AMBSetBtn.Name = "AMBSetBtn";
             this.AMBSetBtn.Size = new System.Drawing.Size(100, 38);
@@ -674,7 +697,7 @@
             this.tabPage2.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPage2.Size = new System.Drawing.Size(644, 304);
+            this.tabPage2.Size = new System.Drawing.Size(699, 304);
             this.tabPage2.TabIndex = 4;
             this.tabPage2.Text = "AMBIENT DATA";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -689,16 +712,222 @@
             this.ambTxb.Margin = new System.Windows.Forms.Padding(4);
             this.ambTxb.Name = "ambTxb";
             this.ambTxb.ReadOnly = true;
-            this.ambTxb.Size = new System.Drawing.Size(628, 290);
+            this.ambTxb.Size = new System.Drawing.Size(683, 290);
             this.ambTxb.TabIndex = 0;
             this.ambTxb.Text = "";
+            // 
+            // packetModeTab
+            // 
+            this.packetModeTab.Controls.Add(this.ptTriesEdit);
+            this.packetModeTab.Controls.Add(this.label14);
+            this.packetModeTab.Controls.Add(this.isPtModeChb);
+            this.packetModeTab.Controls.Add(this.ptQuerySettingsBtn);
+            this.packetModeTab.Controls.Add(this.ptApplySettingsBtn);
+            this.packetModeTab.Controls.Add(this.ptIsSaveToFlashChb);
+            this.packetModeTab.Controls.Add(this.ptLocalAddressEdit);
+            this.packetModeTab.Controls.Add(this.label13);
+            this.packetModeTab.Controls.Add(this.label12);
+            this.packetModeTab.Controls.Add(this.ptTargetAddressEdit);
+            this.packetModeTab.Controls.Add(this.label11);
+            this.packetModeTab.Controls.Add(this.ptSendBtn);
+            this.packetModeTab.Controls.Add(this.ptToSendTxb);
+            this.packetModeTab.Controls.Add(this.ptHistoryTxb);
+            this.packetModeTab.Location = new System.Drawing.Point(4, 27);
+            this.packetModeTab.Name = "packetModeTab";
+            this.packetModeTab.Padding = new System.Windows.Forms.Padding(3);
+            this.packetModeTab.Size = new System.Drawing.Size(699, 304);
+            this.packetModeTab.TabIndex = 5;
+            this.packetModeTab.Text = "PACKET MODE";
+            this.packetModeTab.UseVisualStyleBackColor = true;
+            // 
+            // ptTriesEdit
+            // 
+            this.ptTriesEdit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.ptTriesEdit.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.ptTriesEdit.Location = new System.Drawing.Point(224, 275);
+            this.ptTriesEdit.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            this.ptTriesEdit.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.ptTriesEdit.Name = "ptTriesEdit";
+            this.ptTriesEdit.Size = new System.Drawing.Size(56, 24);
+            this.ptTriesEdit.TabIndex = 17;
+            this.ptTriesEdit.Value = new decimal(new int[] {
+            8,
+            0,
+            0,
+            0});
+            // 
+            // label14
+            // 
+            this.label14.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label14.AutoSize = true;
+            this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label14.Location = new System.Drawing.Point(163, 277);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(55, 18);
+            this.label14.TabIndex = 16;
+            this.label14.Text = "TRIES:";
+            // 
+            // isPtModeChb
+            // 
+            this.isPtModeChb.AutoSize = true;
+            this.isPtModeChb.Location = new System.Drawing.Point(6, 18);
+            this.isPtModeChb.Name = "isPtModeChb";
+            this.isPtModeChb.Size = new System.Drawing.Size(104, 22);
+            this.isPtModeChb.TabIndex = 15;
+            this.isPtModeChb.Text = "PT enabled";
+            this.isPtModeChb.UseVisualStyleBackColor = true;
+            this.isPtModeChb.CheckedChanged += new System.EventHandler(this.isPtModeChb_CheckedChanged);
+            // 
+            // ptQuerySettingsBtn
+            // 
+            this.ptQuerySettingsBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.ptQuerySettingsBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.ptQuerySettingsBtn.Location = new System.Drawing.Point(498, 13);
+            this.ptQuerySettingsBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.ptQuerySettingsBtn.Name = "ptQuerySettingsBtn";
+            this.ptQuerySettingsBtn.Size = new System.Drawing.Size(98, 28);
+            this.ptQuerySettingsBtn.TabIndex = 14;
+            this.ptQuerySettingsBtn.Text = "QUERY";
+            this.ptQuerySettingsBtn.UseVisualStyleBackColor = true;
+            this.ptQuerySettingsBtn.Click += new System.EventHandler(this.ptQuerySettingsBtn_Click);
+            // 
+            // ptApplySettingsBtn
+            // 
+            this.ptApplySettingsBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.ptApplySettingsBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.ptApplySettingsBtn.Location = new System.Drawing.Point(604, 13);
+            this.ptApplySettingsBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.ptApplySettingsBtn.Name = "ptApplySettingsBtn";
+            this.ptApplySettingsBtn.Size = new System.Drawing.Size(88, 28);
+            this.ptApplySettingsBtn.TabIndex = 13;
+            this.ptApplySettingsBtn.Text = "APPLY";
+            this.ptApplySettingsBtn.UseVisualStyleBackColor = true;
+            this.ptApplySettingsBtn.Click += new System.EventHandler(this.ptApplySettingsBtn_Click);
+            // 
+            // ptIsSaveToFlashChb
+            // 
+            this.ptIsSaveToFlashChb.AutoSize = true;
+            this.ptIsSaveToFlashChb.Location = new System.Drawing.Point(376, 18);
+            this.ptIsSaveToFlashChb.Name = "ptIsSaveToFlashChb";
+            this.ptIsSaveToFlashChb.Size = new System.Drawing.Size(115, 22);
+            this.ptIsSaveToFlashChb.TabIndex = 12;
+            this.ptIsSaveToFlashChb.Text = "Save to flash";
+            this.ptIsSaveToFlashChb.UseVisualStyleBackColor = true;
+            // 
+            // ptLocalAddressEdit
+            // 
+            this.ptLocalAddressEdit.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.ptLocalAddressEdit.Location = new System.Drawing.Point(286, 16);
+            this.ptLocalAddressEdit.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            this.ptLocalAddressEdit.Name = "ptLocalAddressEdit";
+            this.ptLocalAddressEdit.Size = new System.Drawing.Size(74, 24);
+            this.ptLocalAddressEdit.TabIndex = 11;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label13.Location = new System.Drawing.Point(144, 19);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(136, 18);
+            this.label13.TabIndex = 10;
+            this.label13.Text = "LOCAL ADDRESS:";
+            // 
+            // label12
+            // 
+            this.label12.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label12.AutoSize = true;
+            this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label12.Location = new System.Drawing.Point(298, 277);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(71, 18);
+            this.label12.TabIndex = 9;
+            this.label12.Text = "PACKET:";
+            // 
+            // ptTargetAddressEdit
+            // 
+            this.ptTargetAddressEdit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.ptTargetAddressEdit.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.ptTargetAddressEdit.Location = new System.Drawing.Point(84, 275);
+            this.ptTargetAddressEdit.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            this.ptTargetAddressEdit.Name = "ptTargetAddressEdit";
+            this.ptTargetAddressEdit.Size = new System.Drawing.Size(57, 24);
+            this.ptTargetAddressEdit.TabIndex = 8;
+            // 
+            // label11
+            // 
+            this.label11.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label11.AutoSize = true;
+            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label11.Location = new System.Drawing.Point(6, 277);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(72, 18);
+            this.label11.TabIndex = 7;
+            this.label11.Text = "TARGET:";
+            // 
+            // ptSendBtn
+            // 
+            this.ptSendBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.ptSendBtn.Enabled = false;
+            this.ptSendBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.ptSendBtn.Location = new System.Drawing.Point(604, 272);
+            this.ptSendBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.ptSendBtn.Name = "ptSendBtn";
+            this.ptSendBtn.Size = new System.Drawing.Size(88, 28);
+            this.ptSendBtn.TabIndex = 6;
+            this.ptSendBtn.Text = "SEND";
+            this.ptSendBtn.UseVisualStyleBackColor = true;
+            this.ptSendBtn.Click += new System.EventHandler(this.ptSendBtn_Click);
+            // 
+            // ptToSendTxb
+            // 
+            this.ptToSendTxb.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.ptToSendTxb.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.ptToSendTxb.Location = new System.Drawing.Point(376, 274);
+            this.ptToSendTxb.Margin = new System.Windows.Forms.Padding(4);
+            this.ptToSendTxb.MaxLength = 64;
+            this.ptToSendTxb.Name = "ptToSendTxb";
+            this.ptToSendTxb.Size = new System.Drawing.Size(220, 24);
+            this.ptToSendTxb.TabIndex = 5;
+            // 
+            // ptHistoryTxb
+            // 
+            this.ptHistoryTxb.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.ptHistoryTxb.ContextMenuStrip = this.ptHistoryCtx;
+            this.ptHistoryTxb.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.ptHistoryTxb.Location = new System.Drawing.Point(7, 49);
+            this.ptHistoryTxb.Margin = new System.Windows.Forms.Padding(4);
+            this.ptHistoryTxb.Name = "ptHistoryTxb";
+            this.ptHistoryTxb.ReadOnly = true;
+            this.ptHistoryTxb.Size = new System.Drawing.Size(685, 212);
+            this.ptHistoryTxb.TabIndex = 4;
+            this.ptHistoryTxb.Text = "";
             // 
             // rawSendBtn
             // 
             this.rawSendBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.rawSendBtn.Enabled = false;
             this.rawSendBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.rawSendBtn.Location = new System.Drawing.Point(271, 345);
+            this.rawSendBtn.Location = new System.Drawing.Point(339, 345);
             this.rawSendBtn.Margin = new System.Windows.Forms.Padding(4);
             this.rawSendBtn.Name = "rawSendBtn";
             this.rawSendBtn.Size = new System.Drawing.Size(88, 28);
@@ -715,7 +944,7 @@
             this.rawSendTxb.Location = new System.Drawing.Point(4, 348);
             this.rawSendTxb.Margin = new System.Windows.Forms.Padding(4);
             this.rawSendTxb.Name = "rawSendTxb";
-            this.rawSendTxb.Size = new System.Drawing.Size(259, 22);
+            this.rawSendTxb.Size = new System.Drawing.Size(327, 22);
             this.rawSendTxb.TabIndex = 2;
             this.rawSendTxb.TextChanged += new System.EventHandler(this.rawSendTxb_TextChanged);
             // 
@@ -793,11 +1022,11 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.rawHistoryTxb.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.rawHistoryTxb.Location = new System.Drawing.Point(4, 36);
+            this.rawHistoryTxb.Location = new System.Drawing.Point(8, 39);
             this.rawHistoryTxb.Margin = new System.Windows.Forms.Padding(4);
             this.rawHistoryTxb.Name = "rawHistoryTxb";
             this.rawHistoryTxb.ReadOnly = true;
-            this.rawHistoryTxb.Size = new System.Drawing.Size(355, 298);
+            this.rawHistoryTxb.Size = new System.Drawing.Size(423, 298);
             this.rawHistoryTxb.TabIndex = 1;
             this.rawHistoryTxb.Text = "";
             this.rawHistoryTxb.TextChanged += new System.EventHandler(this.rawHistoryTxb_TextChanged);
@@ -812,7 +1041,7 @@
             this.historyTxb.Margin = new System.Windows.Forms.Padding(4);
             this.historyTxb.Name = "historyTxb";
             this.historyTxb.ReadOnly = true;
-            this.historyTxb.Size = new System.Drawing.Size(1021, 145);
+            this.historyTxb.Size = new System.Drawing.Size(1144, 145);
             this.historyTxb.TabIndex = 1;
             this.historyTxb.Text = "";
             this.historyTxb.TextChanged += new System.EventHandler(this.historyTxb_TextChanged);
@@ -826,7 +1055,7 @@
             this.btnPanel.Controls.Add(this.historyToolStrip);
             this.btnPanel.Location = new System.Drawing.Point(12, 419);
             this.btnPanel.Name = "btnPanel";
-            this.btnPanel.Size = new System.Drawing.Size(1029, 183);
+            this.btnPanel.Size = new System.Drawing.Size(1152, 183);
             this.btnPanel.TabIndex = 3;
             // 
             // historyToolStrip
@@ -840,7 +1069,7 @@
             this.histClearBtn});
             this.historyToolStrip.Location = new System.Drawing.Point(0, 0);
             this.historyToolStrip.Name = "historyToolStrip";
-            this.historyToolStrip.Size = new System.Drawing.Size(1029, 30);
+            this.historyToolStrip.Size = new System.Drawing.Size(1152, 30);
             this.historyToolStrip.TabIndex = 1;
             this.historyToolStrip.Text = "toolStrip3";
             // 
@@ -897,7 +1126,7 @@
             this.cmdModePnl.Controls.Add(this.commandModeToolStrip);
             this.cmdModePnl.Location = new System.Drawing.Point(12, 33);
             this.cmdModePnl.Name = "cmdModePnl";
-            this.cmdModePnl.Size = new System.Drawing.Size(660, 377);
+            this.cmdModePnl.Size = new System.Drawing.Size(715, 377);
             this.cmdModePnl.TabIndex = 4;
             // 
             // commandModeToolStrip
@@ -908,7 +1137,7 @@
             this.toolStripSeparator2});
             this.commandModeToolStrip.Location = new System.Drawing.Point(0, 0);
             this.commandModeToolStrip.Name = "commandModeToolStrip";
-            this.commandModeToolStrip.Size = new System.Drawing.Size(660, 26);
+            this.commandModeToolStrip.Size = new System.Drawing.Size(715, 26);
             this.commandModeToolStrip.TabIndex = 1;
             this.commandModeToolStrip.Text = "toolStrip1";
             // 
@@ -931,9 +1160,9 @@
             this.rawModePnl.Controls.Add(this.rawModeToolStrip);
             this.rawModePnl.Controls.Add(this.rawSendTxb);
             this.rawModePnl.Controls.Add(this.rawHistoryTxb);
-            this.rawModePnl.Location = new System.Drawing.Point(678, 36);
+            this.rawModePnl.Location = new System.Drawing.Point(733, 36);
             this.rawModePnl.Name = "rawModePnl";
-            this.rawModePnl.Size = new System.Drawing.Size(363, 374);
+            this.rawModePnl.Size = new System.Drawing.Size(431, 374);
             this.rawModePnl.TabIndex = 5;
             // 
             // rawModeToolStrip
@@ -947,7 +1176,7 @@
             this.rawClearBtn});
             this.rawModeToolStrip.Location = new System.Drawing.Point(0, 0);
             this.rawModeToolStrip.Name = "rawModeToolStrip";
-            this.rawModeToolStrip.Size = new System.Drawing.Size(363, 30);
+            this.rawModeToolStrip.Size = new System.Drawing.Size(431, 30);
             this.rawModeToolStrip.TabIndex = 1;
             this.rawModeToolStrip.Text = "toolStrip2";
             // 
@@ -998,11 +1227,25 @@
             this.rawClearBtn.Text = "CLEAR";
             this.rawClearBtn.Click += new System.EventHandler(this.rawClearBtn_Click);
             // 
+            // ptHistoryCtx
+            // 
+            this.ptHistoryCtx.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ptClearTxbBtn});
+            this.ptHistoryCtx.Name = "ptHistoryCtx";
+            this.ptHistoryCtx.Size = new System.Drawing.Size(153, 50);
+            // 
+            // ptClearTxbBtn
+            // 
+            this.ptClearTxbBtn.Name = "ptClearTxbBtn";
+            this.ptClearTxbBtn.Size = new System.Drawing.Size(152, 24);
+            this.ptClearTxbBtn.Text = "CLEAR";
+            this.ptClearTxbBtn.Click += new System.EventHandler(this.ptClearTxbBtn_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1048, 624);
+            this.ClientSize = new System.Drawing.Size(1171, 624);
             this.Controls.Add(this.rawModePnl);
             this.Controls.Add(this.cmdModePnl);
             this.Controls.Add(this.btnPanel);
@@ -1026,6 +1269,11 @@
             this.ambItemsGroup.ResumeLayout(false);
             this.ambItemsGroup.PerformLayout();
             this.tabPage2.ResumeLayout(false);
+            this.packetModeTab.ResumeLayout(false);
+            this.packetModeTab.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ptTriesEdit)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ptLocalAddressEdit)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ptTargetAddressEdit)).EndInit();
             this.rawSendTxbContextMnu.ResumeLayout(false);
             this.btnPanel.ResumeLayout(false);
             this.btnPanel.PerformLayout();
@@ -1039,6 +1287,7 @@
             this.rawModePnl.PerformLayout();
             this.rawModeToolStrip.ResumeLayout(false);
             this.rawModeToolStrip.PerformLayout();
+            this.ptHistoryCtx.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1121,6 +1370,23 @@
         private System.Windows.Forms.ToolStripButton rawExportBtn;
         private System.Windows.Forms.ToolStripButton rawClearBtn;
         private System.Windows.Forms.ToolStripMenuItem clearToolStripMenuItem;
+        private System.Windows.Forms.TabPage packetModeTab;
+        private System.Windows.Forms.Button ptSendBtn;
+        private System.Windows.Forms.TextBox ptToSendTxb;
+        private System.Windows.Forms.RichTextBox ptHistoryTxb;
+        private System.Windows.Forms.NumericUpDown ptLocalAddressEdit;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.NumericUpDown ptTargetAddressEdit;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Button ptApplySettingsBtn;
+        private System.Windows.Forms.CheckBox ptIsSaveToFlashChb;
+        private System.Windows.Forms.Button ptQuerySettingsBtn;
+        private System.Windows.Forms.CheckBox isPtModeChb;
+        private System.Windows.Forms.NumericUpDown ptTriesEdit;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.ContextMenuStrip ptHistoryCtx;
+        private System.Windows.Forms.ToolStripMenuItem ptClearTxbBtn;
     }
 }
 

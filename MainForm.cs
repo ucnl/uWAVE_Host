@@ -177,6 +177,37 @@ namespace uWAVE_Host
             }
         }
 
+
+        bool isPtEnabled
+        {
+            get { return isPtModeChb.Checked; }
+            set { isPtModeChb.Checked = value; }
+        }
+
+        byte ptLocalAddress
+        {
+            get { return Convert.ToByte(ptLocalAddressEdit.Value); }
+            set { ptLocalAddressEdit.Value = value; }
+        }
+
+        bool isPtSaveToFlash
+        {
+            get { return ptIsSaveToFlashChb.Checked; }
+            set { ptIsSaveToFlashChb.Checked = value; }
+        }
+
+        byte ptTargetAddress
+        {
+            get { return Convert.ToByte(ptTargetAddressEdit.Value); }
+            set { ptTargetAddressEdit.Value = value; }
+        }
+
+        byte ptMaxTries
+        {
+            get { return Convert.ToByte(ptTriesEdit.Value); }
+            set { ptTriesEdit.Value = value; }
+        }
+
         #endregion
 
         #endregion
@@ -237,6 +268,55 @@ namespace uWAVE_Host
             port.InfoEvent += (o, e) => { logger.Write(string.Format("{0}: {1}", e.EventType, e.LogString)); };
             port.PortError += (o, e) => { logger.Write(string.Format("{0} in {1}", e.EventType.ToString(), settingsProvider.Data.PortName)); };
             port.UnknownSentenceReceived += (o, e) => { logger.Write(string.Format(" >> Unknown sentence: {0}", e.Sentence)); };
+
+            port.PacketModeSettingsReceived += (o, e) =>
+                {
+                    InvokeOnTransactionEnd();
+
+                    if (this.InvokeRequired)
+                    {
+                        this.Invoke((MethodInvoker)delegate
+                        {
+                            isPtEnabled = port.IsPacketMode;
+                            ptLocalAddress = port.PacketMode_Address;
+                        });
+                    }
+                    else
+                    {
+                        isPtEnabled = port.IsPacketMode;
+                        ptLocalAddress = port.PacketMode_Address;
+                    }
+                };
+
+            port.PacketTransferFailed += (o, e) =>
+                {
+                    var line = string.Format("Failed to deliver packet \"{0}\" to address {1}, {2} tries taken\r\n",
+                        Encoding.ASCII.GetString(e.DataPacket), e.Target_ptAddress, e.TriesTaken);
+
+                    InvokeAppendLine(ptHistoryTxb, line);
+
+                    logger.Write(line);
+                };
+
+            port.PacketTransferred += (o, e) =>
+                {
+                    var line = string.Format("Delivered packet \"{0}\" to address {1}, {2} tries taken\r\n",
+                        Encoding.ASCII.GetString(e.DataPacket), e.Target_ptAddress, e.TriesTaken);
+
+                    InvokeAppendLine(ptHistoryTxb, line);
+
+                    logger.Write(line);
+                };
+
+            port.PacketReceived += (o, e) =>
+                {
+                    var line = string.Format("Received packet \"{0}\" from address {1}\r\n",
+                        Encoding.ASCII.GetString(e.DataPacket), e.Target_ptAddress);
+
+                    InvokeAppendLine(ptHistoryTxb, line);
+
+                    logger.Write(line);
+                };
 
             #endregion
 
@@ -378,6 +458,17 @@ namespace uWAVE_Host
             return sb.ToString();
         }
 
+        private string ByteArrayToHexStr(byte[] data)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            for (int i = 0; i < data.Length; i++)
+            {
+                sb.Append(data[i].ToString("X2"));
+            }
+
+            return sb.ToString();
+        }
 
         #endregion
 
@@ -665,8 +756,53 @@ namespace uWAVE_Host
 
         private void rcQueryBtn_Click(object sender, EventArgs e)
         {
-            if (port.RCRequestQuery(rcTxChannelID, rcRxChannelID, rcQueryID))
+            if (port.RCRequestQuery(rcRxChannelID, rcTxChannelID, rcQueryID))
                 OnTransactionStart();
+        }
+
+        #endregion
+
+        #region packet mode tab
+
+        private void ptQuerySettingsBtn_Click(object sender, EventArgs e)
+        {
+            if (port.PacketMode_SettingQuery())
+                OnTransactionStart();
+        }
+
+        private void ptApplySettingsBtn_Click(object sender, EventArgs e)
+        {
+            if (port.PacketMode_SettingsWrite(isPtSaveToFlash, isPtEnabled, ptLocalAddress))
+                OnTransactionStart();
+        }
+
+        private void ptSendBtn_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(ptToSendTxb.Text))
+            {
+                if (port.PacketMode_AbortSend())
+                {
+                    OnTransactionStart();
+                }
+            }
+            else
+            {
+                if (port.PacketMode_Send(ptTargetAddress, ptMaxTries, Encoding.ASCII.GetBytes(ptToSendTxb.Text)))
+                {
+                    ptToSendTxb.Clear();
+                    OnTransactionStart();
+                }
+            }
+        }
+
+        private void isPtModeChb_CheckedChanged(object sender, EventArgs e)
+        {
+            ptSendBtn.Enabled = isPtEnabled;
+        }
+
+        private void ptClearTxbBtn_Click(object sender, EventArgs e)
+        {
+            ptHistoryTxb.Clear();
         }
 
         #endregion
@@ -736,10 +872,10 @@ namespace uWAVE_Host
             rawSendTxb.Clear();
         }
 
-        #endregion                        
-        
+        #endregion                
+
         #endregion
-        
-        #endregion        
+
+        #endregion
     }
 }

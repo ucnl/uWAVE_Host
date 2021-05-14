@@ -54,8 +54,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\UCNLLibs\UCNLUI\UCNLUI\bin\Release\UCNLUI.dll</HintPath>
     </Reference>
-    <Reference Include="uWAVELib, Version=1.0.7656.43072, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="uWAVELib">
       <HintPath>..\..\uWAVELib\uWAVELib\bin\Release\uWAVELib.dll</HintPath>
     </Reference>
   </ItemGroup>
