@@ -67,6 +67,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RC_Statistics.cs" />
     <Compile Include="SettingsContainer.cs" />
     <Compile Include="SettingsEditor.cs">
       <SubType>Form</SubType>

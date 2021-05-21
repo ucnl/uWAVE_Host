@@ -53,6 +53,9 @@
             this.label1 = new System.Windows.Forms.Label();
             this.deviceInfoTxb = new System.Windows.Forms.RichTextBox();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.rcClearStatsBtn = new System.Windows.Forms.Button();
+            this.rcTxb = new System.Windows.Forms.RichTextBox();
+            this.rcAutoChb = new System.Windows.Forms.CheckBox();
             this.rcQueryBtn = new System.Windows.Forms.Button();
             this.rcQueryIdCbx = new System.Windows.Forms.ComboBox();
             this.label7 = new System.Windows.Forms.Label();
@@ -88,7 +91,15 @@
             this.label11 = new System.Windows.Forms.Label();
             this.ptSendBtn = new System.Windows.Forms.Button();
             this.ptToSendTxb = new System.Windows.Forms.TextBox();
+            this.ptSendTxbCtx = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.ptSend8ByteStrBtn = new System.Windows.Forms.ToolStripMenuItem();
+            this.ptSend16ByteStrBtn = new System.Windows.Forms.ToolStripMenuItem();
+            this.ptSend32ByteStrBtn = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
+            this.ptSendClearBtn = new System.Windows.Forms.ToolStripMenuItem();
             this.ptHistoryTxb = new System.Windows.Forms.RichTextBox();
+            this.ptHistoryCtx = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.ptClearTxbBtn = new System.Windows.Forms.ToolStripMenuItem();
             this.rawSendBtn = new System.Windows.Forms.Button();
             this.rawSendTxb = new System.Windows.Forms.TextBox();
             this.rawSendTxbContextMnu = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -120,8 +131,6 @@
             this.rawCopyBtn = new System.Windows.Forms.ToolStripButton();
             this.rawExportBtn = new System.Windows.Forms.ToolStripButton();
             this.rawClearBtn = new System.Windows.Forms.ToolStripButton();
-            this.ptHistoryCtx = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.ptClearTxbBtn = new System.Windows.Forms.ToolStripMenuItem();
             this.mainToolStrip.SuspendLayout();
             this.commandTab.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -136,6 +145,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.ptTriesEdit)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ptLocalAddressEdit)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ptTargetAddressEdit)).BeginInit();
+            this.ptSendTxbCtx.SuspendLayout();
+            this.ptHistoryCtx.SuspendLayout();
             this.rawSendTxbContextMnu.SuspendLayout();
             this.btnPanel.SuspendLayout();
             this.historyToolStrip.SuspendLayout();
@@ -143,7 +154,6 @@
             this.commandModeToolStrip.SuspendLayout();
             this.rawModePnl.SuspendLayout();
             this.rawModeToolStrip.SuspendLayout();
-            this.ptHistoryCtx.SuspendLayout();
             this.SuspendLayout();
             // 
             // mainToolStrip
@@ -156,7 +166,7 @@
             this.infoBtn});
             this.mainToolStrip.Location = new System.Drawing.Point(0, 0);
             this.mainToolStrip.Name = "mainToolStrip";
-            this.mainToolStrip.Size = new System.Drawing.Size(1171, 30);
+            this.mainToolStrip.Size = new System.Drawing.Size(1216, 30);
             this.mainToolStrip.TabIndex = 0;
             this.mainToolStrip.Text = "toolStrip1";
             // 
@@ -216,7 +226,7 @@
             this.mainStatusStrip.Location = new System.Drawing.Point(0, 602);
             this.mainStatusStrip.Name = "mainStatusStrip";
             this.mainStatusStrip.Padding = new System.Windows.Forms.Padding(1, 0, 19, 0);
-            this.mainStatusStrip.Size = new System.Drawing.Size(1171, 22);
+            this.mainStatusStrip.Size = new System.Drawing.Size(1216, 22);
             this.mainStatusStrip.TabIndex = 1;
             this.mainStatusStrip.Text = "statusStrip1";
             // 
@@ -235,7 +245,7 @@
             this.commandTab.Margin = new System.Windows.Forms.Padding(4);
             this.commandTab.Name = "commandTab";
             this.commandTab.SelectedIndex = 0;
-            this.commandTab.Size = new System.Drawing.Size(707, 335);
+            this.commandTab.Size = new System.Drawing.Size(717, 335);
             this.commandTab.TabIndex = 1;
             // 
             // tabPage1
@@ -433,6 +443,9 @@
             // 
             // tabPage4
             // 
+            this.tabPage4.Controls.Add(this.rcClearStatsBtn);
+            this.tabPage4.Controls.Add(this.rcTxb);
+            this.tabPage4.Controls.Add(this.rcAutoChb);
             this.tabPage4.Controls.Add(this.rcQueryBtn);
             this.tabPage4.Controls.Add(this.rcQueryIdCbx);
             this.tabPage4.Controls.Add(this.label7);
@@ -444,16 +457,56 @@
             this.tabPage4.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPage4.Size = new System.Drawing.Size(699, 304);
+            this.tabPage4.Size = new System.Drawing.Size(709, 304);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "REMOTE QUERY";
             this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // rcClearStatsBtn
+            // 
+            this.rcClearStatsBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.rcClearStatsBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.rcClearStatsBtn.Location = new System.Drawing.Point(601, 258);
+            this.rcClearStatsBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.rcClearStatsBtn.Name = "rcClearStatsBtn";
+            this.rcClearStatsBtn.Size = new System.Drawing.Size(100, 38);
+            this.rcClearStatsBtn.TabIndex = 15;
+            this.rcClearStatsBtn.Text = "CLEAR";
+            this.rcClearStatsBtn.UseVisualStyleBackColor = true;
+            this.rcClearStatsBtn.Click += new System.EventHandler(this.rcClearStatsBtn_Click);
+            // 
+            // rcTxb
+            // 
+            this.rcTxb.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.rcTxb.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.rcTxb.Location = new System.Drawing.Point(242, 7);
+            this.rcTxb.Margin = new System.Windows.Forms.Padding(4);
+            this.rcTxb.Name = "rcTxb";
+            this.rcTxb.ReadOnly = true;
+            this.rcTxb.Size = new System.Drawing.Size(459, 243);
+            this.rcTxb.TabIndex = 14;
+            this.rcTxb.Text = "";
+            this.rcTxb.TextChanged += new System.EventHandler(this.rcTxb_TextChanged);
+            // 
+            // rcAutoChb
+            // 
+            this.rcAutoChb.AutoSize = true;
+            this.rcAutoChb.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.rcAutoChb.Location = new System.Drawing.Point(16, 244);
+            this.rcAutoChb.Name = "rcAutoChb";
+            this.rcAutoChb.Size = new System.Drawing.Size(110, 22);
+            this.rcAutoChb.TabIndex = 13;
+            this.rcAutoChb.Text = "Auto query";
+            this.rcAutoChb.UseVisualStyleBackColor = true;
+            this.rcAutoChb.CheckedChanged += new System.EventHandler(this.rcAutoChb_CheckedChanged);
             // 
             // rcQueryBtn
             // 
             this.rcQueryBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.rcQueryBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.rcQueryBtn.Location = new System.Drawing.Point(591, 258);
+            this.rcQueryBtn.Location = new System.Drawing.Point(252, 258);
             this.rcQueryBtn.Margin = new System.Windows.Forms.Padding(4);
             this.rcQueryBtn.Name = "rcQueryBtn";
             this.rcQueryBtn.Size = new System.Drawing.Size(100, 38);
@@ -472,7 +525,7 @@
             this.rcQueryIdCbx.Location = new System.Drawing.Point(12, 182);
             this.rcQueryIdCbx.Margin = new System.Windows.Forms.Padding(4);
             this.rcQueryIdCbx.Name = "rcQueryIdCbx";
-            this.rcQueryIdCbx.Size = new System.Drawing.Size(254, 28);
+            this.rcQueryIdCbx.Size = new System.Drawing.Size(208, 28);
             this.rcQueryIdCbx.TabIndex = 8;
             // 
             // label7
@@ -899,6 +952,7 @@
             // 
             this.ptToSendTxb.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.ptToSendTxb.ContextMenuStrip = this.ptSendTxbCtx;
             this.ptToSendTxb.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.ptToSendTxb.Location = new System.Drawing.Point(376, 274);
             this.ptToSendTxb.Margin = new System.Windows.Forms.Padding(4);
@@ -906,6 +960,50 @@
             this.ptToSendTxb.Name = "ptToSendTxb";
             this.ptToSendTxb.Size = new System.Drawing.Size(220, 24);
             this.ptToSendTxb.TabIndex = 5;
+            // 
+            // ptSendTxbCtx
+            // 
+            this.ptSendTxbCtx.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ptSend8ByteStrBtn,
+            this.ptSend16ByteStrBtn,
+            this.ptSend32ByteStrBtn,
+            this.toolStripSeparator6,
+            this.ptSendClearBtn});
+            this.ptSendTxbCtx.Name = "ptSendTxbCtx";
+            this.ptSendTxbCtx.Size = new System.Drawing.Size(231, 106);
+            // 
+            // ptSend8ByteStrBtn
+            // 
+            this.ptSend8ByteStrBtn.Name = "ptSend8ByteStrBtn";
+            this.ptSend8ByteStrBtn.Size = new System.Drawing.Size(230, 24);
+            this.ptSend8ByteStrBtn.Text = "Random 8-byte string";
+            this.ptSend8ByteStrBtn.Click += new System.EventHandler(this.ptSend8ByteStrBtn_Click);
+            // 
+            // ptSend16ByteStrBtn
+            // 
+            this.ptSend16ByteStrBtn.Name = "ptSend16ByteStrBtn";
+            this.ptSend16ByteStrBtn.Size = new System.Drawing.Size(230, 24);
+            this.ptSend16ByteStrBtn.Text = "Random 16-byte string";
+            this.ptSend16ByteStrBtn.Click += new System.EventHandler(this.ptSend16ByteStrBtn_Click);
+            // 
+            // ptSend32ByteStrBtn
+            // 
+            this.ptSend32ByteStrBtn.Name = "ptSend32ByteStrBtn";
+            this.ptSend32ByteStrBtn.Size = new System.Drawing.Size(230, 24);
+            this.ptSend32ByteStrBtn.Text = "Random 32-byte string";
+            this.ptSend32ByteStrBtn.Click += new System.EventHandler(this.ptSend32ByteStrBtn_Click);
+            // 
+            // toolStripSeparator6
+            // 
+            this.toolStripSeparator6.Name = "toolStripSeparator6";
+            this.toolStripSeparator6.Size = new System.Drawing.Size(227, 6);
+            // 
+            // ptSendClearBtn
+            // 
+            this.ptSendClearBtn.Name = "ptSendClearBtn";
+            this.ptSendClearBtn.Size = new System.Drawing.Size(230, 24);
+            this.ptSendClearBtn.Text = "Clear";
+            this.ptSendClearBtn.Click += new System.EventHandler(this.ptSendClearBtn_Click);
             // 
             // ptHistoryTxb
             // 
@@ -921,13 +1019,28 @@
             this.ptHistoryTxb.Size = new System.Drawing.Size(685, 212);
             this.ptHistoryTxb.TabIndex = 4;
             this.ptHistoryTxb.Text = "";
+            this.ptHistoryTxb.TextChanged += new System.EventHandler(this.ptHistoryTxb_TextChanged);
+            // 
+            // ptHistoryCtx
+            // 
+            this.ptHistoryCtx.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ptClearTxbBtn});
+            this.ptHistoryCtx.Name = "ptHistoryCtx";
+            this.ptHistoryCtx.Size = new System.Drawing.Size(122, 28);
+            // 
+            // ptClearTxbBtn
+            // 
+            this.ptClearTxbBtn.Name = "ptClearTxbBtn";
+            this.ptClearTxbBtn.Size = new System.Drawing.Size(121, 24);
+            this.ptClearTxbBtn.Text = "CLEAR";
+            this.ptClearTxbBtn.Click += new System.EventHandler(this.ptClearTxbBtn_Click);
             // 
             // rawSendBtn
             // 
             this.rawSendBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.rawSendBtn.Enabled = false;
             this.rawSendBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.rawSendBtn.Location = new System.Drawing.Point(339, 345);
+            this.rawSendBtn.Location = new System.Drawing.Point(374, 345);
             this.rawSendBtn.Margin = new System.Windows.Forms.Padding(4);
             this.rawSendBtn.Name = "rawSendBtn";
             this.rawSendBtn.Size = new System.Drawing.Size(88, 28);
@@ -944,7 +1057,7 @@
             this.rawSendTxb.Location = new System.Drawing.Point(4, 348);
             this.rawSendTxb.Margin = new System.Windows.Forms.Padding(4);
             this.rawSendTxb.Name = "rawSendTxb";
-            this.rawSendTxb.Size = new System.Drawing.Size(327, 22);
+            this.rawSendTxb.Size = new System.Drawing.Size(362, 22);
             this.rawSendTxb.TabIndex = 2;
             this.rawSendTxb.TextChanged += new System.EventHandler(this.rawSendTxb_TextChanged);
             // 
@@ -1026,7 +1139,7 @@
             this.rawHistoryTxb.Margin = new System.Windows.Forms.Padding(4);
             this.rawHistoryTxb.Name = "rawHistoryTxb";
             this.rawHistoryTxb.ReadOnly = true;
-            this.rawHistoryTxb.Size = new System.Drawing.Size(423, 298);
+            this.rawHistoryTxb.Size = new System.Drawing.Size(458, 298);
             this.rawHistoryTxb.TabIndex = 1;
             this.rawHistoryTxb.Text = "";
             this.rawHistoryTxb.TextChanged += new System.EventHandler(this.rawHistoryTxb_TextChanged);
@@ -1041,7 +1154,7 @@
             this.historyTxb.Margin = new System.Windows.Forms.Padding(4);
             this.historyTxb.Name = "historyTxb";
             this.historyTxb.ReadOnly = true;
-            this.historyTxb.Size = new System.Drawing.Size(1144, 145);
+            this.historyTxb.Size = new System.Drawing.Size(1189, 145);
             this.historyTxb.TabIndex = 1;
             this.historyTxb.Text = "";
             this.historyTxb.TextChanged += new System.EventHandler(this.historyTxb_TextChanged);
@@ -1055,7 +1168,7 @@
             this.btnPanel.Controls.Add(this.historyToolStrip);
             this.btnPanel.Location = new System.Drawing.Point(12, 419);
             this.btnPanel.Name = "btnPanel";
-            this.btnPanel.Size = new System.Drawing.Size(1152, 183);
+            this.btnPanel.Size = new System.Drawing.Size(1197, 183);
             this.btnPanel.TabIndex = 3;
             // 
             // historyToolStrip
@@ -1069,7 +1182,7 @@
             this.histClearBtn});
             this.historyToolStrip.Location = new System.Drawing.Point(0, 0);
             this.historyToolStrip.Name = "historyToolStrip";
-            this.historyToolStrip.Size = new System.Drawing.Size(1152, 30);
+            this.historyToolStrip.Size = new System.Drawing.Size(1197, 30);
             this.historyToolStrip.TabIndex = 1;
             this.historyToolStrip.Text = "toolStrip3";
             // 
@@ -1126,7 +1239,7 @@
             this.cmdModePnl.Controls.Add(this.commandModeToolStrip);
             this.cmdModePnl.Location = new System.Drawing.Point(12, 33);
             this.cmdModePnl.Name = "cmdModePnl";
-            this.cmdModePnl.Size = new System.Drawing.Size(715, 377);
+            this.cmdModePnl.Size = new System.Drawing.Size(725, 377);
             this.cmdModePnl.TabIndex = 4;
             // 
             // commandModeToolStrip
@@ -1137,7 +1250,7 @@
             this.toolStripSeparator2});
             this.commandModeToolStrip.Location = new System.Drawing.Point(0, 0);
             this.commandModeToolStrip.Name = "commandModeToolStrip";
-            this.commandModeToolStrip.Size = new System.Drawing.Size(715, 26);
+            this.commandModeToolStrip.Size = new System.Drawing.Size(725, 26);
             this.commandModeToolStrip.TabIndex = 1;
             this.commandModeToolStrip.Text = "toolStrip1";
             // 
@@ -1160,9 +1273,9 @@
             this.rawModePnl.Controls.Add(this.rawModeToolStrip);
             this.rawModePnl.Controls.Add(this.rawSendTxb);
             this.rawModePnl.Controls.Add(this.rawHistoryTxb);
-            this.rawModePnl.Location = new System.Drawing.Point(733, 36);
+            this.rawModePnl.Location = new System.Drawing.Point(743, 36);
             this.rawModePnl.Name = "rawModePnl";
-            this.rawModePnl.Size = new System.Drawing.Size(431, 374);
+            this.rawModePnl.Size = new System.Drawing.Size(466, 374);
             this.rawModePnl.TabIndex = 5;
             // 
             // rawModeToolStrip
@@ -1176,7 +1289,7 @@
             this.rawClearBtn});
             this.rawModeToolStrip.Location = new System.Drawing.Point(0, 0);
             this.rawModeToolStrip.Name = "rawModeToolStrip";
-            this.rawModeToolStrip.Size = new System.Drawing.Size(431, 30);
+            this.rawModeToolStrip.Size = new System.Drawing.Size(466, 30);
             this.rawModeToolStrip.TabIndex = 1;
             this.rawModeToolStrip.Text = "toolStrip2";
             // 
@@ -1227,25 +1340,11 @@
             this.rawClearBtn.Text = "CLEAR";
             this.rawClearBtn.Click += new System.EventHandler(this.rawClearBtn_Click);
             // 
-            // ptHistoryCtx
-            // 
-            this.ptHistoryCtx.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ptClearTxbBtn});
-            this.ptHistoryCtx.Name = "ptHistoryCtx";
-            this.ptHistoryCtx.Size = new System.Drawing.Size(153, 50);
-            // 
-            // ptClearTxbBtn
-            // 
-            this.ptClearTxbBtn.Name = "ptClearTxbBtn";
-            this.ptClearTxbBtn.Size = new System.Drawing.Size(152, 24);
-            this.ptClearTxbBtn.Text = "CLEAR";
-            this.ptClearTxbBtn.Click += new System.EventHandler(this.ptClearTxbBtn_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1171, 624);
+            this.ClientSize = new System.Drawing.Size(1216, 624);
             this.Controls.Add(this.rawModePnl);
             this.Controls.Add(this.cmdModePnl);
             this.Controls.Add(this.btnPanel);
@@ -1274,6 +1373,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.ptTriesEdit)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ptLocalAddressEdit)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ptTargetAddressEdit)).EndInit();
+            this.ptSendTxbCtx.ResumeLayout(false);
+            this.ptHistoryCtx.ResumeLayout(false);
             this.rawSendTxbContextMnu.ResumeLayout(false);
             this.btnPanel.ResumeLayout(false);
             this.btnPanel.PerformLayout();
@@ -1287,7 +1388,6 @@
             this.rawModePnl.PerformLayout();
             this.rawModeToolStrip.ResumeLayout(false);
             this.rawModeToolStrip.PerformLayout();
-            this.ptHistoryCtx.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1387,6 +1487,15 @@
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.ContextMenuStrip ptHistoryCtx;
         private System.Windows.Forms.ToolStripMenuItem ptClearTxbBtn;
+        private System.Windows.Forms.ContextMenuStrip ptSendTxbCtx;
+        private System.Windows.Forms.ToolStripMenuItem ptSend8ByteStrBtn;
+        private System.Windows.Forms.ToolStripMenuItem ptSend16ByteStrBtn;
+        private System.Windows.Forms.ToolStripMenuItem ptSend32ByteStrBtn;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
+        private System.Windows.Forms.ToolStripMenuItem ptSendClearBtn;
+        private System.Windows.Forms.CheckBox rcAutoChb;
+        private System.Windows.Forms.RichTextBox rcTxb;
+        private System.Windows.Forms.Button rcClearStatsBtn;
     }
 }
 

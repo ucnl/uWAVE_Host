@@ -3,6 +3,7 @@ using System.Globalization;
 using System.IO;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Windows.Forms;
 using UCNLDrivers;
 using UCNLUI.Dialogs;
@@ -27,6 +28,20 @@ namespace uWAVE_Host
         double pressure_mBar = UCNLPhysics.PHX.PHX_ATM_PRESSURE_MBAR;
         double temperature_C = 0;
         double soundSpeed = UCNLPhysics.PHX.PHX_FWTR_SOUND_SPEED_MPS;
+
+        bool isRCAutoQuery
+        {
+            get { return rcAutoChb.Checked; }
+            set { rcAutoChb.Checked = value; }
+        }
+
+        RC_Statistics rcStatistics;
+
+        RC_CODES_Enum[] autoQueryCodes = new RC_CODES_Enum[] 
+        { 
+            RC_CODES_Enum.RC_DPT_GET, RC_CODES_Enum.RC_TMP_GET, RC_CODES_Enum.RC_BAT_V_GET 
+        };
+        int autoQueryIdx = 0;
 
         #region UI items
 
@@ -337,11 +352,35 @@ namespace uWAVE_Host
             rcTxChannelID = 0;
             rcRxChannelID = 0;
 
-            rcQueryIdCbx.Items.AddRange(Enum.GetNames(typeof(RC_CODES_Enum)));
+            rcQueryIdCbx.Items.AddRange(new string[] 
+            { 
+                RC_CODES_Enum.RC_PING.ToString(),
+                RC_CODES_Enum.RC_DPT_GET.ToString(),
+                RC_CODES_Enum.RC_TMP_GET.ToString(),
+                RC_CODES_Enum.RC_BAT_V_GET.ToString(),
+                RC_CODES_Enum.RC_USR_CMD_000.ToString(),
+                RC_CODES_Enum.RC_USR_CMD_001.ToString(),
+                RC_CODES_Enum.RC_USR_CMD_002.ToString(),
+                RC_CODES_Enum.RC_USR_CMD_003.ToString(),
+                RC_CODES_Enum.RC_USR_CMD_004.ToString(),
+                RC_CODES_Enum.RC_USR_CMD_005.ToString(),
+                RC_CODES_Enum.RC_USR_CMD_006.ToString(),
+                RC_CODES_Enum.RC_USR_CMD_007.ToString(),
+                RC_CODES_Enum.RC_USR_CMD_008.ToString()
+            });
+
             rcQueryID = RC_CODES_Enum.RC_PING;
 
             cmdModePnl.Enabled = false;
             rawModePnl.Enabled = false;
+
+            rcStatistics = new RC_Statistics();
+            rcStatistics.InitStatValue("DST, m", "F03");
+            rcStatistics.InitStatValue("MSR, dB", "F01");
+            rcStatistics.InitStatValue("BAT, V", "F01");
+            rcStatistics.InitStatValue("DPT, m", "F01");
+            rcStatistics.InitStatValue("TMP, °C", "F01");            
+            
 
             #endregion
         }
@@ -435,7 +474,7 @@ namespace uWAVE_Host
         private void OnTransactionEnd()
         {
             cmdModePnl.Enabled = port.IsCommandMode;
-            rawModePnl.Enabled = !port.IsCommandMode;
+            rawModePnl.Enabled = !port.IsCommandMode;            
         }
 
         private void InvokeOnTransactionEnd()
@@ -468,6 +507,41 @@ namespace uWAVE_Host
             }
 
             return sb.ToString();
+        }
+
+        private void PerformRCRequest()
+        {
+            if (isRCAutoQuery)
+            {
+                autoQueryIdx = (autoQueryIdx + 1) % autoQueryCodes.Length;
+                RC_CODES_Enum queryID = autoQueryCodes[autoQueryIdx];
+
+                Thread.Sleep(500);
+
+                if (port.RCRequestQuery(rcRxChannelID, rcTxChannelID, queryID))
+                    OnTransactionStart();
+            }
+        }
+
+        private void InvokePerformRCRequest()
+        {
+            if (this.InvokeRequired)
+                this.Invoke((MethodInvoker)delegate { PerformRCRequest(); });
+            else
+                PerformRCRequest();
+        }
+
+        private void ShowRCStatistics()
+        {
+            rcTxb.Text = rcStatistics.ToString();
+        }
+
+        private void InvokeShowRCStatistics()
+        {
+            if (this.InvokeRequired)
+                this.Invoke((MethodInvoker)delegate { ShowRCStatistics(); });
+            else
+                ShowRCStatistics();
         }
 
         #endregion
@@ -588,11 +662,35 @@ namespace uWAVE_Host
                 sb.AppendFormat(CultureInfo.InvariantCulture, "HINT: Azimuth={0:F00}°\r\n", e.Azimuth);
 
             logger.Write(sb.ToString());
+
+            rcStatistics.AddSuccess();
+            rcStatistics.AddMeasurement("DST, m", e.PropTime_sec * soundSpeed);
+            rcStatistics.AddMeasurement("MSR, dB", e.SNR_db);
+
+            if (e.RCCmdID == RC_CODES_Enum.RC_BAT_V_GET)
+            {
+                rcStatistics.AddMeasurement("BAT, V", e.Value);
+            }
+            else if (e.RCCmdID == RC_CODES_Enum.RC_DPT_GET)
+            {
+                rcStatistics.AddMeasurement("DPT, m", e.Value);
+            }
+            else if (e.RCCmdID == RC_CODES_Enum.RC_TMP_GET)
+            {
+                rcStatistics.AddMeasurement("TMP, °C", e.Value);
+            }
+
+            InvokeShowRCStatistics();
+            InvokePerformRCRequest();
         }
 
         private void port_RCTimeoutReceived(object sender, RCTimeoutReceivedEventArgs e)
         {
             logger.Write(string.Format(CultureInfo.InvariantCulture, "HINT: RC_TIMEOUT from SUB #{0}, Cmd={1}", e.TxChID, e.RCCmdID));
+
+            rcStatistics.AddFail();
+            InvokeShowRCStatistics();
+            InvokePerformRCRequest();
         }      
 
         #endregion
@@ -668,6 +766,9 @@ namespace uWAVE_Host
 
             cmdModePnl.Enabled = port.IsCommandMode;
             rawModePnl.Enabled = !port.IsCommandMode;
+
+            if (!port.IsCommandMode)
+                isRCAutoQuery = false;
         }
 
         private void infoBtn_Click(object sender, EventArgs e)
@@ -760,6 +861,33 @@ namespace uWAVE_Host
                 OnTransactionStart();
         }
 
+        private void rcAutoChb_CheckedChanged(object sender, EventArgs e)
+        {
+            rcQueryBtn.Enabled = !isRCAutoQuery;
+            ptSendBtn.Enabled = !isRCAutoQuery;
+            ptApplySettingsBtn.Enabled = !isRCAutoQuery;
+            devSettingsApplyBtn.Enabled = !isRCAutoQuery;
+            rcTargetRxChIDCbx.Enabled = !isRCAutoQuery;
+            rcTargetTxChIDCbx.Enabled = !isRCAutoQuery;
+            rcQueryIdCbx.Enabled = !isRCAutoQuery;
+
+            if (isRCAutoQuery)
+            {
+                rcQueryBtn_Click(null, null);
+            }
+        }
+
+        private void rcClearStatsBtn_Click(object sender, EventArgs e)
+        {
+            rcTxb.Clear();
+            rcStatistics.Clear();
+        }
+
+        private void rcTxb_TextChanged(object sender, EventArgs e)
+        {
+            rcTxb.ScrollToCaret();
+        }
+
         #endregion
 
         #region packet mode tab
@@ -803,6 +931,32 @@ namespace uWAVE_Host
         private void ptClearTxbBtn_Click(object sender, EventArgs e)
         {
             ptHistoryTxb.Clear();
+        }
+        
+
+        private void ptSend8ByteStrBtn_Click(object sender, EventArgs e)
+        {
+            ptToSendTxb.Text = GetRandomString(8);
+        }
+
+        private void ptSend32ByteStrBtn_Click(object sender, EventArgs e)
+        {
+            ptToSendTxb.Text = GetRandomString(32);
+        }
+
+        private void ptSend16ByteStrBtn_Click(object sender, EventArgs e)
+        {
+            ptToSendTxb.Text = GetRandomString(16);
+        }
+
+        private void ptSendClearBtn_Click(object sender, EventArgs e)
+        {
+            ptToSendTxb.Clear();
+        }
+
+        private void ptHistoryTxb_TextChanged(object sender, EventArgs e)
+        {
+            ptHistoryTxb.ScrollToCaret();
         }
 
         #endregion
@@ -873,7 +1027,7 @@ namespace uWAVE_Host
         }
 
         #endregion                
-
+        
         #endregion
 
         #endregion
