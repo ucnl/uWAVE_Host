@@ -50,11 +50,12 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\UCNLLibs\UCNLPhysics\UCNLPhysics\bin\Release\UCNLPhysics.dll</HintPath>
     </Reference>
-    <Reference Include="UCNLUI, Version=1.0.7633.17848, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="UCNLUI, Version=1.0.7709.43188, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\UCNLLibs\UCNLUI\UCNLUI\bin\Release\UCNLUI.dll</HintPath>
     </Reference>
-    <Reference Include="uWAVELib">
+    <Reference Include="uWAVELib, Version=1.0.7858.28708, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\uWAVELib\uWAVELib\bin\Release\uWAVELib.dll</HintPath>
     </Reference>
   </ItemGroup>

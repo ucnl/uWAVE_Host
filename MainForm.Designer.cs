@@ -64,16 +64,6 @@
             this.rcTargetTxChIDCbx = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
             this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.label10 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
-            this.AMBUpdatePeriodEdit = new System.Windows.Forms.NumericUpDown();
-            this.label8 = new System.Windows.Forms.Label();
-            this.isAMBSaveSettingsToFlashChb = new System.Windows.Forms.CheckBox();
-            this.ambItemsGroup = new System.Windows.Forms.GroupBox();
-            this.isAMBVoltageChb = new System.Windows.Forms.CheckBox();
-            this.isAMBDepthChb = new System.Windows.Forms.CheckBox();
-            this.isAMBTemperatureChb = new System.Windows.Forms.CheckBox();
-            this.isAMBPressureChb = new System.Windows.Forms.CheckBox();
             this.AMBSetBtn = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.ambTxb = new System.Windows.Forms.RichTextBox();
@@ -100,6 +90,14 @@
             this.ptHistoryTxb = new System.Windows.Forms.RichTextBox();
             this.ptHistoryCtx = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.ptClearTxbBtn = new System.Windows.Forms.ToolStripMenuItem();
+            this.packetRequestsTab = new System.Windows.Forms.TabPage();
+            this.ptQueryHistoryClearBtn = new System.Windows.Forms.Button();
+            this.ptQueryHistoryTxb = new System.Windows.Forms.RichTextBox();
+            this.ptQueryBtn = new System.Windows.Forms.Button();
+            this.ptQueryDataIDCbx = new System.Windows.Forms.ComboBox();
+            this.label16 = new System.Windows.Forms.Label();
+            this.ptQueryAddressEdit = new System.Windows.Forms.NumericUpDown();
+            this.label15 = new System.Windows.Forms.Label();
             this.rawSendBtn = new System.Windows.Forms.Button();
             this.rawSendTxb = new System.Windows.Forms.TextBox();
             this.rawSendTxbContextMnu = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -131,6 +129,25 @@
             this.rawCopyBtn = new System.Windows.Forms.ToolStripButton();
             this.rawExportBtn = new System.Windows.Forms.ToolStripButton();
             this.rawClearBtn = new System.Windows.Forms.ToolStripButton();
+            this.stdSetGroup = new System.Windows.Forms.GroupBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.AMBUpdatePeriodEdit = new System.Windows.Forms.NumericUpDown();
+            this.label8 = new System.Windows.Forms.Label();
+            this.isAMBSaveSettingsToFlashChb = new System.Windows.Forms.CheckBox();
+            this.ambItemsGroup = new System.Windows.Forms.GroupBox();
+            this.isAMBVoltageChb = new System.Windows.Forms.CheckBox();
+            this.isAMBDepthChb = new System.Windows.Forms.CheckBox();
+            this.isAMBTemperatureChb = new System.Windows.Forms.CheckBox();
+            this.isAMBPressureChb = new System.Windows.Forms.CheckBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label17 = new System.Windows.Forms.Label();
+            this.ptcRolSetBtn = new System.Windows.Forms.Button();
+            this.label18 = new System.Windows.Forms.Label();
+            this.PtcRolUpdatePeriodEdit = new System.Windows.Forms.NumericUpDown();
+            this.label19 = new System.Windows.Forms.Label();
+            this.isPtcRolSaveToFlashChb = new System.Windows.Forms.CheckBox();
+            this.ptcRolTxb = new System.Windows.Forms.RichTextBox();
             this.mainToolStrip.SuspendLayout();
             this.commandTab.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -138,8 +155,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.salinityEdit)).BeginInit();
             this.tabPage4.SuspendLayout();
             this.tabPage3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.AMBUpdatePeriodEdit)).BeginInit();
-            this.ambItemsGroup.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.packetModeTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ptTriesEdit)).BeginInit();
@@ -147,6 +162,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.ptTargetAddressEdit)).BeginInit();
             this.ptSendTxbCtx.SuspendLayout();
             this.ptHistoryCtx.SuspendLayout();
+            this.packetRequestsTab.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ptQueryAddressEdit)).BeginInit();
             this.rawSendTxbContextMnu.SuspendLayout();
             this.btnPanel.SuspendLayout();
             this.historyToolStrip.SuspendLayout();
@@ -154,6 +171,11 @@
             this.commandModeToolStrip.SuspendLayout();
             this.rawModePnl.SuspendLayout();
             this.rawModeToolStrip.SuspendLayout();
+            this.stdSetGroup.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.AMBUpdatePeriodEdit)).BeginInit();
+            this.ambItemsGroup.SuspendLayout();
+            this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PtcRolUpdatePeriodEdit)).BeginInit();
             this.SuspendLayout();
             // 
             // mainToolStrip
@@ -240,6 +262,7 @@
             this.commandTab.Controls.Add(this.tabPage3);
             this.commandTab.Controls.Add(this.tabPage2);
             this.commandTab.Controls.Add(this.packetModeTab);
+            this.commandTab.Controls.Add(this.packetRequestsTab);
             this.commandTab.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.commandTab.Location = new System.Drawing.Point(4, 36);
             this.commandTab.Margin = new System.Windows.Forms.Padding(4);
@@ -267,7 +290,7 @@
             this.tabPage1.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPage1.Size = new System.Drawing.Size(699, 304);
+            this.tabPage1.Size = new System.Drawing.Size(709, 304);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "DEVICE INFO";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -336,7 +359,7 @@
             // 
             this.devSettingsApplyBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.devSettingsApplyBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.devSettingsApplyBtn.Location = new System.Drawing.Point(591, 259);
+            this.devSettingsApplyBtn.Location = new System.Drawing.Point(601, 259);
             this.devSettingsApplyBtn.Margin = new System.Windows.Forms.Padding(4);
             this.devSettingsApplyBtn.Name = "devSettingsApplyBtn";
             this.devSettingsApplyBtn.Size = new System.Drawing.Size(100, 38);
@@ -349,7 +372,7 @@
             // 
             this.devSettingsQueryBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.devSettingsQueryBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.devSettingsQueryBtn.Location = new System.Drawing.Point(591, 210);
+            this.devSettingsQueryBtn.Location = new System.Drawing.Point(601, 210);
             this.devSettingsQueryBtn.Margin = new System.Windows.Forms.Padding(4);
             this.devSettingsQueryBtn.Name = "devSettingsQueryBtn";
             this.devSettingsQueryBtn.Size = new System.Drawing.Size(100, 38);
@@ -437,7 +460,7 @@
             this.deviceInfoTxb.Margin = new System.Windows.Forms.Padding(4);
             this.deviceInfoTxb.Name = "deviceInfoTxb";
             this.deviceInfoTxb.ReadOnly = true;
-            this.deviceInfoTxb.Size = new System.Drawing.Size(683, 135);
+            this.deviceInfoTxb.Size = new System.Drawing.Size(693, 135);
             this.deviceInfoTxb.TabIndex = 0;
             this.deviceInfoTxb.Text = "";
             // 
@@ -488,7 +511,7 @@
             this.rcTxb.Size = new System.Drawing.Size(459, 243);
             this.rcTxb.TabIndex = 14;
             this.rcTxb.Text = "";
-            this.rcTxb.TextChanged += new System.EventHandler(this.rcTxb_TextChanged);
+            this.rcTxb.TextChanged += new System.EventHandler(this.richTxb_TextChanged);
             // 
             // rcAutoChb
             // 
@@ -506,7 +529,7 @@
             // 
             this.rcQueryBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.rcQueryBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.rcQueryBtn.Location = new System.Drawing.Point(252, 258);
+            this.rcQueryBtn.Location = new System.Drawing.Point(242, 258);
             this.rcQueryBtn.Margin = new System.Windows.Forms.Padding(4);
             this.rcQueryBtn.Name = "rcQueryBtn";
             this.rcQueryBtn.Size = new System.Drawing.Size(100, 38);
@@ -590,151 +613,22 @@
             // 
             // tabPage3
             // 
-            this.tabPage3.Controls.Add(this.label10);
-            this.tabPage3.Controls.Add(this.label9);
-            this.tabPage3.Controls.Add(this.AMBUpdatePeriodEdit);
-            this.tabPage3.Controls.Add(this.label8);
-            this.tabPage3.Controls.Add(this.isAMBSaveSettingsToFlashChb);
-            this.tabPage3.Controls.Add(this.ambItemsGroup);
-            this.tabPage3.Controls.Add(this.AMBSetBtn);
+            this.tabPage3.Controls.Add(this.groupBox1);
+            this.tabPage3.Controls.Add(this.stdSetGroup);
             this.tabPage3.Location = new System.Drawing.Point(4, 27);
             this.tabPage3.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPage3.Size = new System.Drawing.Size(699, 304);
+            this.tabPage3.Size = new System.Drawing.Size(709, 304);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "AMBIENT DATA SETTINGS";
             this.tabPage3.UseVisualStyleBackColor = true;
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label10.Location = new System.Drawing.Point(297, 135);
-            this.label10.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(210, 20);
-            this.label10.TabIndex = 17;
-            this.label10.Text = "1 - after any modem output";
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label9.Location = new System.Drawing.Point(297, 103);
-            this.label9.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(81, 20);
-            this.label9.TabIndex = 16;
-            this.label9.Text = "*0 - never";
-            // 
-            // AMBUpdatePeriodEdit
-            // 
-            this.AMBUpdatePeriodEdit.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.AMBUpdatePeriodEdit.Increment = new decimal(new int[] {
-            500,
-            0,
-            0,
-            0});
-            this.AMBUpdatePeriodEdit.Location = new System.Drawing.Point(301, 47);
-            this.AMBUpdatePeriodEdit.Margin = new System.Windows.Forms.Padding(4);
-            this.AMBUpdatePeriodEdit.Maximum = new decimal(new int[] {
-            60000,
-            0,
-            0,
-            0});
-            this.AMBUpdatePeriodEdit.Name = "AMBUpdatePeriodEdit";
-            this.AMBUpdatePeriodEdit.Size = new System.Drawing.Size(160, 26);
-            this.AMBUpdatePeriodEdit.TabIndex = 15;
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label8.Location = new System.Drawing.Point(297, 23);
-            this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(151, 20);
-            this.label8.TabIndex = 14;
-            this.label8.Text = "Update period*, ms";
-            // 
-            // isAMBSaveSettingsToFlashChb
-            // 
-            this.isAMBSaveSettingsToFlashChb.AutoSize = true;
-            this.isAMBSaveSettingsToFlashChb.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.isAMBSaveSettingsToFlashChb.Location = new System.Drawing.Point(16, 20);
-            this.isAMBSaveSettingsToFlashChb.Margin = new System.Windows.Forms.Padding(4);
-            this.isAMBSaveSettingsToFlashChb.Name = "isAMBSaveSettingsToFlashChb";
-            this.isAMBSaveSettingsToFlashChb.Size = new System.Drawing.Size(192, 24);
-            this.isAMBSaveSettingsToFlashChb.TabIndex = 13;
-            this.isAMBSaveSettingsToFlashChb.Text = "Save settings to flash";
-            this.isAMBSaveSettingsToFlashChb.UseVisualStyleBackColor = true;
-            // 
-            // ambItemsGroup
-            // 
-            this.ambItemsGroup.Controls.Add(this.isAMBVoltageChb);
-            this.ambItemsGroup.Controls.Add(this.isAMBDepthChb);
-            this.ambItemsGroup.Controls.Add(this.isAMBTemperatureChb);
-            this.ambItemsGroup.Controls.Add(this.isAMBPressureChb);
-            this.ambItemsGroup.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.ambItemsGroup.Location = new System.Drawing.Point(8, 63);
-            this.ambItemsGroup.Margin = new System.Windows.Forms.Padding(4);
-            this.ambItemsGroup.Name = "ambItemsGroup";
-            this.ambItemsGroup.Padding = new System.Windows.Forms.Padding(4);
-            this.ambItemsGroup.Size = new System.Drawing.Size(244, 177);
-            this.ambItemsGroup.TabIndex = 12;
-            this.ambItemsGroup.TabStop = false;
-            this.ambItemsGroup.Text = "ITEMS TO UPDATE";
-            // 
-            // isAMBVoltageChb
-            // 
-            this.isAMBVoltageChb.AutoSize = true;
-            this.isAMBVoltageChb.Location = new System.Drawing.Point(8, 137);
-            this.isAMBVoltageChb.Margin = new System.Windows.Forms.Padding(4);
-            this.isAMBVoltageChb.Name = "isAMBVoltageChb";
-            this.isAMBVoltageChb.Size = new System.Drawing.Size(139, 24);
-            this.isAMBVoltageChb.TabIndex = 3;
-            this.isAMBVoltageChb.Text = "Supply voltage";
-            this.isAMBVoltageChb.UseVisualStyleBackColor = true;
-            // 
-            // isAMBDepthChb
-            // 
-            this.isAMBDepthChb.AutoSize = true;
-            this.isAMBDepthChb.Location = new System.Drawing.Point(8, 105);
-            this.isAMBDepthChb.Margin = new System.Windows.Forms.Padding(4);
-            this.isAMBDepthChb.Name = "isAMBDepthChb";
-            this.isAMBDepthChb.Size = new System.Drawing.Size(76, 24);
-            this.isAMBDepthChb.TabIndex = 2;
-            this.isAMBDepthChb.Text = "Depth";
-            this.isAMBDepthChb.UseVisualStyleBackColor = true;
-            // 
-            // isAMBTemperatureChb
-            // 
-            this.isAMBTemperatureChb.AutoSize = true;
-            this.isAMBTemperatureChb.Location = new System.Drawing.Point(8, 73);
-            this.isAMBTemperatureChb.Margin = new System.Windows.Forms.Padding(4);
-            this.isAMBTemperatureChb.Name = "isAMBTemperatureChb";
-            this.isAMBTemperatureChb.Size = new System.Drawing.Size(126, 24);
-            this.isAMBTemperatureChb.TabIndex = 1;
-            this.isAMBTemperatureChb.Text = "Temperature";
-            this.isAMBTemperatureChb.UseVisualStyleBackColor = true;
-            // 
-            // isAMBPressureChb
-            // 
-            this.isAMBPressureChb.AutoSize = true;
-            this.isAMBPressureChb.Location = new System.Drawing.Point(8, 41);
-            this.isAMBPressureChb.Margin = new System.Windows.Forms.Padding(4);
-            this.isAMBPressureChb.Name = "isAMBPressureChb";
-            this.isAMBPressureChb.Size = new System.Drawing.Size(99, 24);
-            this.isAMBPressureChb.TabIndex = 0;
-            this.isAMBPressureChb.Text = "Pressure";
-            this.isAMBPressureChb.UseVisualStyleBackColor = true;
             // 
             // AMBSetBtn
             // 
             this.AMBSetBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.AMBSetBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.AMBSetBtn.Location = new System.Drawing.Point(591, 258);
+            this.AMBSetBtn.Location = new System.Drawing.Point(324, 244);
             this.AMBSetBtn.Margin = new System.Windows.Forms.Padding(4);
             this.AMBSetBtn.Name = "AMBSetBtn";
             this.AMBSetBtn.Size = new System.Drawing.Size(100, 38);
@@ -745,12 +639,13 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.ptcRolTxb);
             this.tabPage2.Controls.Add(this.ambTxb);
             this.tabPage2.Location = new System.Drawing.Point(4, 27);
             this.tabPage2.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPage2.Size = new System.Drawing.Size(699, 304);
+            this.tabPage2.Size = new System.Drawing.Size(709, 304);
             this.tabPage2.TabIndex = 4;
             this.tabPage2.Text = "AMBIENT DATA";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -765,7 +660,7 @@
             this.ambTxb.Margin = new System.Windows.Forms.Padding(4);
             this.ambTxb.Name = "ambTxb";
             this.ambTxb.ReadOnly = true;
-            this.ambTxb.Size = new System.Drawing.Size(683, 290);
+            this.ambTxb.Size = new System.Drawing.Size(464, 290);
             this.ambTxb.TabIndex = 0;
             this.ambTxb.Text = "";
             // 
@@ -788,7 +683,7 @@
             this.packetModeTab.Location = new System.Drawing.Point(4, 27);
             this.packetModeTab.Name = "packetModeTab";
             this.packetModeTab.Padding = new System.Windows.Forms.Padding(3);
-            this.packetModeTab.Size = new System.Drawing.Size(699, 304);
+            this.packetModeTab.Size = new System.Drawing.Size(709, 304);
             this.packetModeTab.TabIndex = 5;
             this.packetModeTab.Text = "PACKET MODE";
             this.packetModeTab.UseVisualStyleBackColor = true;
@@ -797,7 +692,7 @@
             // 
             this.ptTriesEdit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.ptTriesEdit.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.ptTriesEdit.Location = new System.Drawing.Point(224, 275);
+            this.ptTriesEdit.Location = new System.Drawing.Point(221, 275);
             this.ptTriesEdit.Maximum = new decimal(new int[] {
             255,
             0,
@@ -821,19 +716,20 @@
             // 
             this.label14.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label14.AutoSize = true;
-            this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F);
             this.label14.Location = new System.Drawing.Point(163, 277);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(55, 18);
+            this.label14.Size = new System.Drawing.Size(52, 20);
             this.label14.TabIndex = 16;
-            this.label14.Text = "TRIES:";
+            this.label14.Text = "Tries:";
             // 
             // isPtModeChb
             // 
             this.isPtModeChb.AutoSize = true;
-            this.isPtModeChb.Location = new System.Drawing.Point(6, 18);
+            this.isPtModeChb.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F);
+            this.isPtModeChb.Location = new System.Drawing.Point(6, 16);
             this.isPtModeChb.Name = "isPtModeChb";
-            this.isPtModeChb.Size = new System.Drawing.Size(104, 22);
+            this.isPtModeChb.Size = new System.Drawing.Size(115, 24);
             this.isPtModeChb.TabIndex = 15;
             this.isPtModeChb.Text = "PT enabled";
             this.isPtModeChb.UseVisualStyleBackColor = true;
@@ -868,9 +764,10 @@
             // ptIsSaveToFlashChb
             // 
             this.ptIsSaveToFlashChb.AutoSize = true;
-            this.ptIsSaveToFlashChb.Location = new System.Drawing.Point(376, 18);
+            this.ptIsSaveToFlashChb.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F);
+            this.ptIsSaveToFlashChb.Location = new System.Drawing.Point(350, 17);
             this.ptIsSaveToFlashChb.Name = "ptIsSaveToFlashChb";
-            this.ptIsSaveToFlashChb.Size = new System.Drawing.Size(115, 22);
+            this.ptIsSaveToFlashChb.Size = new System.Drawing.Size(128, 24);
             this.ptIsSaveToFlashChb.TabIndex = 12;
             this.ptIsSaveToFlashChb.Text = "Save to flash";
             this.ptIsSaveToFlashChb.UseVisualStyleBackColor = true;
@@ -878,7 +775,7 @@
             // ptLocalAddressEdit
             // 
             this.ptLocalAddressEdit.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.ptLocalAddressEdit.Location = new System.Drawing.Point(286, 16);
+            this.ptLocalAddressEdit.Location = new System.Drawing.Point(253, 16);
             this.ptLocalAddressEdit.Maximum = new decimal(new int[] {
             255,
             0,
@@ -891,29 +788,29 @@
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label13.Location = new System.Drawing.Point(144, 19);
+            this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F);
+            this.label13.Location = new System.Drawing.Point(127, 18);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(136, 18);
+            this.label13.Size = new System.Drawing.Size(120, 20);
             this.label13.TabIndex = 10;
-            this.label13.Text = "LOCAL ADDRESS:";
+            this.label13.Text = "Local address:";
             // 
             // label12
             // 
             this.label12.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label12.AutoSize = true;
-            this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label12.Location = new System.Drawing.Point(298, 277);
+            this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F);
+            this.label12.Location = new System.Drawing.Point(304, 277);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(71, 18);
+            this.label12.Size = new System.Drawing.Size(65, 20);
             this.label12.TabIndex = 9;
-            this.label12.Text = "PACKET:";
+            this.label12.Text = "Packet:";
             // 
             // ptTargetAddressEdit
             // 
             this.ptTargetAddressEdit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.ptTargetAddressEdit.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.ptTargetAddressEdit.Location = new System.Drawing.Point(84, 275);
+            this.ptTargetAddressEdit.Location = new System.Drawing.Point(74, 275);
             this.ptTargetAddressEdit.Maximum = new decimal(new int[] {
             255,
             0,
@@ -927,12 +824,12 @@
             // 
             this.label11.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label11.AutoSize = true;
-            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F);
             this.label11.Location = new System.Drawing.Point(6, 277);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(72, 18);
+            this.label11.Size = new System.Drawing.Size(62, 20);
             this.label11.TabIndex = 7;
-            this.label11.Text = "TARGET:";
+            this.label11.Text = "Target:";
             // 
             // ptSendBtn
             // 
@@ -1019,7 +916,7 @@
             this.ptHistoryTxb.Size = new System.Drawing.Size(685, 212);
             this.ptHistoryTxb.TabIndex = 4;
             this.ptHistoryTxb.Text = "";
-            this.ptHistoryTxb.TextChanged += new System.EventHandler(this.ptHistoryTxb_TextChanged);
+            this.ptHistoryTxb.TextChanged += new System.EventHandler(this.richTxb_TextChanged);
             // 
             // ptHistoryCtx
             // 
@@ -1034,6 +931,119 @@
             this.ptClearTxbBtn.Size = new System.Drawing.Size(121, 24);
             this.ptClearTxbBtn.Text = "CLEAR";
             this.ptClearTxbBtn.Click += new System.EventHandler(this.ptClearTxbBtn_Click);
+            // 
+            // packetRequestsTab
+            // 
+            this.packetRequestsTab.Controls.Add(this.ptQueryHistoryClearBtn);
+            this.packetRequestsTab.Controls.Add(this.ptQueryHistoryTxb);
+            this.packetRequestsTab.Controls.Add(this.ptQueryBtn);
+            this.packetRequestsTab.Controls.Add(this.ptQueryDataIDCbx);
+            this.packetRequestsTab.Controls.Add(this.label16);
+            this.packetRequestsTab.Controls.Add(this.ptQueryAddressEdit);
+            this.packetRequestsTab.Controls.Add(this.label15);
+            this.packetRequestsTab.Location = new System.Drawing.Point(4, 27);
+            this.packetRequestsTab.Name = "packetRequestsTab";
+            this.packetRequestsTab.Padding = new System.Windows.Forms.Padding(3);
+            this.packetRequestsTab.Size = new System.Drawing.Size(709, 304);
+            this.packetRequestsTab.TabIndex = 6;
+            this.packetRequestsTab.Text = "PACKET REQUESTS";
+            this.packetRequestsTab.UseVisualStyleBackColor = true;
+            // 
+            // ptQueryHistoryClearBtn
+            // 
+            this.ptQueryHistoryClearBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.ptQueryHistoryClearBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.ptQueryHistoryClearBtn.Location = new System.Drawing.Point(602, 258);
+            this.ptQueryHistoryClearBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.ptQueryHistoryClearBtn.Name = "ptQueryHistoryClearBtn";
+            this.ptQueryHistoryClearBtn.Size = new System.Drawing.Size(100, 38);
+            this.ptQueryHistoryClearBtn.TabIndex = 21;
+            this.ptQueryHistoryClearBtn.Text = "CLEAR";
+            this.ptQueryHistoryClearBtn.UseVisualStyleBackColor = true;
+            this.ptQueryHistoryClearBtn.Click += new System.EventHandler(this.ptQueryHistoryClearBtn_Click);
+            // 
+            // ptQueryHistoryTxb
+            // 
+            this.ptQueryHistoryTxb.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.ptQueryHistoryTxb.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.ptQueryHistoryTxb.Location = new System.Drawing.Point(153, 7);
+            this.ptQueryHistoryTxb.Margin = new System.Windows.Forms.Padding(4);
+            this.ptQueryHistoryTxb.Name = "ptQueryHistoryTxb";
+            this.ptQueryHistoryTxb.ReadOnly = true;
+            this.ptQueryHistoryTxb.Size = new System.Drawing.Size(549, 243);
+            this.ptQueryHistoryTxb.TabIndex = 20;
+            this.ptQueryHistoryTxb.Text = "";
+            this.ptQueryHistoryTxb.TextChanged += new System.EventHandler(this.richTxb_TextChanged);
+            // 
+            // ptQueryBtn
+            // 
+            this.ptQueryBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.ptQueryBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.ptQueryBtn.Location = new System.Drawing.Point(153, 258);
+            this.ptQueryBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.ptQueryBtn.Name = "ptQueryBtn";
+            this.ptQueryBtn.Size = new System.Drawing.Size(100, 38);
+            this.ptQueryBtn.TabIndex = 19;
+            this.ptQueryBtn.Text = "QUERY";
+            this.ptQueryBtn.UseVisualStyleBackColor = true;
+            this.ptQueryBtn.Click += new System.EventHandler(this.ptQueryBtn_Click);
+            // 
+            // ptQueryDataIDCbx
+            // 
+            this.ptQueryDataIDCbx.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.ptQueryDataIDCbx.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.ptQueryDataIDCbx.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.ptQueryDataIDCbx.FormattingEnabled = true;
+            this.ptQueryDataIDCbx.Location = new System.Drawing.Point(7, 117);
+            this.ptQueryDataIDCbx.Margin = new System.Windows.Forms.Padding(4);
+            this.ptQueryDataIDCbx.Name = "ptQueryDataIDCbx";
+            this.ptQueryDataIDCbx.Size = new System.Drawing.Size(117, 28);
+            this.ptQueryDataIDCbx.TabIndex = 18;
+            // 
+            // label16
+            // 
+            this.label16.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label16.AutoSize = true;
+            this.label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label16.Location = new System.Drawing.Point(9, 93);
+            this.label16.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(67, 20);
+            this.label16.TabIndex = 17;
+            this.label16.Text = "Data ID";
+            // 
+            // ptQueryAddressEdit
+            // 
+            this.ptQueryAddressEdit.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.ptQueryAddressEdit.Increment = new decimal(new int[] {
+            500,
+            0,
+            0,
+            0});
+            this.ptQueryAddressEdit.Location = new System.Drawing.Point(7, 44);
+            this.ptQueryAddressEdit.Margin = new System.Windows.Forms.Padding(4);
+            this.ptQueryAddressEdit.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            this.ptQueryAddressEdit.Name = "ptQueryAddressEdit";
+            this.ptQueryAddressEdit.Size = new System.Drawing.Size(119, 26);
+            this.ptQueryAddressEdit.TabIndex = 16;
+            // 
+            // label15
+            // 
+            this.label15.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label15.AutoSize = true;
+            this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label15.Location = new System.Drawing.Point(4, 20);
+            this.label15.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(122, 20);
+            this.label15.TabIndex = 5;
+            this.label15.Text = "Target address";
             // 
             // rawSendBtn
             // 
@@ -1340,6 +1350,259 @@
             this.rawClearBtn.Text = "CLEAR";
             this.rawClearBtn.Click += new System.EventHandler(this.rawClearBtn_Click);
             // 
+            // stdSetGroup
+            // 
+            this.stdSetGroup.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.stdSetGroup.Controls.Add(this.label10);
+            this.stdSetGroup.Controls.Add(this.AMBSetBtn);
+            this.stdSetGroup.Controls.Add(this.label9);
+            this.stdSetGroup.Controls.Add(this.AMBUpdatePeriodEdit);
+            this.stdSetGroup.Controls.Add(this.label8);
+            this.stdSetGroup.Controls.Add(this.isAMBSaveSettingsToFlashChb);
+            this.stdSetGroup.Controls.Add(this.ambItemsGroup);
+            this.stdSetGroup.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F);
+            this.stdSetGroup.Location = new System.Drawing.Point(7, 7);
+            this.stdSetGroup.Name = "stdSetGroup";
+            this.stdSetGroup.Size = new System.Drawing.Size(431, 289);
+            this.stdSetGroup.TabIndex = 18;
+            this.stdSetGroup.TabStop = false;
+            this.stdSetGroup.Text = "Standard set";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label10.Location = new System.Drawing.Point(7, 160);
+            this.label10.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(210, 20);
+            this.label10.TabIndex = 23;
+            this.label10.Text = "1 - after any modem output";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label9.Location = new System.Drawing.Point(7, 136);
+            this.label9.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(81, 20);
+            this.label9.TabIndex = 22;
+            this.label9.Text = "*0 - never";
+            // 
+            // AMBUpdatePeriodEdit
+            // 
+            this.AMBUpdatePeriodEdit.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.AMBUpdatePeriodEdit.Increment = new decimal(new int[] {
+            500,
+            0,
+            0,
+            0});
+            this.AMBUpdatePeriodEdit.Location = new System.Drawing.Point(7, 94);
+            this.AMBUpdatePeriodEdit.Margin = new System.Windows.Forms.Padding(4);
+            this.AMBUpdatePeriodEdit.Maximum = new decimal(new int[] {
+            60000,
+            0,
+            0,
+            0});
+            this.AMBUpdatePeriodEdit.Name = "AMBUpdatePeriodEdit";
+            this.AMBUpdatePeriodEdit.Size = new System.Drawing.Size(147, 26);
+            this.AMBUpdatePeriodEdit.TabIndex = 21;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label8.Location = new System.Drawing.Point(7, 70);
+            this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(151, 20);
+            this.label8.TabIndex = 20;
+            this.label8.Text = "Update period*, ms";
+            // 
+            // isAMBSaveSettingsToFlashChb
+            // 
+            this.isAMBSaveSettingsToFlashChb.AutoSize = true;
+            this.isAMBSaveSettingsToFlashChb.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.isAMBSaveSettingsToFlashChb.Location = new System.Drawing.Point(7, 27);
+            this.isAMBSaveSettingsToFlashChb.Margin = new System.Windows.Forms.Padding(4);
+            this.isAMBSaveSettingsToFlashChb.Name = "isAMBSaveSettingsToFlashChb";
+            this.isAMBSaveSettingsToFlashChb.Size = new System.Drawing.Size(128, 24);
+            this.isAMBSaveSettingsToFlashChb.TabIndex = 19;
+            this.isAMBSaveSettingsToFlashChb.Text = "Save to flash";
+            this.isAMBSaveSettingsToFlashChb.UseVisualStyleBackColor = true;
+            // 
+            // ambItemsGroup
+            // 
+            this.ambItemsGroup.Controls.Add(this.isAMBVoltageChb);
+            this.ambItemsGroup.Controls.Add(this.isAMBDepthChb);
+            this.ambItemsGroup.Controls.Add(this.isAMBTemperatureChb);
+            this.ambItemsGroup.Controls.Add(this.isAMBPressureChb);
+            this.ambItemsGroup.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.ambItemsGroup.Location = new System.Drawing.Point(225, 26);
+            this.ambItemsGroup.Margin = new System.Windows.Forms.Padding(4);
+            this.ambItemsGroup.Name = "ambItemsGroup";
+            this.ambItemsGroup.Padding = new System.Windows.Forms.Padding(4);
+            this.ambItemsGroup.Size = new System.Drawing.Size(199, 177);
+            this.ambItemsGroup.TabIndex = 18;
+            this.ambItemsGroup.TabStop = false;
+            this.ambItemsGroup.Text = "ITEMS TO UPDATE";
+            // 
+            // isAMBVoltageChb
+            // 
+            this.isAMBVoltageChb.AutoSize = true;
+            this.isAMBVoltageChb.Location = new System.Drawing.Point(8, 137);
+            this.isAMBVoltageChb.Margin = new System.Windows.Forms.Padding(4);
+            this.isAMBVoltageChb.Name = "isAMBVoltageChb";
+            this.isAMBVoltageChb.Size = new System.Drawing.Size(139, 24);
+            this.isAMBVoltageChb.TabIndex = 3;
+            this.isAMBVoltageChb.Text = "Supply voltage";
+            this.isAMBVoltageChb.UseVisualStyleBackColor = true;
+            // 
+            // isAMBDepthChb
+            // 
+            this.isAMBDepthChb.AutoSize = true;
+            this.isAMBDepthChb.Location = new System.Drawing.Point(8, 105);
+            this.isAMBDepthChb.Margin = new System.Windows.Forms.Padding(4);
+            this.isAMBDepthChb.Name = "isAMBDepthChb";
+            this.isAMBDepthChb.Size = new System.Drawing.Size(76, 24);
+            this.isAMBDepthChb.TabIndex = 2;
+            this.isAMBDepthChb.Text = "Depth";
+            this.isAMBDepthChb.UseVisualStyleBackColor = true;
+            // 
+            // isAMBTemperatureChb
+            // 
+            this.isAMBTemperatureChb.AutoSize = true;
+            this.isAMBTemperatureChb.Location = new System.Drawing.Point(8, 73);
+            this.isAMBTemperatureChb.Margin = new System.Windows.Forms.Padding(4);
+            this.isAMBTemperatureChb.Name = "isAMBTemperatureChb";
+            this.isAMBTemperatureChb.Size = new System.Drawing.Size(126, 24);
+            this.isAMBTemperatureChb.TabIndex = 1;
+            this.isAMBTemperatureChb.Text = "Temperature";
+            this.isAMBTemperatureChb.UseVisualStyleBackColor = true;
+            // 
+            // isAMBPressureChb
+            // 
+            this.isAMBPressureChb.AutoSize = true;
+            this.isAMBPressureChb.Location = new System.Drawing.Point(8, 41);
+            this.isAMBPressureChb.Margin = new System.Windows.Forms.Padding(4);
+            this.isAMBPressureChb.Name = "isAMBPressureChb";
+            this.isAMBPressureChb.Size = new System.Drawing.Size(99, 24);
+            this.isAMBPressureChb.TabIndex = 0;
+            this.isAMBPressureChb.Text = "Pressure";
+            this.isAMBPressureChb.UseVisualStyleBackColor = true;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Controls.Add(this.label17);
+            this.groupBox1.Controls.Add(this.ptcRolSetBtn);
+            this.groupBox1.Controls.Add(this.label18);
+            this.groupBox1.Controls.Add(this.PtcRolUpdatePeriodEdit);
+            this.groupBox1.Controls.Add(this.label19);
+            this.groupBox1.Controls.Add(this.isPtcRolSaveToFlashChb);
+            this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F);
+            this.groupBox1.Location = new System.Drawing.Point(444, 7);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(258, 289);
+            this.groupBox1.TabIndex = 24;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Pitch/Roll";
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label17.Location = new System.Drawing.Point(7, 159);
+            this.label17.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(210, 20);
+            this.label17.TabIndex = 23;
+            this.label17.Text = "1 - after any modem output";
+            // 
+            // ptcRolSetBtn
+            // 
+            this.ptcRolSetBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.ptcRolSetBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.ptcRolSetBtn.Location = new System.Drawing.Point(151, 244);
+            this.ptcRolSetBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.ptcRolSetBtn.Name = "ptcRolSetBtn";
+            this.ptcRolSetBtn.Size = new System.Drawing.Size(100, 38);
+            this.ptcRolSetBtn.TabIndex = 11;
+            this.ptcRolSetBtn.Text = "APPLY";
+            this.ptcRolSetBtn.UseVisualStyleBackColor = true;
+            this.ptcRolSetBtn.Click += new System.EventHandler(this.ptcRolSetBtn_Click);
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label18.Location = new System.Drawing.Point(7, 135);
+            this.label18.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(81, 20);
+            this.label18.TabIndex = 22;
+            this.label18.Text = "*0 - never";
+            // 
+            // PtcRolUpdatePeriodEdit
+            // 
+            this.PtcRolUpdatePeriodEdit.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.PtcRolUpdatePeriodEdit.Increment = new decimal(new int[] {
+            500,
+            0,
+            0,
+            0});
+            this.PtcRolUpdatePeriodEdit.Location = new System.Drawing.Point(7, 95);
+            this.PtcRolUpdatePeriodEdit.Margin = new System.Windows.Forms.Padding(4);
+            this.PtcRolUpdatePeriodEdit.Maximum = new decimal(new int[] {
+            60000,
+            0,
+            0,
+            0});
+            this.PtcRolUpdatePeriodEdit.Name = "PtcRolUpdatePeriodEdit";
+            this.PtcRolUpdatePeriodEdit.Size = new System.Drawing.Size(147, 26);
+            this.PtcRolUpdatePeriodEdit.TabIndex = 21;
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label19.Location = new System.Drawing.Point(7, 69);
+            this.label19.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(151, 20);
+            this.label19.TabIndex = 20;
+            this.label19.Text = "Update period*, ms";
+            // 
+            // isPtcRolSaveToFlashChb
+            // 
+            this.isPtcRolSaveToFlashChb.AutoSize = true;
+            this.isPtcRolSaveToFlashChb.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.isPtcRolSaveToFlashChb.Location = new System.Drawing.Point(7, 26);
+            this.isPtcRolSaveToFlashChb.Margin = new System.Windows.Forms.Padding(4);
+            this.isPtcRolSaveToFlashChb.Name = "isPtcRolSaveToFlashChb";
+            this.isPtcRolSaveToFlashChb.Size = new System.Drawing.Size(128, 24);
+            this.isPtcRolSaveToFlashChb.TabIndex = 19;
+            this.isPtcRolSaveToFlashChb.Text = "Save to flash";
+            this.isPtcRolSaveToFlashChb.UseVisualStyleBackColor = true;
+            // 
+            // ptcRolTxb
+            // 
+            this.ptcRolTxb.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.ptcRolTxb.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.ptcRolTxb.Location = new System.Drawing.Point(480, 6);
+            this.ptcRolTxb.Margin = new System.Windows.Forms.Padding(4);
+            this.ptcRolTxb.Name = "ptcRolTxb";
+            this.ptcRolTxb.ReadOnly = true;
+            this.ptcRolTxb.Size = new System.Drawing.Size(221, 290);
+            this.ptcRolTxb.TabIndex = 1;
+            this.ptcRolTxb.Text = "";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -1363,10 +1626,6 @@
             this.tabPage4.ResumeLayout(false);
             this.tabPage4.PerformLayout();
             this.tabPage3.ResumeLayout(false);
-            this.tabPage3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.AMBUpdatePeriodEdit)).EndInit();
-            this.ambItemsGroup.ResumeLayout(false);
-            this.ambItemsGroup.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             this.packetModeTab.ResumeLayout(false);
             this.packetModeTab.PerformLayout();
@@ -1375,6 +1634,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.ptTargetAddressEdit)).EndInit();
             this.ptSendTxbCtx.ResumeLayout(false);
             this.ptHistoryCtx.ResumeLayout(false);
+            this.packetRequestsTab.ResumeLayout(false);
+            this.packetRequestsTab.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ptQueryAddressEdit)).EndInit();
             this.rawSendTxbContextMnu.ResumeLayout(false);
             this.btnPanel.ResumeLayout(false);
             this.btnPanel.PerformLayout();
@@ -1388,6 +1650,14 @@
             this.rawModePnl.PerformLayout();
             this.rawModeToolStrip.ResumeLayout(false);
             this.rawModeToolStrip.PerformLayout();
+            this.stdSetGroup.ResumeLayout(false);
+            this.stdSetGroup.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.AMBUpdatePeriodEdit)).EndInit();
+            this.ambItemsGroup.ResumeLayout(false);
+            this.ambItemsGroup.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PtcRolUpdatePeriodEdit)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1427,16 +1697,6 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.ComboBox rcTargetTxChIDCbx;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.CheckBox isAMBSaveSettingsToFlashChb;
-        private System.Windows.Forms.GroupBox ambItemsGroup;
-        private System.Windows.Forms.CheckBox isAMBVoltageChb;
-        private System.Windows.Forms.CheckBox isAMBDepthChb;
-        private System.Windows.Forms.CheckBox isAMBTemperatureChb;
-        private System.Windows.Forms.CheckBox isAMBPressureChb;
-        private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.NumericUpDown AMBUpdatePeriodEdit;
-        private System.Windows.Forms.Label label8;
         private System.Windows.Forms.CheckBox isCommandModeByDefaultChb;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.ContextMenuStrip rawSendTxbContextMnu;
@@ -1496,6 +1756,33 @@
         private System.Windows.Forms.CheckBox rcAutoChb;
         private System.Windows.Forms.RichTextBox rcTxb;
         private System.Windows.Forms.Button rcClearStatsBtn;
+        private System.Windows.Forms.TabPage packetRequestsTab;
+        private System.Windows.Forms.NumericUpDown ptQueryAddressEdit;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Button ptQueryHistoryClearBtn;
+        private System.Windows.Forms.RichTextBox ptQueryHistoryTxb;
+        private System.Windows.Forms.Button ptQueryBtn;
+        private System.Windows.Forms.ComboBox ptQueryDataIDCbx;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.Button ptcRolSetBtn;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.NumericUpDown PtcRolUpdatePeriodEdit;
+        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.CheckBox isPtcRolSaveToFlashChb;
+        private System.Windows.Forms.GroupBox stdSetGroup;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.NumericUpDown AMBUpdatePeriodEdit;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.CheckBox isAMBSaveSettingsToFlashChb;
+        private System.Windows.Forms.GroupBox ambItemsGroup;
+        private System.Windows.Forms.CheckBox isAMBVoltageChb;
+        private System.Windows.Forms.CheckBox isAMBDepthChb;
+        private System.Windows.Forms.CheckBox isAMBTemperatureChb;
+        private System.Windows.Forms.CheckBox isAMBPressureChb;
+        private System.Windows.Forms.RichTextBox ptcRolTxb;
     }
 }
 

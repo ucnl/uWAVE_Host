@@ -108,6 +108,8 @@ namespace uWAVE_Host
             set { isACKOnTXFinishedChb.Checked = value; }
         }
 
+
+
         bool isAMBSaveToFlash
         {
             get { return isAMBSaveSettingsToFlashChb.Checked; }
@@ -150,6 +152,26 @@ namespace uWAVE_Host
                 AMBUpdatePeriodEdit.Value = vl;
             }
         }
+
+
+        bool isPTCROLSaveToFlash
+        {
+            get { return isPtcRolSaveToFlashChb.Checked; }
+            set { isPtcRolSaveToFlashChb.Checked = value; }
+        }
+
+        int PTCROLPeriod
+        {
+            get { return Convert.ToInt32(PtcRolUpdatePeriodEdit.Value); }
+            set
+            {
+                Decimal vl = value;
+                if (vl > PtcRolUpdatePeriodEdit.Maximum) vl = PtcRolUpdatePeriodEdit.Maximum;
+                if (vl < PtcRolUpdatePeriodEdit.Minimum) vl = PtcRolUpdatePeriodEdit.Minimum;
+                PtcRolUpdatePeriodEdit.Value = vl;
+            }
+        }
+
 
 
         int rcTxChannelID
@@ -222,6 +244,28 @@ namespace uWAVE_Host
             get { return Convert.ToByte(ptTriesEdit.Value); }
             set { ptTriesEdit.Value = value; }
         }
+
+
+        byte ptQueryTargetAddress
+        {
+            get { return Convert.ToByte(ptQueryAddressEdit.Value); }
+            set { ptQueryAddressEdit.Value = value; }
+        }
+
+        DataID ptQueryDataID
+        {
+            get
+            {
+                return (DataID)Enum.Parse(typeof(DataID), ptQueryDataIDCbx.SelectedItem.ToString());
+            }
+            set
+            {
+                int idx = ptQueryDataIDCbx.Items.IndexOf(value.ToString());
+                if (idx >= 0)
+                    rcQueryIdCbx.SelectedIndex = idx;
+            }
+        }
+
 
         #endregion
 
@@ -315,22 +359,69 @@ namespace uWAVE_Host
 
             port.PacketTransferred += (o, e) =>
                 {
-                    var line = string.Format("Delivered packet \"{0}\" to address {1}, {2} tries taken\r\n",
+                    StringBuilder sb = new StringBuilder();
+                    sb.AppendFormat("Delivered packet \"{0}\" to address {1}, {2} tries taken.",
                         Encoding.ASCII.GetString(e.DataPacket), e.Target_ptAddress, e.TriesTaken);
 
-                    InvokeAppendLine(ptHistoryTxb, line);
+                    if (!double.IsNaN(e.Azimuth))
+                        sb.AppendFormat(CultureInfo.InvariantCulture, " Azimuth {0:F01}°", e.Azimuth);
 
-                    logger.Write(line);
+                    sb.AppendLine();
+
+                    InvokeAppendLine(ptHistoryTxb, sb.ToString());
+                    logger.Write(sb.ToString());
                 };
 
             port.PacketReceived += (o, e) =>
                 {
-                    var line = string.Format("Received packet \"{0}\" from address {1}\r\n",
+                    StringBuilder sb = new StringBuilder();
+                    sb.AppendFormat("Received packet \"{0}\" from address {1}",
                         Encoding.ASCII.GetString(e.DataPacket), e.Target_ptAddress);
 
-                    InvokeAppendLine(ptHistoryTxb, line);
+                    if (!double.IsNaN(e.Azimuth))
+                        sb.AppendFormat(CultureInfo.InvariantCulture, " Azimuth {0:F01}°", e.Azimuth);
 
-                    logger.Write(line);
+                    sb.AppendLine();
+
+                    InvokeAppendLine(ptHistoryTxb, sb.ToString());
+                    logger.Write(sb.ToString());
+                };
+
+            port.PacketResponse += (o, e) =>
+                {
+                    StringBuilder sb = new StringBuilder();
+                    sb.AppendFormat("#{0} >> {1}={2:F03}", e.Target_ptAddress, e.DataId.ToString(), e.DataValue);
+
+                    if (!double.IsNaN(e.PropagationTime_s))
+                        sb.AppendFormat(CultureInfo.InvariantCulture, ", Prop. time={0:F05} sec.", e.PropagationTime_s);
+
+                    if (!double.IsNaN(e.Azimuth))
+                        sb.AppendFormat(CultureInfo.InvariantCulture, ", Azimuth {0:F01}°", e.Azimuth);
+
+                    sb.AppendLine();
+
+                    InvokeAppendLine(ptQueryHistoryTxb, sb.ToString());
+                    logger.Write(sb.ToString());
+                };
+
+            port.PacketRequestTimeout += (o, e) =>
+                {
+                    var str = string.Format("#{0} >> Timeout caused by {1} query!\r\n", e.Target_ptAddress, e.DataId.ToString());
+                    InvokeAppendLine(ptQueryHistoryTxb, str);
+                    logger.Write(str);
+                };
+
+            port.PTCROLLDataReceived += (o, e) =>
+                {
+                    StringBuilder sb = new StringBuilder();
+
+                    if (!double.IsNaN(port.Pitch))
+                        sb.AppendFormat(CultureInfo.InvariantCulture, "PITCH: {0:F01} °\r\n", port.Pitch);
+
+                    if (!double.IsNaN(port.Roll))
+                        sb.AppendFormat(CultureInfo.InvariantCulture, "ROLL: {0:F01} °\r\n", port.Roll);
+
+                    InvokeSetText(ptcRolTxb, sb.ToString());
                 };
 
             #endregion
@@ -379,8 +470,17 @@ namespace uWAVE_Host
             rcStatistics.InitStatValue("MSR, dB", "F01");
             rcStatistics.InitStatValue("BAT, V", "F01");
             rcStatistics.InitStatValue("DPT, m", "F01");
-            rcStatistics.InitStatValue("TMP, °C", "F01");            
-            
+            rcStatistics.InitStatValue("TMP, °C", "F01");
+
+            ptQueryDataIDCbx.Items.Clear();
+            ptQueryDataIDCbx.Items.AddRange(new string[] 
+            {
+                DataID.DPT.ToString(),
+                DataID.TMP.ToString(),
+                DataID.BAT.ToString()
+            });
+
+            ptQueryDataIDCbx.SelectedIndex = 0;
 
             #endregion
         }
@@ -460,7 +560,7 @@ namespace uWAVE_Host
             commandModeSwitchBtn.Enabled = false;
             connectBtn.Checked = false;
             connectBtn.Text = "CONNECT";
-            logger.Write(string.Format("{0} opened", settingsProvider.Data.PortName));
+            logger.Write(string.Format("{0} closed", settingsProvider.Data.PortName));
             cmdModePnl.Enabled = false;
             rawModePnl.Enabled = false;
         }
@@ -697,6 +797,15 @@ namespace uWAVE_Host
 
         #region UI
 
+        #region common
+
+        private void richTxb_TextChanged(object sender, EventArgs e)
+        {
+            (sender as RichTextBox).ScrollToCaret();
+        }
+
+        #endregion
+
         #region mainToolStrip
 
         private void connectBtn_Click(object sender, EventArgs e)
@@ -851,6 +960,12 @@ namespace uWAVE_Host
                 OnTransactionStart();
         }
 
+        private void ptcRolSetBtn_Click(object sender, EventArgs e)
+        {
+            if (port.PTCROLLConfigQuery(isPTCROLSaveToFlash, PTCROLPeriod))
+                OnTransactionStart();
+        }
+
         #endregion
 
         #region remote query tab
@@ -881,12 +996,7 @@ namespace uWAVE_Host
         {
             rcTxb.Clear();
             rcStatistics.Clear();
-        }
-
-        private void rcTxb_TextChanged(object sender, EventArgs e)
-        {
-            rcTxb.ScrollToCaret();
-        }
+        }        
 
         #endregion
 
@@ -952,11 +1062,23 @@ namespace uWAVE_Host
         private void ptSendClearBtn_Click(object sender, EventArgs e)
         {
             ptToSendTxb.Clear();
+        }        
+
+        #endregion
+
+        #region packet mode requests tab
+
+        private void ptQueryBtn_Click(object sender, EventArgs e)
+        {
+            if (port.PacketMode_Request(ptQueryTargetAddress, ptQueryDataID))
+            {                    
+                OnTransactionStart();
+            }
         }
 
-        private void ptHistoryTxb_TextChanged(object sender, EventArgs e)
+        private void ptQueryHistoryClearBtn_Click(object sender, EventArgs e)
         {
-            ptHistoryTxb.ScrollToCaret();
+            ptQueryHistoryTxb.Clear();
         }
 
         #endregion
@@ -1026,8 +1148,8 @@ namespace uWAVE_Host
             rawSendTxb.Clear();
         }
 
-        #endregion                
-        
+        #endregion                        
+
         #endregion
 
         #endregion
