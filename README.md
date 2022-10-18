@@ -1,5 +1,7 @@
 # uWAVE_Host
 
+## This project is obsolete, please, refer to [uWaveCommander](https://github.com/ucnl/uWaveCommander) instead
+
 The latest release can be downloaded in [releases](https://github.com/ucnl/uWAVE_Host/releases) section or via [Direct link](https://api.github.com/repos/ucnl/uWAVE_Host/zipball)
 
 To build this project you need following libraries:  
